@@ -9,6 +9,7 @@ import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -36,8 +37,13 @@ public class Torneo {
 	@Resource(name="arbitroDummy")
 	private IArbitro arbitroSecundario;
 	
-	@Autowired(required=false)
-	private Map<String,IArbitro> arbitros;
+	@Autowired
+	@Qualifier("propuestos")
+	private List<IArbitro> arbitrosRegistrados;
+	
+	@Autowired
+	@Qualifier("propuestos")
+	private Map<Integer, IArbitro> mapaArbitros;
 	
 	@Autowired
 	public Torneo(IEstrategiaEnfrentamientos estrategiaEnfrentamientos) {
@@ -59,11 +65,17 @@ public class Torneo {
 		System.out.println("Árbitros disponibles:");
 		System.out.println("Principal:" + this.arbitroPrincipal.getNombre());
 		System.out.println("Suplente:" + this.arbitroSecundario.getNombre());
-		if(this.arbitros == null)
+		
+		if(this.arbitrosRegistrados == null)
+			return;
+		System.out.println("Lista árbitros:");
+		this.arbitrosRegistrados.forEach(a -> System.out.println(a.getNombre()) );
+		
+		if(this.mapaArbitros == null)
 			return;
 		System.out.println("Mapa árbitros:");
-		for(String llaveI:this.arbitros.keySet()) {
-			System.out.println(llaveI + ":" + this.arbitros.get(llaveI).getNombre());
+		for(Integer llaveI:this.mapaArbitros.keySet()) {
+			System.out.println(llaveI + "-> " + this.mapaArbitros.get(llaveI).getNombre());
 		}
 	}
 	public void mostrarPartidas() {

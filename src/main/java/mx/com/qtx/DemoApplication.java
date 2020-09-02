@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 
-import mx.com.qtx.servicio.Partido;
+import mx.com.qtx.servicio.IArbitro;
 import mx.com.qtx.servicio.Torneo;
 import mx.com.qtx.test.EquipoFutbol;
 
@@ -52,9 +52,11 @@ public class DemoApplication implements CommandLineRunner{
 		for(String nomBeanI : nombresBeans) {
 			System.out.println(i + ".-"+ nomBeanI);
 			System.out.println("Aliases:" + Arrays.toString(context.getAliases(nomBeanI)) );
-			System.out.println("hashCode:" + String.format("%x", context.getBean(nomBeanI).hashCode() ));
+			System.out.println("Tipo:" + context.getType(nomBeanI).getName());
+			System.out.println("hashCode:" + String.format("%x", context.getBean(nomBeanI).hashCode() ) + "\n");
 			i++;
 		}
+
 		System.out.println("=======================================");
 		
 		//  Recuperando una propiedad del archivo application.properties
