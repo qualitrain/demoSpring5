@@ -14,12 +14,11 @@ public class Torneo {
 	private Map<Integer, String[]> partidas;
 	
 	@Autowired
-	private List<IArbitro> arbitros;
+	private IArbitro arbitroPrincipal;
 	
-//	public void setArbitros(List<IArbitro> arbitros) {
-//		this.arbitros = arbitros;
-//	}
-
+	@Autowired
+	private IArbitro arbitroSuplente;
+	
 	@Autowired
 	public Torneo(IEstrategiaEnfrentamientos estrategiaEnfrentamientos) {
 		super();
@@ -38,7 +37,8 @@ public class Torneo {
 	}
 	public void mostrarArbitros() {
 		System.out.println("Árbitros disponibles:");
-		this.arbitros.forEach(a->System.out.println(a.getNombre()));
+		System.out.println("Principal:" + this.arbitroPrincipal.getNombre());
+		System.out.println("Suplente:" + this.arbitroSuplente.getNombre());
 	}
 	public void mostrarPartidas() {
 		for(Integer numPartido : this.partidas.keySet()) {

@@ -1,9 +1,11 @@
 package mx.com.qtx.test;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import mx.com.qtx.servicio.IArbitro;
 
+@Scope("prototype")
 @Component
 public class ArbitroTest implements IArbitro{
 	private static String[] nombres= {"Ramiro","Juan Carlos","Miguel Ángel","Mariano","Lucas"}; 

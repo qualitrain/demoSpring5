@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 
+import mx.com.qtx.servicio.Partido;
 import mx.com.qtx.servicio.Torneo;
 import mx.com.qtx.test.EquipoFutbol;
 
@@ -90,5 +91,7 @@ public class DemoApplication implements CommandLineRunner{
 		torneo.mostrarPartidas();
 		
 		torneo.mostrarArbitros();
+		Partido partido = new Partido(vampis,ame);
+		partido.mostrarPartido(); // ¿Es nulo el árbitro? ¿Por qué?
 	}
 }
