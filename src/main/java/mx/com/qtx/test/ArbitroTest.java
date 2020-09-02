@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import mx.com.qtx.servicio.IArbitro;
 
-//@Primary
+@Primary
 @Scope("prototype")
 @Component
 public class ArbitroTest implements IArbitro{

@@ -3,6 +3,8 @@ package mx.com.qtx.servicio;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,10 +15,10 @@ public class Torneo {
 	private Map<Integer, String[]> partidas;
 	
 	@Autowired
-	private IArbitro arbitroTest;
+	private IArbitro arbitroPrincipal;
 	
-	@Autowired
-	private IArbitro arbitroDummy;
+	@Resource(name="arbitroDummy")
+	private IArbitro arbitroSecundario;
 	
 	@Autowired(required=false)
 	private Map<String,IArbitro> arbitros;
@@ -39,15 +41,14 @@ public class Torneo {
 	}
 	public void mostrarArbitros() {
 		System.out.println("Árbitros disponibles:");
-		System.out.println("Principal:" + this.arbitroTest.getNombre());
-		System.out.println("Suplente:" + this.arbitroDummy.getNombre());
+		System.out.println("Principal:" + this.arbitroPrincipal.getNombre());
+		System.out.println("Suplente:" + this.arbitroSecundario.getNombre());
 		if(this.arbitros == null)
 			return;
 		System.out.println("Mapa árbitros:");
 		for(String llaveI:this.arbitros.keySet()) {
 			System.out.println(llaveI + ":" + this.arbitros.get(llaveI).getNombre());
 		}
-		
 	}
 	public void mostrarPartidas() {
 		for(Integer numPartido : this.partidas.keySet()) {
