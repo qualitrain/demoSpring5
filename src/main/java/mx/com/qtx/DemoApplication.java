@@ -91,5 +91,7 @@ public class DemoApplication implements CommandLineRunner{
 		torneo.mostrarPartidas();
 		
 		torneo.mostrarArbitros();
+		
+		torneo.mostrarDatosGenerales();
 	}
 }

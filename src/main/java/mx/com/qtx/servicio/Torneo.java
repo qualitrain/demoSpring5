@@ -1,11 +1,13 @@
 package mx.com.qtx.servicio;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,6 +15,18 @@ public class Torneo {
 	private Map<String, IEquipo> equipos;
 	private IEstrategiaEnfrentamientos estrategiaEnfrentamientos;
 	private Map<Integer, String[]> partidas;
+	
+	@Value("${torneo.deporte:ninguno}")
+	private String deporte;
+	
+	@Value("${torneo.partido.duracion}")
+	private int duracionPartido;
+	
+	@Value("${torneo.partido.periodos}")
+	private int periodos;
+	
+	@Value("#{{'Deportivo Oceanía','Ciudad Deportiva pta 5','Deportivo Chapultepec'}}")
+	private List<String> campos;
 	
 	@Autowired
 	private IArbitro arbitroPrincipal;
@@ -56,6 +70,12 @@ public class Torneo {
 			System.out.println("Partido " + numPartido + ".-"
 					            + equipos[0] + " VS " + equipos[1] );
 		}
+	}
+	public void mostrarDatosGenerales() {
+		System.out.println("Deporte:" + this.deporte);
+		System.out.print("Duración de cada partido:" + this.duracionPartido + " minutos, ");
+		System.out.println("repartidos en " + this.periodos + " periodos");
+		System.out.println("Campos:" + this.campos);
 	}
 	
 }
