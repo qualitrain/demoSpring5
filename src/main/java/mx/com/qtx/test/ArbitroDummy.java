@@ -5,9 +5,7 @@ import org.springframework.stereotype.Component;
 
 import mx.com.qtx.servicio.IArbitro;
 
-@Qualifier("arbitroTemporal")
 @Component
-//("arbitroDummy")
 public class ArbitroDummy implements IArbitro {
 
 	@Override

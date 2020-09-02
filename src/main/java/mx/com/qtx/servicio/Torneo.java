@@ -13,15 +13,10 @@ public class Torneo {
 	private IEstrategiaEnfrentamientos estrategiaEnfrentamientos;
 	private Map<Integer, String[]> partidas;
 	
-//	@Qualifier("arbitroAleatorio")
-//	@Qualifier("arbitroTest")
-	@Qualifier("arbitroOficial")
-	@Autowired()
+	@Autowired
 	private IArbitro arbitroPrincipal;
 	
 	@Autowired
-//	@Qualifier("arbitroDummy")
-	@Qualifier("arbitroTemporal")
 	private IArbitro arbitroSuplente;
 	
 	@Autowired(required=false)
