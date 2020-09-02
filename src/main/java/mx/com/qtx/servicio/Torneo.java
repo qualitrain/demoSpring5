@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,10 +13,10 @@ public class Torneo {
 	private Map<Integer, String[]> partidas;
 	
 	@Autowired
-	private IArbitro arbitroPrincipal;
+	private IArbitro arbitroTest;
 	
 	@Autowired
-	private IArbitro arbitroSuplente;
+	private IArbitro arbitroDummy;
 	
 	@Autowired(required=false)
 	private Map<String,IArbitro> arbitros;
@@ -40,8 +39,8 @@ public class Torneo {
 	}
 	public void mostrarArbitros() {
 		System.out.println("Árbitros disponibles:");
-		System.out.println("Principal:" + this.arbitroPrincipal.getNombre());
-		System.out.println("Suplente:" + this.arbitroSuplente.getNombre());
+		System.out.println("Principal:" + this.arbitroTest.getNombre());
+		System.out.println("Suplente:" + this.arbitroDummy.getNombre());
 		if(this.arbitros == null)
 			return;
 		System.out.println("Mapa árbitros:");
