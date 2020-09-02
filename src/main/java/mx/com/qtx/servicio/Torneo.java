@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,5 +79,12 @@ public class Torneo {
 		System.out.println("repartidos en " + this.periodos + " periodos");
 		System.out.println("Campos:" + this.campos);
 	}
-	
+	@PostConstruct
+	public void mostrarFinArmadoBean() {
+		System.out.println("*** El bean torneo ha quedado armado y está listo a operar ***");
+	}
+	@PreDestroy
+	public void mostrarFinBean() {
+		System.out.println("*** El bean torneo está a punto de ser destruido ***");
+	}
 }
