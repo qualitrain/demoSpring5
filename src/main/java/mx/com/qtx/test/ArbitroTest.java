@@ -1,12 +1,14 @@
 package mx.com.qtx.test;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import mx.com.qtx.servicio.IArbitro;
 
-@Scope("prototype")
+@Qualifier("arbitroOficial")
 @Component
+//("arbitroAleatorio")
 public class ArbitroTest implements IArbitro{
 	private static String[] nombres= {"Ramiro","Juan Carlos","Miguel Ángel","Mariano","Lucas"}; 
 	private static String[] apellidos = {"Yañez","Jiménez","Mora","Gutiérrez", "López","Martínez"};

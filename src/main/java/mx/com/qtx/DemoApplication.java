@@ -91,7 +91,5 @@ public class DemoApplication implements CommandLineRunner{
 		torneo.mostrarPartidas();
 		
 		torneo.mostrarArbitros();
-		Partido partido = new Partido(vampis,ame);
-		partido.mostrarPartido(); // ¿Es nulo el árbitro? ¿Por qué?
 	}
 }
