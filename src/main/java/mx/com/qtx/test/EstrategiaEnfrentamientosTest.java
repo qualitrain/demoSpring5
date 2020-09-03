@@ -1,15 +1,12 @@
-package mx.com.qtx.estrategias;
+package mx.com.qtx.test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
-
 import mx.com.qtx.servicio.IEstrategiaEnfrentamientos;
 
-@Component
 public class EstrategiaEnfrentamientosTest implements IEstrategiaEnfrentamientos{
 	private List<String> equipos;
 	

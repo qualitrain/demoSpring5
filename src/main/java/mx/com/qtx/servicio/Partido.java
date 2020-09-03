@@ -1,11 +1,8 @@
 package mx.com.qtx.servicio;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 public class Partido {
 	private IEquipo local;
 	private IEquipo visitante;
-	@Autowired  // Funcionará ?
 	private IArbitro arbitro;
 	
 	public Partido(IEquipo local, IEquipo visitante) {

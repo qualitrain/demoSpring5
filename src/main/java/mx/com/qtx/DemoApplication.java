@@ -9,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
 
-import mx.com.qtx.servicio.IArbitro;
 import mx.com.qtx.servicio.Torneo;
 import mx.com.qtx.test.EquipoFutbol;
 
@@ -27,8 +26,6 @@ public class DemoApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		explorarContexto();
-		System.out.println("-------------------------------------------------------------\n");
 		TestTorneo();
 	}
 	private void explorarContexto(){

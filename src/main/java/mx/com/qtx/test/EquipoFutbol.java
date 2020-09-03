@@ -12,12 +12,7 @@ public class EquipoFutbol implements IEquipo {
 	private static int[] nums = {1,2,3,4,5,6,7,8,9,10,11};
 	private static String[] posiciones = {"Portero","Defensa Central","Defensa Central","Lateral Izq",
 			                              "Lateral Der","Medio Contención","Volante","Volante",
-			                              "Extremo Izq","Extremo Der","Centro Delantero"};
-//	private String[] jugadores = {
-//			"Juan ", "Paco", "Jorge", "Lionel", "Boris", "Efrén",
-//			"Rafa", "Ramón", "Diego", "Edson", "Vladimir"
-//	};
-		
+			                              "Extremo Izq","Extremo Der","Centro Delantero"};	
 	private String nombreEquipo;
 	private List<String> jugadoresEquipo;
 	
