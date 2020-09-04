@@ -26,6 +26,8 @@ public class DemoApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
+		explorarContexto();
+		System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - - - ");
 		TestTorneo();
 	}
 	private void explorarContexto(){
@@ -39,6 +41,26 @@ public class DemoApplication implements CommandLineRunner{
 		String appName = context.getApplicationName();
 		System.out.println("Nombre de la aplicación:[" + appName + "]");
 		
+//		explorarBeans();
+		
+		explorarEnvironment();
+		
+		// Recuperando un bean del contexto
+		DemoApplication miApp = context.getBean("demoApplication", DemoApplication.class);
+		miApp.mostrarNombreApp();
+	}
+
+	private void explorarEnvironment() {
+		//  Recuperando una propiedad del archivo application.properties
+		Environment env = context.getEnvironment();
+		String nombre = env.getProperty("nombre");
+		System.out.println("Propiedad nombre=" + nombre);
+		String[] perfilesActivos = env.getActiveProfiles();
+		System.out.println("Perfiles activos (" + perfilesActivos.length
+				+ ") :" + Arrays.toString(perfilesActivos));
+	}
+
+	private void explorarBeans() {
 		// Explorando los nombres de los beans en el contexto
 		int nBeans = context.getBeanDefinitionCount();
 		System.out.println("Hay " + nBeans + " beans en el contexto");
@@ -53,17 +75,7 @@ public class DemoApplication implements CommandLineRunner{
 			System.out.println("hashCode:" + String.format("%x", context.getBean(nomBeanI).hashCode() ) + "\n");
 			i++;
 		}
-
 		System.out.println("=======================================");
-		
-		//  Recuperando una propiedad del archivo application.properties
-		Environment env = context.getEnvironment();
-		String nombre = env.getProperty("nombre");
-		System.out.println("Propiedad nombre=" + nombre);
-		
-		// Recuperando un bean del contexto
-		DemoApplication miApp = context.getBean("demoApplication", DemoApplication.class);
-		miApp.mostrarNombreApp();
 	}
 	public void mostrarNombreApp() {
 		System.out.println("***** Esta aplicación se llama demoSpring5 *****");
