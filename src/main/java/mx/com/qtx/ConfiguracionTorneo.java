@@ -15,26 +15,41 @@ import org.springframework.context.annotation.Scope;
 
 import mx.com.qtx.servicio.IArbitro;
 import mx.com.qtx.servicio.IEstrategiaEnfrentamientos;
+import mx.com.qtx.test.ArbitroBDMemoria;
 import mx.com.qtx.test.ArbitroDummy;
 import mx.com.qtx.test.ArbitroTest;
 import mx.com.qtx.test.EstrategiaEnfrentamientosTest;
 
 @Configuration
-@Profile("default")
 public class ConfiguracionTorneo {
 	
 	@Bean
+	@Profile("default")
 	@Primary
 	@Scope("prototype")
 	public ArbitroTest proponerArbitro() {
 		return new ArbitroTest();
 	}
+	@Bean
+	@Profile("desarrollo | pruebas")
+	@Primary
+	@Scope("prototype")
+	public ArbitroBDMemoria proponerArbitro3() {
+		return ArbitroBDMemoria.getArbitros().get( 0 );
+	}
 	@Bean(name = "arbitroDummy")
+	@Profile("default")
 	public ArbitroDummy proponerArbitro2() {
 		return new ArbitroDummy();
 	}
+	@Bean(name = "arbitroDummy")
+	@Profile("desarrollo | pruebas")
+	public ArbitroBDMemoria proponerArbitro4() {
+		return ArbitroBDMemoria.getArbitros().get( 1 );
+	}
 	
 	@Bean
+	@Profile("default")
 	@Scope("prototype")
 	@Qualifier("propuestos")
 	public List<IArbitro> proponerArbitros(){
@@ -43,8 +58,15 @@ public class ConfiguracionTorneo {
 		   listArbitros.add(new ArbitroTest());
 		return listArbitros;
 	}
+	@Bean
+	@Profile("desarrollo | pruebas")
+	@Qualifier("propuestos")
+	public List<IArbitro> proponerArbitrosTest(){
+		return new ArrayList<>(ArbitroBDMemoria.getArbitros());
+	}
 	
 	@Bean
+	@Profile("default|desarrollo | pruebas")
 	@Qualifier("propuestos")
 	public Map<Integer,IArbitro> getMapArbitros(
 			                  @Qualifier("propuestos")
@@ -56,6 +78,7 @@ public class ConfiguracionTorneo {
 	}
 
 	@Bean
+	@Profile("default|desarrollo | pruebas")
 	@Description(value = "Mecánica de armado de partidos")
 	public IEstrategiaEnfrentamientos getEstrategiaEnfrentamientos(){
 		return new EstrategiaEnfrentamientosTest();
