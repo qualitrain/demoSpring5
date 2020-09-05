@@ -40,7 +40,7 @@ public class DemoApplication implements CommandLineRunner{
 		
 		String appName = context.getApplicationName();
 		System.out.println("Nombre de la aplicación:[" + appName + "]");
-		
+				
 //		explorarBeans();
 		
 		explorarEnvironment();
@@ -81,6 +81,10 @@ public class DemoApplication implements CommandLineRunner{
 		System.out.println("***** Esta aplicación se llama demoSpring5 *****");
 	}
 	private void TestTorneo(){
+		torneo.mostrarBienvenida();
+		torneo.mostrarArbitros();
+		
+		torneo.mostrarDatosGenerales();
 		EquipoFutbol ame = new EquipoFutbol("Las aves amarillas");
 		ame.agregarJugador("Juan ", "Paco", "Jorge", "Lionel", "Boris", "Efrén",
 			"Rafa", "Ramón", "Diego", "Edson", "Vladimir");
@@ -101,8 +105,5 @@ public class DemoApplication implements CommandLineRunner{
 		torneo.generarPartidas();
 		torneo.mostrarPartidas();
 		
-		torneo.mostrarArbitros();
-		
-		torneo.mostrarDatosGenerales();
 	}
 }

@@ -3,9 +3,11 @@ package mx.com.qtx;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
@@ -13,6 +15,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 import mx.com.qtx.servicio.IArbitro;
 import mx.com.qtx.servicio.IEstrategiaEnfrentamientos;
@@ -84,5 +87,17 @@ public class ConfiguracionTorneo {
 	@Description(value = "Mecánica de armado de partidos")
 	public IEstrategiaEnfrentamientos getEstrategiaEnfrentamientos(){
 		return new EstrategiaEnfrentamientosTest();
+	}
+	
+	@Bean(name = "messageSource")
+	public MessageSource crearMessageSource() {
+		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+		messageSource.setBasename("classpath:textosTorneo");
+		return messageSource;
+	}
+	@Bean(name="locale")
+	public Locale publicarLocalidad() {
+//		return Locale.getDefault();
+		return Locale.US;
 	}
 }

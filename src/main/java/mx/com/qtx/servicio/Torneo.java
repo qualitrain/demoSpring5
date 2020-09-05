@@ -2,6 +2,7 @@ package mx.com.qtx.servicio;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -11,10 +12,16 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 @Component
 public class Torneo {
+	@Autowired
+	private MessageSource fteTextos;
+	@Autowired
+	private Locale localidad;
+	
 	private Map<String, IEquipo> equipos;
 	private IEstrategiaEnfrentamientos estrategiaEnfrentamientos;
 	private Map<Integer, String[]> partidas;
@@ -51,6 +58,12 @@ public class Torneo {
 		this.equipos = new HashMap<String,IEquipo>();
 		this.estrategiaEnfrentamientos = estrategiaEnfrentamientos;
 	}
+	public void mostrarBienvenida() {
+		String txtBienvenida = this.fteTextos.getMessage("saludo", null, this.localidad);
+		System.out.println("\n=============================");
+		System.out.println(txtBienvenida);
+		System.out.println("=============================");
+	}
 
 	public void agregarEquipo(IEquipo equipo) {
 		this.equipos.put(equipo.getNombreEquipo(), equipo);
@@ -62,21 +75,28 @@ public class Torneo {
 		this.partidas = this.estrategiaEnfrentamientos.generarPartidas();
 	}
 	public void mostrarArbitros() {
-		System.out.println("Árbitros disponibles:");
-		System.out.println("Principal:" + this.arbitroPrincipal.getNombre());
-		System.out.println("Suplente:" + this.arbitroSecundario.getNombre());
+		String txtArbitros = this.fteTextos.getMessage("arbitros", null, this.localidad);
+		String txtArbitroPrincipal = this.fteTextos.getMessage("arbitro.principal", null, this.localidad);
+		String txtArbitroSecundario = this.fteTextos.getMessage("arbitro.suplente", null, this.localidad);
+		String txtListaArbitros = this.fteTextos.getMessage("arbitros.list", null, this.localidad);
+		String txtMapaArbitros = this.fteTextos.getMessage("arbitros.map", null, this.localidad);
+		
+		System.out.println(txtArbitros + ":");
+		System.out.println(txtArbitroPrincipal + ":" + this.arbitroPrincipal.getNombre());
+		System.out.println(txtArbitroSecundario + ":" + this.arbitroSecundario.getNombre());
 		
 		if(this.arbitrosRegistrados == null)
 			return;
-		System.out.println("Lista árbitros:");
+		System.out.println(txtListaArbitros	+ ":");
 		this.arbitrosRegistrados.forEach(a -> System.out.println(a.getNombre()) );
 		
 		if(this.mapaArbitros == null)
 			return;
-		System.out.println("Mapa árbitros:");
+		System.out.println(txtMapaArbitros + ":");
 		for(Integer llaveI:this.mapaArbitros.keySet()) {
 			System.out.println(llaveI + "-> " + this.mapaArbitros.get(llaveI).getNombre());
 		}
+		System.out.println();
 	}
 	public void mostrarPartidas() {
 		for(Integer numPartido : this.partidas.keySet()) {
