@@ -12,15 +12,18 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 @Component
-public class Torneo {
+public class Torneo implements ApplicationEventPublisherAware{
 	@Autowired
 	private MessageSource fteTextos;
 	@Autowired
 	private Locale localidad;
+	private ApplicationEventPublisher publicadoEvt;
 	
 	private Map<String, IEquipo> equipos;
 	private IEstrategiaEnfrentamientos estrategiaEnfrentamientos;
@@ -73,6 +76,7 @@ public class Torneo {
 			this.estrategiaEnfrentamientos.agregarEquipo(nomEquipoI);
 		}
 		this.partidas = this.estrategiaEnfrentamientos.generarPartidas();
+		this.publicadoEvt.publishEvent(new EvtPartidasGeneradas(this.partidas));
 	}
 	public void mostrarArbitros() {
 		String txtArbitros = this.fteTextos.getMessage("arbitros", null, this.localidad);
@@ -118,5 +122,9 @@ public class Torneo {
 	@PreDestroy
 	public void mostrarFinBean() {
 		System.out.println("*** El bean torneo está a punto de ser destruido ***");
+	}
+	@Override
+	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+		this.publicadoEvt = applicationEventPublisher;
 	}
 }
