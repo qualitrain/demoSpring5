@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 
 import mx.com.qtx.servicio.IArbitro;
@@ -21,6 +22,7 @@ import mx.com.qtx.test.ArbitroTest;
 import mx.com.qtx.test.EstrategiaEnfrentamientosTest;
 
 @Configuration
+@PropertySource("classpath:/torneo.properties")
 public class ConfiguracionTorneo {
 	
 	@Bean
