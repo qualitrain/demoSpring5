@@ -1,13 +1,13 @@
 package mx.com.qtx.servicio;
 
-import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.EventListener;
 
-public class MonitorTorneo implements ApplicationListener<EvtPartidasGeneradas> {
+public class MonitorTorneo  {
 
 	public MonitorTorneo() {		
 	}
-	@Override
-	public void onApplicationEvent(EvtPartidasGeneradas event) {
+	@EventListener
+	public void atenderEvtPartidasGeneradas(EvtPartidasGeneradas event) {
 		System.out.println("***** Se generaron " + event.getnPartidas() + " partidas nuevas *****");
 	}
 
