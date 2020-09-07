@@ -92,9 +92,12 @@ public class DemoApplication implements CommandLineRunner{
 		gorriones.agregarJugador("Martín ", "Miguel", "Jorge", "Brian", "Carlos", "Eduardo",
 			"Rafael", "Guille", "David", "Héctor", "Lenin");
 		EquipoFutbol vampis = new EquipoFutbol("Vampiros");
-		vampis.agregarJugador("Memo ", "Lalo", "George", "Conrado", "Donaldo", "Marcial",
-			"Alex", "Gus", "Gastón", "Hilario", "Lucas");
+		torneo.getJugadores("Vampiros")
+		      .forEach(jug -> vampis.agregarJugador(jug));
 		EquipoFutbol hormis = new EquipoFutbol("Hormigas atómicas");
+		torneo.getJugadores("Hormigas atómicas")
+	      .forEach(jug -> hormis.agregarJugador(jug));
+		
 		hormis.agregarJugador("Joaquín", "Jesús", "Víctor", "Daniel", "Efrén", "Gonzalo",
 			"Adalberto", "Osvaldo", "Martín", "Cristobal", "Hugo");
 		torneo.agregarEquipo(ame);
@@ -105,5 +108,6 @@ public class DemoApplication implements CommandLineRunner{
 		torneo.generarPartidas();
 		torneo.mostrarPartidas();
 		
+		torneo.mostrarJugadores();
 	}
 }

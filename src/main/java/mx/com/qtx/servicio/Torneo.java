@@ -1,5 +1,9 @@
 package mx.com.qtx.servicio;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -7,7 +11,6 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,6 +18,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.context.MessageSource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,11 +28,16 @@ public class Torneo implements ApplicationEventPublisherAware{
 	private MessageSource fteTextos;
 	@Autowired
 	private Locale localidad;
-	private ApplicationEventPublisher publicadoEvt;
 	
-	private Map<String, IEquipo> equipos;
-	private IEstrategiaEnfrentamientos estrategiaEnfrentamientos;
-	private Map<Integer, String[]> partidas;
+	private ApplicationEventPublisher publicadoEvt;
+	@Autowired
+	private ResourceLoader cargadorRecursos;
+	
+	@Value("classpath:jugadores_vam.txt")
+	private Resource recListaJugadoresVam;
+	
+	private List<String> jugadoresVam;
+	private List<String> jugadoresHor;
 	
 	@Value("${torneo.deporte:ninguno}")
 	private String deporte;
@@ -44,7 +54,8 @@ public class Torneo implements ApplicationEventPublisherAware{
 	@Autowired
 	private IArbitro arbitroPrincipal;
 	
-	@Resource(name="arbitroDummy")
+	@Qualifier("arbitroDummy")
+	@Autowired
 	private IArbitro arbitroSecundario;
 	
 	@Autowired
@@ -55,11 +66,19 @@ public class Torneo implements ApplicationEventPublisherAware{
 	@Qualifier("propuestos")
 	private Map<Integer, IArbitro> mapaArbitros;
 	
+	private Map<String, IEquipo> equipos;
+	private IEstrategiaEnfrentamientos estrategiaEnfrentamientos;
+	private Map<Integer, String[]> partidas;
+	
+	
 	@Autowired
 	public Torneo(IEstrategiaEnfrentamientos estrategiaEnfrentamientos) {
 		super();
 		this.equipos = new HashMap<String,IEquipo>();
 		this.estrategiaEnfrentamientos = estrategiaEnfrentamientos;
+		
+		this.jugadoresVam = new ArrayList<String>();
+		this.jugadoresHor = new ArrayList<String>();
 	}
 	public void mostrarBienvenida() {
 		String txtBienvenida = this.fteTextos.getMessage("saludo", null, this.localidad);
@@ -116,7 +135,11 @@ public class Torneo implements ApplicationEventPublisherAware{
 		System.out.println("Campos:" + this.campos);
 	}
 	@PostConstruct
-	public void mostrarFinArmadoBean() {
+	public void inicializarTorneo() {
+		this.cargarJugadores(this.recListaJugadoresVam,this.jugadoresVam);
+		Resource recListaJugadoresHor = this.cargadorRecursos.getResource("classpath:jugadores_hor.txt");
+		this.cargarJugadores(recListaJugadoresHor, this.jugadoresHor);
+		
 		System.out.println("*** El bean torneo ha quedado armado y está listo a operar ***");
 	}
 	@PreDestroy
@@ -126,5 +149,39 @@ public class Torneo implements ApplicationEventPublisherAware{
 	@Override
 	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
 		this.publicadoEvt = applicationEventPublisher;
+	}
+	private void cargarJugadoresVam() {
+		try (BufferedReader bf = new BufferedReader(
+				                 new InputStreamReader(
+				                 this.recListaJugadoresVam.getInputStream())) ) {
+				bf.lines().forEach(jug -> this.jugadoresVam.add(jug));
+		}
+		catch (Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
+	private void cargarJugadores(Resource recurso, List<String>listaEquipo) {
+		try (BufferedReader bf = new BufferedReader(
+				                 new InputStreamReader(
+				                 recurso.getInputStream())) ) {
+				bf.lines()
+				  .forEach(jug -> listaEquipo.add(jug));
+		}
+		catch (Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
+	public void mostrarJugadores() {
+		System.out.println("\n=============== Jugadores de Vampiros ===============");
+		this.jugadoresVam.forEach(jug -> System.out.println(jug));
+		System.out.println("\n=========== Jugadores de Hormigas atómicas ==========");
+		this.jugadoresHor.forEach(jug -> System.out.println(jug));
+	}
+	public List<String> getJugadores(String equipo){
+		switch (equipo) {
+			case "Vampiros": return this.jugadoresVam;
+			case "Hormigas atómicas": return this.jugadoresHor;
+			default: return null;
+		}
 	}
 }
