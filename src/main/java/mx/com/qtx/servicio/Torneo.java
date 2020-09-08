@@ -140,11 +140,11 @@ public class Torneo implements ApplicationEventPublisherAware{
 		Resource recListaJugadoresHor = this.cargadorRecursos.getResource("classpath:jugadores_hor.txt");
 		this.cargarJugadores(recListaJugadoresHor, this.jugadoresHor);
 		
-		System.out.println("*** El bean torneo ha quedado armado y está listo a operar ***");
+//		System.out.println("*** El bean torneo ha quedado armado y está listo a operar ***");
 	}
 	@PreDestroy
 	public void mostrarFinBean() {
-		System.out.println("*** El bean torneo está a punto de ser destruido ***");
+//		System.out.println("*** El bean torneo está a punto de ser destruido ***");
 	}
 	@Override
 	public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {

@@ -26,9 +26,9 @@ public class DemoApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		explorarContexto();
-		System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - - - ");
-		TestTorneo();
+//		explorarContexto();
+//		System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - - - ");
+//		TestTorneo();
 	}
 	private void explorarContexto(){
 		String nomClaseCtx = context.getClass().getName();
