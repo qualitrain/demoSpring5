@@ -13,7 +13,7 @@ import org.springframework.core.convert.support.DefaultConversionService;
 @SpringBootTest
 public class TestAPIConversionService {
 
-	@Test
+//	@Test
 	public void testConversion() throws Exception{
 		System.out.println("===== Probando ConversionService con DefaultConversionService =====");
 		
