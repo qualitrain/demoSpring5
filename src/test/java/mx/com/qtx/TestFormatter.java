@@ -13,7 +13,7 @@ import org.springframework.format.datetime.DateFormatter;
 
 @SpringBootTest
 public class TestFormatter {
-	@Test
+//	@Test
 	public void testDateFormatter() {
 		DateFormatter df = new DateFormatter();
 		df.setIso(DateTimeFormat.ISO.DATE);
