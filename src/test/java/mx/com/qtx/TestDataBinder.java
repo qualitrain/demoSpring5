@@ -24,11 +24,10 @@ public class TestDataBinder {
 		mascotaBinder.setValidator(new ValidadorMascota());
 		
 		MutablePropertyValues propiedadesMascota = new MutablePropertyValues();
-		propiedadesMascota.add("nombre", "Gomichela");
-		propiedadesMascota.add("peso", "25.7");
+		propiedadesMascota.add("nombre", "   P   ");
+		propiedadesMascota.add("peso", "200");
 		
 		mascotaBinder.bind(propiedadesMascota);
-		
 		mascotaBinder.validate();
 		
 		BindingResult resultadoBinding = mascotaBinder.getBindingResult();
@@ -80,12 +79,14 @@ public class TestDataBinder {
 			System.out.println("  Campo:" + errorCampo.getField());
 			System.out.println("  Rejected Value:" + errorCampo.getRejectedValue());
 		}
-		Exception ex = error.unwrap(Exception.class);
-		System.out.println("  Exception:" + ex.getClass().getName());
-		Throwable causa = ex.getCause();
-		if(causa != null) {
-			System.out.println("  Causa:" + causa.getClass().getName());
-			System.out.println("  Mensaje causa:" + causa.getMessage());
+		if(error.contains(Exception.class)) {
+			Exception ex = error.unwrap(Exception.class);
+			System.out.println("  Exception:" + ex.getClass().getName());
+			Throwable causa = ex.getCause();
+			if(causa != null) {
+				System.out.println("  Causa:" + causa.getClass().getName());
+				System.out.println("  Mensaje causa:" + causa.getMessage());
+			}
 		}
 		explorarArgumentosError(error);
 	}
