@@ -5,10 +5,6 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 public class ValidadorArticulo implements Validator {
-	private static final float FACTOR_UTIL_MIN = 1.2f;
-	private static final int LONG_MIN_CVE = 2;
-	private static final int LONG_MIN_DESCRIPCION = 3;
-	private static final int COSTO_MIN = 20;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -29,24 +25,24 @@ public class ValidadorArticulo implements Validator {
 			if(art.getCve().trim().length() != art.getCve().length())
 				errors.rejectValue("cve", "cve.espaciosExteriores", "La clave no debe iniciar o terminar con espacios");
 			else
-			if(art.getCve().length() < LONG_MIN_CVE)
+			if(art.getCve().length() < Articulo.LONG_MIN_CVE)
 				errors.rejectValue("cve", "cve.muyCorta", "La clave no debe ser tan corta");
 		}
 		if(errors.hasFieldErrors("descripcion")==false) {
 			if(art.getDescripcion().trim().length() != art.getDescripcion().length())
 				errors.rejectValue("descripcion", "descripcion.espaciosExteriores", "La descripcion no debe iniciar o terminar con espacios");
 			else
-			if(art.getDescripcion().length() < LONG_MIN_DESCRIPCION)
+			if(art.getDescripcion().length() < Articulo.LONG_MIN_DESCRIPCION)
 				errors.rejectValue("descripcion", "descripcion.muyCorta", "La descripcion no debe ser tan corta");
 		}
 		if(art.getExistencia() < 0)
 			errors.rejectValue("existencia", "existencia.negativa","La existencia debe ser positiva");
 		if(errors.hasFieldErrors("costo") == false)
-			if(art.getCosto().intValue() < COSTO_MIN)
+			if(art.getCosto().intValue() < Articulo.COSTO_MIN)
 				errors.rejectValue("costo", "costo.bajoMinimo", "El costo es demasiado bajo");
 		if(errors.hasFieldErrors("precio") == false)
-			if(art.getPrecio().intValue() <= ( art.getCosto().intValue() ) * FACTOR_UTIL_MIN)
-				errors.rejectValue("precio", "precio.bajoMinimo", "El precio es demasiado bajo en relación al costo");
+			if(art.getPrecio().intValue() <= ( art.getCosto().intValue() ) * Articulo.FACTOR_UTIL_MIN)
+				errors.rejectValue("precio", "precio.SinUtilidad", "Precio demasiado bajo. No logra utilidad esperada");
 	}
 
 }
