@@ -92,7 +92,7 @@ public class ConfiguracionTorneo {
 	@Bean(name = "messageSource")
 	public MessageSource crearMessageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasename("classpath:textosTorneo");
+		messageSource.setBasenames("classpath:textosTorneo","classpath:msgValidacion");
 		return messageSource;
 	}
 	@Bean(name="locale")

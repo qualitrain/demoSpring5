@@ -1,5 +1,6 @@
 package mx.com.qtx.test.validacion;
 
+import java.util.Locale;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -9,6 +10,7 @@ import javax.validation.metadata.ConstraintDescriptor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.MessageSource;
 
 import static mx.com.qtx.test.validacion.ArticulosTest.*;
 
@@ -16,6 +18,10 @@ import static mx.com.qtx.test.validacion.ArticulosTest.*;
 public class TestValidadorBeanValidation {
 	@Autowired
 	private Validator validador;
+	@Autowired
+	private MessageSource fteTextos;
+	@Autowired
+	private Locale localidad;
 
 //	@Test
 	public void testInyeccionValidador(){
@@ -33,17 +39,17 @@ public class TestValidadorBeanValidation {
 		System.out.println("\n***** testValidadorDeclarativo() *****");
 //		Articulo articulo = getArticuloVacio();
 //		Articulo articulo = getArticuloConErrores();
-//		Articulo articulo = getArticuloConErrores2();
+		Articulo articulo = getArticuloConErrores2();
 //		Articulo articulo = getArticuloConErrores3();
 //		Articulo articulo = getArticuloConErrores4();
 //		Articulo articulo = getArticuloConErrores5();
-		Articulo articulo = getArticuloCorrecto();
+//		Articulo articulo = getArticuloCorrecto();
 		Set<ConstraintViolation<Articulo>> errores = validador.validate(articulo);
 		if(errores.isEmpty()) {
 			System.out.println("Artículo correctamente inicializado " + articulo);
 		}
 		else
-			mostrarErroresResumen(errores);
+			mostrarErroresResumenMS(errores);
 	}
 	private void mostrarErroresExtendido(Set<ConstraintViolation<Articulo>> errores) {
 		System.out.println("Se encontraron " + errores.size() + " validaciones fallidas\n");
@@ -74,6 +80,14 @@ public class TestValidadorBeanValidation {
 		for(ConstraintViolation<Articulo> errArtI:errores) {
 			System.out.println("Property Path:" + errArtI.getPropertyPath().toString() );
 			System.out.println("Mensaje:" + errArtI.getMessage());
+			System.out.println();
+		}
+	}
+	private void mostrarErroresResumenMS(Set<ConstraintViolation<Articulo>> errores) {
+		System.out.println("Se encontraron " + errores.size() + " validaciones fallidas\n");
+		for(ConstraintViolation<Articulo> errArtI:errores) {
+			System.out.println(errArtI.getMessage() + ": " 
+					+ this.fteTextos.getMessage(errArtI.getMessage(), null, this.localidad));			
 			System.out.println();
 		}
 	}

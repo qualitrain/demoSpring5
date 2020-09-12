@@ -8,31 +8,31 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
-@Redituable
+@Redituable(message = "precio.SinUtilidad")
 public class Articulo {
 	public static final float FACTOR_UTIL_MIN = 1.2f;
 	public static final int LONG_MIN_CVE = 2;
 	public static final int LONG_MIN_DESCRIPCION = 3;
 	public static final int COSTO_MIN = 20;
 	
-	@NotBlank(message = "La clave es un campo obligatorio")
-	@Size(min = LONG_MIN_CVE, message="La clave no debe ser tan corta")
-	@Trimmed(message = "La clave no debe iniciar o terminar con espacios")
+	@NotBlank(message = "cve.vacia")
+	@Size(min = LONG_MIN_CVE, message="cve.muyCorta")
+	@Trimmed(message = "cve.espaciosExteriores")
 	private String cve;
 	
-	@NotBlank(message = "La descripción es un campo obligatorio")
-	@Size(min = LONG_MIN_DESCRIPCION, message="La descripción no debe ser tan corta")
-	@Trimmed(message = "La descripcion no debe iniciar o terminar con espacios")
+	@NotBlank(message = "descripcion.vacia")
+	@Size(min = LONG_MIN_DESCRIPCION, message="descripcion.muyCorta")
+	@Trimmed(message = "descripcion.espaciosExteriores")
 	private String descripcion;
 	
-	@NotNull(message = "El costo es un campo obligatorio")
-	@Min(value=COSTO_MIN, message = "El costo es demasiado bajo")
+	@NotNull(message = "costo.nulo")
+	@Min(value=COSTO_MIN, message = "costo.bajoMinimo")
 	private BigDecimal costo;
 	
-	@NotNull(message = "El precio es un campo obligatorio")
+	@NotNull(message = "precio.nulo")
 	private BigDecimal precio;
 	
-	@PositiveOrZero(message = "La existencia debe ser positiva")
+	@PositiveOrZero(message = "existencia.negativa")
 	private int existencia;
 	
 	public Articulo() {
