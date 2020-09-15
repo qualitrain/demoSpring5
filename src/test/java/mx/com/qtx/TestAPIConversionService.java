@@ -10,7 +10,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.core.convert.support.DefaultConversionService;
 
-@SpringBootTest
+//@SpringBootTest
 public class TestAPIConversionService {
 
 //	@Test

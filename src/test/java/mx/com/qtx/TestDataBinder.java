@@ -14,7 +14,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.Validator;
 
-@SpringBootTest
+//@SpringBootTest
 public class TestDataBinder {
 //	@Test
 	public void testDataBinder(){

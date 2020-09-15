@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.datetime.DateFormatter;
 
-@SpringBootTest
+//@SpringBootTest
 public class TestFormatter {
 //	@Test
 	public void testDateFormatter() {

@@ -12,7 +12,7 @@ import static mx.com.qtx.test.validacion.ArticulosTest.*;
 
 import java.util.Locale;
 
-@SpringBootTest
+//@SpringBootTest
 public class TestValidadorSpring5 {
 	@Autowired
 	private MessageSource fteTextos;
@@ -27,7 +27,7 @@ public class TestValidadorSpring5 {
 		else 
 			System.out.println("MessageSource inyectado correctamente");
 	}
-	@Test
+//	@Test
 	public void testValidadorProgramatico(){
 		System.out.println("\n***** testValidadorProgramatico() *****");
 //		Articulo articulo = getArticuloVacio();

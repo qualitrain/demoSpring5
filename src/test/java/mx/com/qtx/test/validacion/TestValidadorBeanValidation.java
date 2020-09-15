@@ -14,7 +14,7 @@ import org.springframework.context.MessageSource;
 
 import static mx.com.qtx.test.validacion.ArticulosTest.*;
 
-@SpringBootTest
+//@SpringBootTest
 public class TestValidadorBeanValidation {
 	@Autowired
 	private Validator validador;
@@ -34,7 +34,7 @@ public class TestValidadorBeanValidation {
 			System.out.println("Se inyectó un validador " + validador.getClass().getName());
 		
 	}
-	@Test
+//	@Test
 	public void testValidadorDeclarativo(){
 		System.out.println("\n***** testValidadorDeclarativo() *****");
 //		Articulo articulo = getArticuloVacio();
