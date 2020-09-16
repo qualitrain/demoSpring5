@@ -14,10 +14,10 @@ import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.SimpleEvaluationContext;
 
-@SpringBootTest
+//@SpringBootTest
 public class TestSpel {
 	
-	@Test
+//	@Test
 	public void ejecutarPruebas() {
 //		testParseoExpresionMinima();
 //		testParseoExpresionConOperadorPunto01();
