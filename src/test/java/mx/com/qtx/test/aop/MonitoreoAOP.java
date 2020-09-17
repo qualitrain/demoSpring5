@@ -15,7 +15,7 @@ public class MonitoreoAOP {
 		System.out.println("MonitoreoAOP instanciado");
 	}
 		
-	@Before("execution(* mx.com.qtx.test.aop.Calculadora.calcular*(..)) and args(nums)")
+	@Before(value="execution(* mx.com.qtx.test.aop.Calculadora.calcular*(..)) and args(nums)")
 	public void interceptarExec(JoinPoint jp, Integer... nums) {
 		System.out.println("\n***** MonitoreoAOP.interceptarExec() *****");
 //		exporarJoinPoint(jp);
