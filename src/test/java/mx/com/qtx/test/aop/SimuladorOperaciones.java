@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 public class SimuladorOperaciones {
 	private int valor;
 	private String cadena;
+	private String[] salas= {"Pachuca","Quetzal","París","Roma"};
 	
 	public SimuladorOperaciones() {
 		this.cadena = "no inicializada";
@@ -39,6 +40,16 @@ public class SimuladorOperaciones {
 	public String toString() {
 		return "SimuladorOperaciones [valor=" + valor + ", cadena=" + cadena + "]";
 	}
-	
+	public String borrarCadena() {
+		if(this.cadena.isEmpty())
+			throw new RuntimeException("cadena ya borrada previamente");
+		String cadAnt = this.cadena;
+		this.cadena = "";
+		return cadAnt;
+	}
+	@Desbordable(arr = "salas")
+	public String getSala(int i) {
+		return this.salas[i];
+	}
 
 }
