@@ -1,7 +1,6 @@
-package mx.com.qtx.servicio;
+package mx.com.qtx.torneo;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,8 +21,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
+import mx.com.qtx.ITorneo;
+import mx.com.qtx.torneo.serviciosTorneo.IEstrategiaEnfrentamientos;
+
 @Component
-public class Torneo implements ApplicationEventPublisherAware{
+public class TorneoTestSpringCore implements ApplicationEventPublisherAware, ITorneo{
 	@Autowired
 	private MessageSource fteTextos;
 	@Autowired
@@ -72,8 +74,8 @@ public class Torneo implements ApplicationEventPublisherAware{
 	
 	
 	@Autowired
-	public Torneo(IEstrategiaEnfrentamientos estrategiaEnfrentamientos) {
-		super();
+	public TorneoTestSpringCore(IEstrategiaEnfrentamientos estrategiaEnfrentamientos) {
+		System.out.println("***** TorneoTestSpringCore instanciado *****");
 		this.equipos = new HashMap<String,IEquipo>();
 		this.estrategiaEnfrentamientos = estrategiaEnfrentamientos;
 		
@@ -160,6 +162,7 @@ public class Torneo implements ApplicationEventPublisherAware{
 			System.out.println(ex.getMessage());
 		}
 	}
+	
 	private void cargarJugadores(Resource recurso, List<String>listaEquipo) {
 		try (BufferedReader bf = new BufferedReader(
 				                 new InputStreamReader(
@@ -183,5 +186,10 @@ public class Torneo implements ApplicationEventPublisherAware{
 			case "Hormigas atómicas": return this.jugadoresHor;
 			default: return null;
 		}
+	}
+	@Override
+	public void testActualizaciones() {
+		// TODO Auto-generated method stub
+		
 	}
 }

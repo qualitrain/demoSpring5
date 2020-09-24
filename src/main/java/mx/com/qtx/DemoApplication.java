@@ -10,7 +10,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.env.Environment;
 
-import mx.com.qtx.servicio.Torneo;
 import mx.com.qtx.test.EquipoFutbol;
 
 @SpringBootApplication
@@ -20,7 +19,7 @@ public class DemoApplication implements CommandLineRunner{
 	private ApplicationContext context;
 	
 	@Autowired
-	private Torneo torneo;
+	private ITorneo torneo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
@@ -30,7 +29,7 @@ public class DemoApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 //		explorarContexto();
 //		System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - - - ");
-//		TestTorneo();
+		TestTorneo();
 	}
 	private void explorarContexto(){
 		String nomClaseCtx = context.getClass().getName();
@@ -111,5 +110,8 @@ public class DemoApplication implements CommandLineRunner{
 		torneo.mostrarPartidas();
 		
 		torneo.mostrarJugadores();
+		torneo.mostrarDatosGenerales();
+		
+		torneo.testActualizaciones();
 	}
 }

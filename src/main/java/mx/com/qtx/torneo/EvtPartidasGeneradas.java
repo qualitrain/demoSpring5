@@ -1,4 +1,4 @@
-package mx.com.qtx.servicio;
+package mx.com.qtx.torneo;
 
 import java.util.Map;
 

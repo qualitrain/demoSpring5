@@ -1,4 +1,7 @@
-package mx.com.qtx.servicio;
+package mx.com.qtx.torneo.entidades;
+
+import mx.com.qtx.torneo.IArbitro;
+import mx.com.qtx.torneo.IEquipo;
 
 public class Partido {
 	private IEquipo local;

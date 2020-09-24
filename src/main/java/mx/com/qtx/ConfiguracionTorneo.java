@@ -17,12 +17,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
-import mx.com.qtx.servicio.IArbitro;
-import mx.com.qtx.servicio.IEstrategiaEnfrentamientos;
 import mx.com.qtx.test.ArbitroBDMemoria;
 import mx.com.qtx.test.ArbitroDummy;
 import mx.com.qtx.test.ArbitroTest;
 import mx.com.qtx.test.EstrategiaEnfrentamientosTest;
+import mx.com.qtx.torneo.IArbitro;
+import mx.com.qtx.torneo.serviciosTorneo.IEstrategiaEnfrentamientos;
 
 @Configuration
 @PropertySource("classpath:/torneo.properties")

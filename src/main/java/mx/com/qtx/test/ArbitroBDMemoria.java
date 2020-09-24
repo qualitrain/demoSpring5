@@ -3,7 +3,7 @@ package mx.com.qtx.test;
 import java.util.ArrayList;
 import java.util.List;
 
-import mx.com.qtx.servicio.IArbitro;
+import mx.com.qtx.torneo.IArbitro;
 
 public class ArbitroBDMemoria implements IArbitro{
 	private static List<ArbitroBDMemoria> arbitros = inicilizarArbitros();
@@ -32,6 +32,11 @@ public class ArbitroBDMemoria implements IArbitro{
 	}
 	public static List<ArbitroBDMemoria> getArbitros() {
 		return arbitros;
+	}
+	@Override
+	public int getId() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }

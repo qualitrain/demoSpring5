@@ -1,6 +1,6 @@
 package mx.com.qtx.test;
 
-import mx.com.qtx.servicio.IArbitro;
+import mx.com.qtx.torneo.IArbitro;
 
 public class ArbitroTest implements IArbitro{
 	private static String[] nombres= {"Ramiro","Juan Carlos","Miguel Ángel","Mariano","Lucas","Jorge","Seferino"}; 
@@ -20,6 +20,10 @@ public class ArbitroTest implements IArbitro{
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+	@Override
+	public int getId() {
+		return 0;
 	}
 	
 }

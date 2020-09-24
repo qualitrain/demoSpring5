@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import mx.com.qtx.servicio.IEstrategiaEnfrentamientos;
+import mx.com.qtx.torneo.serviciosTorneo.IEstrategiaEnfrentamientos;
 
 public class EstrategiaEnfrentamientosTest implements IEstrategiaEnfrentamientos{
 	private List<String> equipos;

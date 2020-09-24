@@ -1,0 +1,213 @@
+package mx.com.qtx.torneo.serviciosTorneo.entidades;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+
+import mx.com.qtx.torneo.IEquipo;
+import mx.com.qtx.torneo.IJugador;
+
+public class Equipo implements IEquipo{
+	private String id;
+	private String nombre;
+	private String apodo;
+	private String patrocinador;
+	private int jueJugados;
+	private int jueGanados;
+	private int jueEmpatados;
+	private int juePerdidos;
+	private int puntos;
+	private String entrenador;
+
+	private Set<Jugador> jugadores;
+	
+	public Equipo() {
+		super();
+		this.jugadores = new HashSet<>();
+		this.patrocinador = "vacante";
+		this.entrenador = "vacante";
+	}
+
+	public Equipo(String nombre, String apodo) {
+		super();
+		this.nombre = nombre;
+		this.apodo = apodo;
+		this.jugadores = new HashSet<>();
+		this.patrocinador = "vacante";
+		this.entrenador = "vacante";
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getApodo() {
+		return apodo;
+	}
+
+	public void setApodo(String apodo) {
+		this.apodo = apodo;
+	}
+
+	public String getPatrocinador() {
+		return patrocinador;
+	}
+
+	public void setPatrocinador(String patrocinador) {
+		this.patrocinador = patrocinador;
+	}
+
+	public int getJueJugados() {
+		return jueJugados;
+	}
+
+	public void setJueJugados(int jueJugados) {
+		this.jueJugados = jueJugados;
+	}
+
+	public int getJueGanados() {
+		return jueGanados;
+	}
+
+	public void setJueGanados(int jueGanados) {
+		this.jueGanados = jueGanados;
+	}
+
+	public int getJueEmpatados() {
+		return jueEmpatados;
+	}
+
+	public void setJueEmpatados(int jueEmpatados) {
+		this.jueEmpatados = jueEmpatados;
+	}
+
+	public int getJuePerdidos() {
+		return juePerdidos;
+	}
+
+	public void setJuePerdidos(int juePerdidos) {
+		this.juePerdidos = juePerdidos;
+	}
+
+	public int getPuntos() {
+		return puntos;
+	}
+
+	public void setPuntos(int puntos) {
+		this.puntos = puntos;
+	}
+
+	public String getEntrenador() {
+		return entrenador;
+	}
+
+	public void setEntrenador(String entrenador) {
+		this.entrenador = entrenador;
+	}
+
+	public Set<Jugador> getJugadores() {
+		return jugadores;
+	}
+
+	public void setJugadores(Set<Jugador> jugadores) {
+		this.jugadores = jugadores;
+	}
+	public void agregarJugador(Jugador jugador) {
+		this.jugadores.add(jugador);
+		jugador.setEquipo(this);
+	}
+
+	@Override
+	public String getID() {
+		return this.getId();
+	}
+
+	@Override
+	public void setID(String id) {
+		this.setId(id);
+	}
+
+	@Override
+	public String getNombreEquipo() {
+		return this.getApodo() +  " de " + this.getNombre();
+	}
+
+	@Override
+	public void setNombreEquipo(String nombre) {
+		this.setNombre(nombre);
+	}
+
+	@Override
+	public int getNumJugadores() {
+		return this.jugadores.size();
+	}
+
+	@Override
+	public Map<Integer, String> getJugadoresTitulares() {
+		Map<Integer, String> titulares = new HashMap<>();
+	    this.jugadores.stream()
+				      .filter(j->j.isTitular())
+				      .forEach(j-> titulares.put(j.getNumero(), j.getNombre()));
+	    return titulares;
+	}
+
+	@Override
+	public String getPosicionJugador(int numJugador) {
+		Optional<Jugador> jugador = this.jugadores
+				                        .stream()
+		                                .filter(j->(j.getNumero()==numJugador))
+		                                .findFirst();
+		return jugador.isPresent() ? jugador.get().getPosicion() : "indefinida";
+	}
+
+	@Override
+	public List<IJugador> getListaJugadores() {
+		return new ArrayList<IJugador> (this.getJugadores()) ;
+	}
+
+	@Override
+	public String toString() {
+		return "Equipo [id=" + id + ", nombre=" + nombre + ", apodo=" + apodo + ", patrocinador=" + patrocinador
+				+ ", jueJugados=" + jueJugados + ", jueGanados=" + jueGanados + ", jueEmpatados=" + jueEmpatados
+				+ ", juePerdidos=" + juePerdidos + ", puntos=" + puntos + ", entrenador=" + entrenador + ", jugadores="
+				+ jugadores + "]";
+	}
+
+	@Override
+	public int agregarJugador(IJugador jugador) {
+		if(this.jugadores.contains(jugador))
+			return 0;
+		if(jugador instanceof Jugador)
+			this.agregarJugador((Jugador)jugador);
+		else {
+			Jugador unJugador = new Jugador();
+			unJugador.setId(jugador.getId());
+			unJugador.setNombre(jugador.getNombre());
+			unJugador.setNumero(jugador.getNumero());
+			unJugador.setPosicion(jugador.getPosicion());
+			unJugador.setFecNac(jugador.getFecNac());
+			unJugador.setLesionado(jugador.isLesionado());
+			unJugador.setTitular(false);
+			unJugador.setSuspendido(jugador.isSuspendido());
+			this.agregarJugador(unJugador);
+		}
+		return 1;
+	}
+
+}

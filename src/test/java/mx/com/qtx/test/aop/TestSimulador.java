@@ -4,14 +4,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 public class TestSimulador {
 	@Autowired
 	private SimuladorOperaciones simulador;
 	@Autowired
 	private Calculadora calculadora;
 	
-	@Test
+//	@Test
 	public void testSimulador01() {
 		try {
 			simulador.setValor(500);

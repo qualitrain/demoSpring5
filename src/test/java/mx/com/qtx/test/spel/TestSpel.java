@@ -14,6 +14,8 @@ import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.SimpleEvaluationContext;
 
+import mx.com.qtx.util.FechaUtil;
+
 //@SpringBootTest
 public class TestSpel {
 	

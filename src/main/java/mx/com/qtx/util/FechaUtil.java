@@ -1,4 +1,4 @@
-package mx.com.qtx.test.spel;
+package mx.com.qtx.util;
 
 import java.util.Date;
 import java.util.GregorianCalendar;

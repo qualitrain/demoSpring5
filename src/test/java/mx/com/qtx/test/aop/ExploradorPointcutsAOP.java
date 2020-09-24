@@ -124,7 +124,7 @@ public class ExploradorPointcutsAOP {
 	        if(idxBuscado > idxMax) // Si se busca un elemento que desborda el arreglo, se devuelve el último elem
 	        	return arr[idxMax];
 	        
-			String cad = (String) pjp.proceed(); //Se invoca al método concerteza de que el idx usado no desbordará el arreglo
+			String cad = (String) pjp.proceed(); //Se invoca al método con certeza de que el idx usado no desbordará el arreglo
 		    return cad;
 		} 
 		catch (Throwable e) {
