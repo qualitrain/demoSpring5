@@ -1,4 +1,4 @@
-package mx.com.qtx.torneo.serviciosTorneo.persistencia;
+package mx.com.qtx.torneo.serviciosTorneo.persisMem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
