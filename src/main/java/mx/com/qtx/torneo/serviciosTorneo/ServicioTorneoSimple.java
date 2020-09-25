@@ -29,12 +29,18 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 		// TODO Auto-generated method stub
 		
 	}
-
+//----------------------------------------------------------------------------------
 	@Override
 	public Map<String, IEquipo> getEquipos() {
 		Map<String,IEquipo> mapEquipos = new HashMap<String,IEquipo>();
 		this.gestorDatos.cargarEquipos()
 		                .forEach(e->mapEquipos.put(e.getNombreEquipo(),e));
+		for(IEquipo equipoI : mapEquipos.values()) {
+			if(equipoI.getListaJugadores() == null || equipoI.getListaJugadores().size() == 0) {
+				this.gestorDatos.leerJugadoresXEquipo(equipoI.getID())
+				                .forEach(j -> equipoI.agregarJugador(j));
+			}
+		}
 		return mapEquipos;
 	}
 
@@ -47,7 +53,28 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 	public IEquipo getEquipo(String id) {
 		return this.gestorDatos.leerEquipoXID(id);
 	}
+	
+	@Override
+	public IEquipo crearEquipo(Map<String, Object> mapDatos) {
+		Equipo equipo = new Equipo();
+		String id = (String) mapDatos.get("id");
+		if(id == null)
+			return null;
+		equipo.setId(id);
+		equipo.setApodo((String) mapDatos.getOrDefault("apodo",""));
+		equipo.setNombre((String) mapDatos.getOrDefault("nombre","no especificado"));
+		equipo.setEntrenador((String) mapDatos.getOrDefault("entrenador", "no especificado"));
+		equipo.setPatrocinador((String) mapDatos.getOrDefault("patrocinador", "no especificado"));
+		equipo.setJugadores((Set<Jugador>) mapDatos.getOrDefault("jugadores", new HashSet<Jugador>()));
+		return equipo;
+	}
 
+	public IEquipo actualizarEquipo(IEquipo equipo) {
+		IEquipo equipoAnt = this.gestorDatos.actualizarEquipo(equipo);
+		return equipoAnt;
+	}
+
+//----------------------------------------------------------------------------------
 	@Override
 	public int generarPartidos() {
 		// TODO Auto-generated method stub
@@ -77,11 +104,7 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	public IEquipo actualizarEquipo(IEquipo equipo) {
-		IEquipo equipoAnt = this.gestorDatos.actualizarEquipo(equipo);
-		return equipoAnt;
-	}
+//----------------------------------------------------------------------------------
 	@Override
 	public Map<String, IArbitro> getArbitros() {
 		HashMap<String,IArbitro> mapArbitros = new HashMap<>();
@@ -94,21 +117,15 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 		return this.gestorDatos.leerArbitroXID(id);
 	}
 
-	@Override
-	public IEquipo crearEquipo(Map<String, Object> mapDatos) {
-		Equipo equipo = new Equipo();
-		String id = (String) mapDatos.get("id");
-		if(id == null)
-			return null;
-		equipo.setId(id);
-		equipo.setApodo((String) mapDatos.getOrDefault("apodo",""));
-		equipo.setNombre((String) mapDatos.getOrDefault("nombre","no especificado"));
-		equipo.setEntrenador((String) mapDatos.getOrDefault("entrenador", "no especificado"));
-		equipo.setPatrocinador((String) mapDatos.getOrDefault("patrocinador", "no especificado"));
-		equipo.setJugadores((Set<Jugador>) mapDatos.getOrDefault("jugadores", new HashSet<Jugador>()));
-		return equipo;
-	}
+//----------------------------------------------------------------------------------
 
+	@Override
+	public Map<String, IJugador> getJugadores() {
+		HashMap<String,IJugador> mapJugadores = new HashMap<>();
+		this.gestorDatos.cargarJugadores().forEach(j->mapJugadores.put("" + j.getId(), j));
+		return mapJugadores;
+	}
+	
 	@Override
 	public IJugador crearJugador(Map<String, Object> datosJugador) {
 		Jugador jugador = new Jugador();

@@ -24,8 +24,7 @@ public interface IServicioTorneo {
 		public IArbitro getArbitro(int id);
 
 		public IJugador crearJugador(Map<String, Object> datosJugador);
-
 		public int agregarJugador(IEquipo equipoIns, IJugador jugador);
-
+		public Map<String, IJugador> getJugadores();
 		
 }

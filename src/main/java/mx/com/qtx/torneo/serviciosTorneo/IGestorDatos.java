@@ -19,5 +19,6 @@ public interface IGestorDatos {
 	public List<IJugador> cargarJugadores();
 	public IJugador leerJugadorXID(String id);
 	public IJugador actualizarJugador(IJugador jugador);
+	public List<IJugador> leerJugadoresXEquipo(String idEquipo);
 
 }

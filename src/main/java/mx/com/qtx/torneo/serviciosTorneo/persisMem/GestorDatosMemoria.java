@@ -180,4 +180,12 @@ public class GestorDatosMemoria implements IGestorDatos {
 		return this.bdJugadores.put(jugador.getId(), jugador);
 	}
 
+	@Override
+	public List<IJugador> leerJugadoresXEquipo(String idEquipo) {
+		IEquipo equipo = this.bdEquipos.get(idEquipo);
+		if(equipo == null)
+			return null;
+		return equipo.getListaJugadores();
+	}
+
 }

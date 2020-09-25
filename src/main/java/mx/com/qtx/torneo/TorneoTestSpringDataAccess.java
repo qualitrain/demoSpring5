@@ -37,6 +37,11 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 		for(String id: mapArbitros.keySet()) {
 			System.out.printf("%5s %40s\n", id, mapArbitros.get(id));
 		}
+		System.out.println("Probando servicio getArbitro(id)");
+		for(IArbitro arbI: mapArbitros.values()) {
+			int id = arbI.getId();
+			System.out.printf("%5s %40s\n", id, this.servicioTorneo.getArbitro(id));
+		}
 	}
 
 	@Override
@@ -51,6 +56,10 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 			mapJugadores.forEach((k,v)-> System.out.println(v +  " (" + k + ")"));
 			System.out.println();
 		}
+		System.out.print("\nJugadores (");
+		Map<String, IJugador> mapJugadores = this.servicioTorneo.getJugadores();
+		System.out.println( mapJugadores.size() + ")");
+		mapJugadores.values().forEach(j ->System.out.println(j));
 	}
 
 	@Override
@@ -59,8 +68,10 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 				+ ") =====");
 		List<String> listJugadores = new ArrayList<>();
 		IEquipo equipo = this.servicioTorneo.getEquipo(idEquipo);
-		if(equipo == null)
+		if(equipo == null) {
+			System.out.println("El equipo con id " + idEquipo + " NO EXISTE");
 			return listJugadores;
+		}
 		
 		equipo.getListaJugadores()
 		      .forEach(jug->listJugadores.add(jug.getNombre()));
@@ -117,6 +128,8 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 				
 		IEquipo equipoIns = this.servicioTorneo.agregarEquipo(equipo);
 		System.out.println(equipoIns);
+		if(equipoIns == null)
+			return;
 		
 		System.out.println("\n... Modificando");
 		equipoIns.setNombreEquipo("Tlalpan Football Club");
