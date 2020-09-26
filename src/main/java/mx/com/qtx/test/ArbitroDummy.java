@@ -13,7 +13,11 @@ public class ArbitroDummy implements IArbitro {
 
 	@Override
 	public int getId() {
-		return 0;
+		throw new RuntimeException("Método no implementado");
+	}
+	@Override
+	public void setId(int size) {
+		throw new RuntimeException("Método no implementado");
 	}
 
 }

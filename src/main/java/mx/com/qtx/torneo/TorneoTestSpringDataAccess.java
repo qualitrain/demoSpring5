@@ -119,6 +119,53 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 		}
 
 	}
+	@Override
+	public void testInserciones() {
+		System.out.println("\n===== test Inserciones =====");
+		Map<String,Object> datosEquipo = new HashMap<>();
+		datosEquipo.put("id", "Coyoacan");
+		datosEquipo.put("nombre", "Real Coyoacán");
+		datosEquipo.put("apodo", "merenguitos");
+		IEquipo equipo =  this.servicioTorneo.crearEquipo(datosEquipo);
+				
+		Map<String,Object> datosJugador = new HashMap<>();
+		datosJugador.put("id", "202000001");
+		datosJugador.put("nombre", "Jorge Zavala Ceballos");
+		datosJugador.put("posicion", "Delantero");
+		datosJugador.put("numero", 18);
+		datosJugador.put("fecNac", FechaUtil.getFecha(1999, 1, 19));
+		IJugador jugador = this.servicioTorneo.crearJugador(datosJugador);
+		equipo.agregarJugador(jugador);
+		jugador.setEquipo(equipo);
+		
+		datosJugador = new HashMap<>();
+		datosJugador.put("id", "202000003");
+		datosJugador.put("nombre", "Martín Zavala Ceballos");
+		datosJugador.put("posicion", "Medio");
+		datosJugador.put("numero", 5);
+		datosJugador.put("fecNac", FechaUtil.getFecha(2000, 1, 6));
+		jugador = this.servicioTorneo.crearJugador(datosJugador);
+		equipo.agregarJugador(jugador);
+		jugador.setEquipo(equipo);
+		
+		try {
+			IEquipo equipoIns = this.servicioTorneo.agregarEquipo(equipo);
+			System.out.println("Se insertó el quipo " + equipoIns);
+		}
+		catch (NegocioException nex) {
+			System.out.println("Falló la inserción de " + equipo
+					+ ":\n " + nex.getMessage());
+		}
+		
+		Map<String,Object> datosArbitro = new HashMap<>();
+		datosArbitro = new HashMap<>();
+		datosArbitro.put("nombre", "Jeremías Jara Jiménez");
+		datosArbitro.put("fecNac", FechaUtil.getFecha(1990, 4, 29));
+		IArbitro arbitro = this.servicioTorneo.crearArbitro(datosArbitro);
+		IArbitro arbitroBD = this.servicioTorneo.agregarArbitro(arbitro);
+		System.out.println("Se ha insertado al arbitro " + arbitroBD);
+		
+	}
 	public void testActualizaciones(){
 		Map<String,Object> datosEquipo = new HashMap<>();
 		datosEquipo.put("id", "Tlalpan");

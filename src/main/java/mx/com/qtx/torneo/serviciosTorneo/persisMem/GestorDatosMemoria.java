@@ -188,4 +188,19 @@ public class GestorDatosMemoria implements IGestorDatos {
 		return equipo.getListaJugadores();
 	}
 
+	@Override
+	public IArbitro insertarArbitro(IArbitro iarbitro) {
+		iarbitro.setId( this.bdArbitros.size() );
+		this.bdArbitros.put(iarbitro.getId(), iarbitro);
+		return null;
+	}
+
+	@Override
+	public IJugador insertarJugador(IJugador ijugador) {
+		if(this.bdJugadores.containsKey(ijugador.getId()))
+			return null;
+		this.bdJugadores.put(ijugador.getId(), ijugador);
+		return ijugador;
+	}
+
 }

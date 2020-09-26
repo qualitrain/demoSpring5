@@ -72,8 +72,9 @@ public class EquipoFutbol implements IEquipo {
 	public List<IJugador> getListaJugadores() {
 		List<IJugador> listJugadores = new ArrayList<>();
 		int i=1;
+		int aleatorio = (int) (Math.random() * 100000);
 		for(String nomI: this.jugadoresEquipo) {
-			listJugadores.add(new JugadorFutbol(""+i, nomI, i , posiciones[(i-1)%posiciones.length]));
+			listJugadores.add(new JugadorFutbol(""+(i+aleatorio), nomI, i , posiciones[(i-1)%posiciones.length]));
 			i++;
 		}
 		return listJugadores;

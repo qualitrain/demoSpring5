@@ -6,25 +6,27 @@ import java.util.Map;
 import mx.com.qtx.torneo.entidades.Partido;
 
 public interface IServicioTorneo {
-		public void inicializarTorneo();
+		void inicializarTorneo();
 		
-		public IEquipo crearEquipo(Map<String,Object> mapDatos);
-		public Map<String, IEquipo> getEquipos();
-		public IEquipo agregarEquipo(IEquipo equipo);
-		public IEquipo getEquipo(String id);
-		public IEquipo actualizarEquipo(IEquipo equipoIns);
+		IEquipo crearEquipo(Map<String,Object> mapDatos);
+		Map<String, IEquipo> getEquipos();
+		IEquipo agregarEquipo(IEquipo equipo);
+		IEquipo getEquipo(String id);
+		IEquipo actualizarEquipo(IEquipo equipoIns);
 		
-		public int generarPartidos();
-		public List<Partido> getPartidos();
-		public Partido getPartido(int numPartido);
-		public Partido actualizarPartido(Partido partido);
-		public Partido cerrarPartido(Partido partido); //Hacer de solo lectura el partido
+		int generarPartidos();
+		List<Partido> getPartidos();
+		Partido getPartido(int numPartido);
+		Partido actualizarPartido(Partido partido);
+		Partido cerrarPartido(Partido partido); //Hacer de solo lectura el partido
 		
-		public Map<String,IArbitro> getArbitros();
-		public IArbitro getArbitro(int id);
+		IArbitro crearArbitro(Map<String, Object> datosArbitro);
+		Map<String,IArbitro> getArbitros();
+		IArbitro getArbitro(int id);
+		IArbitro agregarArbitro(IArbitro iarbitro);
 
-		public IJugador crearJugador(Map<String, Object> datosJugador);
-		public int agregarJugador(IEquipo equipoIns, IJugador jugador);
-		public Map<String, IJugador> getJugadores();
-		
+		IJugador crearJugador(Map<String, Object> datosJugador);
+		int agregarJugador(IEquipo equipoIns, IJugador jugador);
+		Map<String, IJugador> getJugadores();
+
 }

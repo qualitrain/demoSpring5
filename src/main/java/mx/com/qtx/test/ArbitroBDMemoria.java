@@ -35,8 +35,11 @@ public class ArbitroBDMemoria implements IArbitro{
 	}
 	@Override
 	public int getId() {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new RuntimeException("Método no implementado");
+	}
+	@Override
+	public void setId(int size) {
+		throw new RuntimeException("Método no implementado");
 	}
 	
 }

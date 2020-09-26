@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import mx.com.qtx.torneo.IArbitro;
@@ -67,16 +69,48 @@ public class GestorDatosJdbcTemplate implements IGestorDatos {
 	}
 
 	@Override
+	public IEquipo insertarEquipo(IEquipo iequipo) {
+		try {
+			if(iequipo instanceof Equipo) {
+				Equipo equipo  = (Equipo) iequipo;
+				return insertarEquipo(equipo);	
+			}
+			String sql = "insert into equipo (eq_id, eq_nombre) "
+					+ "values (?, ?)";
+			int nRows = this.jdbcTemplate.update(sql, iequipo.getID(), iequipo.getNombreEquipo());
+			if(nRows > 0)
+				return iequipo;
+			else
+			    return null;
+			
+		}
+		catch (Throwable ex) {
+			throw new PersistenciaException("falla en insertarEquipo(" + iequipo
+					+ ") por infraestructura subyacente",ex);
+		}
+	}
+
+	private IEquipo insertarEquipo(Equipo equipo) {
+		String sql = "insert into equipo (eq_id, eq_nombre, eq_apodo, eq_patrocinador, "
+				+ "eq_jj, eq_jg, eq_je, eq_jp, eq_puntos, eq_entrenador) "
+				+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		int nRows = this.jdbcTemplate.update(sql, 
+				            equipo.getId(), equipo.getNombre(), equipo.getApodo(), 
+				            equipo.getPatrocinador(), equipo.getJueJugados(), equipo.getJueGanados(),
+				            equipo.getJueEmpatados(), equipo.getJuePerdidos(), equipo.getPuntos(),
+				            equipo.getEntrenador());
+		if(nRows > 0)
+			return equipo;
+		else
+		    return null;
+	}
+
+	@Override
 	public IEquipo actualizarEquipo(IEquipo equipo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public IEquipo insertarEquipo(IEquipo equipo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public List<IArbitro> cargarArbitros() {
@@ -106,6 +140,30 @@ public class GestorDatosJdbcTemplate implements IGestorDatos {
 		}
 	}
 
+	@Override
+	public IArbitro insertarArbitro(IArbitro iarbitro) {
+		try {
+			Arbitro arbitro  = (Arbitro) iarbitro;
+			String sql = "insert into arbitro (ar_nombre, ar_fecnac) "
+					+ "values (?, ?)";
+			
+			KeyHolder keyHolder = new GeneratedKeyHolder();
+			CreadorPrepStatement crStmt = new CreadorPrepStatement(sql, arbitro.getNombre(), arbitro.getFecNac());
+			int nRows  = this.jdbcTemplate.update(crStmt, keyHolder);
+			
+			if(nRows > 0) {
+				arbitro.setId(keyHolder.getKey().intValue()); // Recuperando la llave auto-generada por la BD
+				return arbitro;
+			}
+			else
+			    return null;			
+		}
+		catch (Throwable ex) {
+			throw new PersistenciaException("falla en insertarArbitro(" + iarbitro
+					+ ") por infraestructura subyacente",ex);
+		}
+	}
+	
 	@Override
 	public IArbitro actualizarArbitro(IArbitro arbitro) {
 		// TODO Auto-generated method stub
@@ -162,5 +220,29 @@ public class GestorDatosJdbcTemplate implements IGestorDatos {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public IJugador insertarJugador(IJugador ijugador) {
+		try {
+			String sql = "insert into jugador (jug_id, jug_nombre, jug_numero, "
+					+ "jug_posicion, jug_fecnac, jug_lesionado, "
+					+ "jug_suspendido, jug_titular, jug_id_eq) "
+					+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String idEquipo = ijugador.getEquipo() == null ? null : ijugador.getEquipo().getID();
+
+			int nRows = this.jdbcTemplate.update(sql, ijugador.getId(), ijugador.getNombre(), ijugador.getNumero(),
+					ijugador.getPosicion(), ijugador.getFecNac(), ijugador.isLesionado(),
+					ijugador.isSuspendido(), ijugador.isTitular(), idEquipo);
+			if(nRows > 0)
+				return ijugador;
+			else
+			    return null;
+			
+		}
+		catch (Throwable ex) {
+			throw new PersistenciaException("falla en insertarJugador(" + ijugador
+					+ ") por infraestructura subyacente",ex);
+		}
+	}
+
 
 }

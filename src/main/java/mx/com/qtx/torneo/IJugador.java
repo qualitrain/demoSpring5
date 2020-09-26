@@ -18,6 +18,9 @@ public interface IJugador {
 	public void setLesionado(boolean lesionado);
 	public boolean isSuspendido();
 	public void setSuspendido(boolean suspendido);
+	public boolean isTitular();
+	public void setTitular(boolean titular);
 	public void setEquipo(IEquipo equipo);
+	public IEquipo getEquipo();
 
 }

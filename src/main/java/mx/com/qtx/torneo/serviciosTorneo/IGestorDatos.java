@@ -7,18 +7,20 @@ import mx.com.qtx.torneo.IEquipo;
 import mx.com.qtx.torneo.IJugador;
 
 public interface IGestorDatos {
-	public List<IEquipo> cargarEquipos();
-	public IEquipo leerEquipoXID(String id);
-	public IEquipo actualizarEquipo(IEquipo equipo);
-	public IEquipo insertarEquipo(IEquipo equipo);
+	List<IEquipo> cargarEquipos();
+	IEquipo leerEquipoXID(String id);
+	IEquipo actualizarEquipo(IEquipo equipo);
+	IEquipo insertarEquipo(IEquipo equipo);
 	
-	public List<IArbitro> cargarArbitros();
-	public IArbitro leerArbitroXID(int id);
-	public IArbitro actualizarArbitro(IArbitro arbitro);
+	List<IArbitro> cargarArbitros();
+	IArbitro leerArbitroXID(int id);
+	IArbitro insertarArbitro(IArbitro iarbitro);
+	IArbitro actualizarArbitro(IArbitro arbitro);
 
-	public List<IJugador> cargarJugadores();
-	public IJugador leerJugadorXID(String id);
-	public IJugador actualizarJugador(IJugador jugador);
-	public List<IJugador> leerJugadoresXEquipo(String idEquipo);
+	List<IJugador> cargarJugadores();
+	IJugador leerJugadorXID(String id);
+	IJugador actualizarJugador(IJugador jugador);
+	List<IJugador> leerJugadoresXEquipo(String idEquipo);
+	IJugador insertarJugador(IJugador ijugador);
 
 }

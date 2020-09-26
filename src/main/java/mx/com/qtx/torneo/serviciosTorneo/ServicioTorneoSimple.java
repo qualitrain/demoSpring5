@@ -1,5 +1,6 @@
 package mx.com.qtx.torneo.serviciosTorneo;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,12 +10,14 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import mx.com.qtx.torneo.IArbitro;
 import mx.com.qtx.torneo.IEquipo;
 import mx.com.qtx.torneo.IJugador;
 import mx.com.qtx.torneo.IServicioTorneo;
 import mx.com.qtx.torneo.entidades.Partido;
+import mx.com.qtx.torneo.serviciosTorneo.entidades.Arbitro;
 import mx.com.qtx.torneo.serviciosTorneo.entidades.Equipo;
 import mx.com.qtx.torneo.serviciosTorneo.entidades.Jugador;
 
@@ -45,8 +48,34 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 	}
 
 	@Override
+	@Transactional
 	public IEquipo agregarEquipo(IEquipo equipo) {
-		return this.gestorDatos.insertarEquipo(equipo);
+		IEquipo equipoEnBD = this.gestorDatos.leerEquipoXID(equipo.getID());
+		if( equipoEnBD != null) 
+			throw new EquipoYaExisteException("Insercion rechazada: Ya existe un equipo con el mismo id ("
+					+ equipo + ") en base de datos");
+		
+		equipoEnBD = this.gestorDatos.insertarEquipo(equipo);
+		if(equipo.getNumJugadores() == 0) {
+			return equipoEnBD;
+		}
+		
+		List<IJugador> jugadoresDuplicados = new ArrayList<IJugador>();
+		for(IJugador jugI : equipo.getListaJugadores()) {
+			
+			IJugador jugBD = this.gestorDatos.leerJugadorXID(jugI.getId());
+			if(jugBD != null)
+				jugadoresDuplicados.add(jugI);
+		}
+		if(jugadoresDuplicados.size() == 0)
+			return equipoEnBD;
+		String idsDupli = jugadoresDuplicados.stream()
+				                              .map(j->j.getId())
+				                              .reduce((a,b)-> a + "," + b)
+				                              .get();
+		throw new JugadoresDuplicadosException("Insercion rechazada:"
+				+ "Ids duplicados:[" + idsDupli + "]" , jugadoresDuplicados);
+		
 	}
 
 	@Override
@@ -115,6 +144,19 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 	@Override
 	public IArbitro getArbitro(int id) {
 		return this.gestorDatos.leerArbitroXID(id);
+	}
+	@Override
+	public IArbitro crearArbitro(Map<String, Object> datosArbitro) {
+		Arbitro arbitro = new Arbitro();
+		arbitro.setNombre((String) datosArbitro.getOrDefault("nombre", "indefinido"));
+		arbitro.setFecNac((Date) datosArbitro.getOrDefault("fecNac", new Date()));
+		return arbitro;
+	}
+	
+	@Override
+	public IArbitro agregarArbitro(IArbitro iarbitro) {
+		IArbitro iarbitroBD = this.gestorDatos.insertarArbitro(iarbitro);
+		return iarbitroBD;
 	}
 
 //----------------------------------------------------------------------------------

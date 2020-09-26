@@ -63,7 +63,7 @@ public class JugadorFutbol implements IJugador {
 	@Override
 	public Date getFecNac() {
 		// TODO Auto-generated method stub
-		return null;
+		return new Date();
 	}
 
 	@Override
@@ -103,6 +103,24 @@ public class JugadorFutbol implements IJugador {
 
 	@Override
 	public void setEquipo(IEquipo equipo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public IEquipo getEquipo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isTitular() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setTitular(boolean titular) {
 		// TODO Auto-generated method stub
 		
 	}

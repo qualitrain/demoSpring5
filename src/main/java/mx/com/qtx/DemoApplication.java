@@ -83,9 +83,18 @@ public class DemoApplication implements CommandLineRunner{
 	}
 	private void TestTorneo(){
 		torneo.mostrarBienvenida();
+		torneo.mostrarDatosGenerales();
 		torneo.mostrarArbitros();
 		
-		torneo.mostrarDatosGenerales();
+//		testPartidas();
+
+		torneo.testInserciones();
+		torneo.mostrarJugadores();
+		
+//		torneo.testActualizaciones();
+	}
+
+	private void testPartidas() {
 		EquipoFutbol ame = new EquipoFutbol("Las aves amarillas");
 		ame.agregarJugador("Juan ", "Paco", "Jorge", "Lionel", "Boris", "Efrén",
 			"Rafa", "Ramón", "Diego", "Edson", "Vladimir");
@@ -97,7 +106,7 @@ public class DemoApplication implements CommandLineRunner{
 		      .forEach(jug -> vampis.agregarJugador(jug));
 		EquipoFutbol hormis = new EquipoFutbol("Hormigas atómicas");
 		torneo.getJugadores("Hormigas atómicas")
-	      .forEach(jug -> hormis.agregarJugador(jug));
+	          .forEach(jug -> hormis.agregarJugador(jug));
 		
 		hormis.agregarJugador("Joaquín", "Jesús", "Víctor", "Daniel", "Efrén", "Gonzalo",
 			"Adalberto", "Osvaldo", "Martín", "Cristobal", "Hugo");
@@ -108,10 +117,5 @@ public class DemoApplication implements CommandLineRunner{
 		
 		torneo.generarPartidas();
 		torneo.mostrarPartidas();
-		
-		torneo.mostrarJugadores();
-		torneo.mostrarDatosGenerales();
-		
-		torneo.testActualizaciones();
 	}
 }
