@@ -29,4 +29,6 @@ public interface IServicioTorneo {
 		int agregarJugador(IEquipo equipoIns, IJugador jugador);
 		Map<String, IJugador> getJugadores();
 
+		boolean yaExisteEquipo(IEquipo equipo);
+
 }

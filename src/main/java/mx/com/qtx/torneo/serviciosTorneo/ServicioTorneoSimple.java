@@ -46,9 +46,18 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 		}
 		return mapEquipos;
 	}
+	
+	@Override
+	public boolean yaExisteEquipo(IEquipo equipo) {
+		if( this.gestorDatos.leerEquipoXID(equipo.getID()) == null) {
+			return false;
+		}
+		return true;
+	}
 
 	@Override
-	@Transactional
+	@Transactional(noRollbackForClassName = "JugadoresDuplicadosException")
+//	@Transactional
 	public IEquipo agregarEquipo(IEquipo equipo) {
 		IEquipo equipoEnBD = this.gestorDatos.leerEquipoXID(equipo.getID());
 		if( equipoEnBD != null) 
@@ -66,6 +75,8 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 			IJugador jugBD = this.gestorDatos.leerJugadorXID(jugI.getId());
 			if(jugBD != null)
 				jugadoresDuplicados.add(jugI);
+			else
+				this.gestorDatos.insertarJugador(jugI);
 		}
 		if(jugadoresDuplicados.size() == 0)
 			return equipoEnBD;
@@ -98,9 +109,21 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 		return equipo;
 	}
 
+	@Transactional
 	public IEquipo actualizarEquipo(IEquipo equipo) {
-		IEquipo equipoAnt = this.gestorDatos.actualizarEquipo(equipo);
-		return equipoAnt;
+		IEquipo equipoEnBD = this.gestorDatos.leerEquipoXID(equipo.getID());
+		if(equipoEnBD == null)
+			throw new EquipoNoExisteException("Actualización rechazada: "
+												+ "Equipo no existe (id=" + equipo.getID() + ")");
+		this.gestorDatos.actualizarEquipo(equipo);
+		for(IJugador ijug:equipo.getListaJugadores()) {
+			IJugador jugBD = this.gestorDatos.leerJugadorXID(ijug.getId());
+			if(jugBD == null)
+				this.gestorDatos.insertarJugador(ijug);
+			else
+				this.gestorDatos.actualizarJugador(ijug);
+		}
+		return equipoEnBD;
 	}
 
 //----------------------------------------------------------------------------------

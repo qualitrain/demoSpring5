@@ -123,9 +123,9 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 	public void testInserciones() {
 		System.out.println("\n===== test Inserciones =====");
 		Map<String,Object> datosEquipo = new HashMap<>();
-		datosEquipo.put("id", "Coyoacan");
-		datosEquipo.put("nombre", "Real Coyoacán");
-		datosEquipo.put("apodo", "merenguitos");
+		datosEquipo.put("id", "Morelos");
+		datosEquipo.put("nombre", "Club José María Morelos y Pavón");
+		datosEquipo.put("apodo", "juglares");
 		IEquipo equipo =  this.servicioTorneo.crearEquipo(datosEquipo);
 				
 		Map<String,Object> datosJugador = new HashMap<>();
@@ -148,12 +148,22 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 		equipo.agregarJugador(jugador);
 		jugador.setEquipo(equipo);
 		
+		datosJugador = new HashMap<>();
+		datosJugador.put("id", "202000005");
+		datosJugador.put("nombre", "Leopoldo García Cantú");
+		datosJugador.put("posicion", "Defensa");
+		datosJugador.put("numero", 3);
+		datosJugador.put("fecNac", FechaUtil.getFecha(2001, 11, 16));
+		jugador = this.servicioTorneo.crearJugador(datosJugador);
+		equipo.agregarJugador(jugador);
+		jugador.setEquipo(equipo);
+		
 		try {
 			IEquipo equipoIns = this.servicioTorneo.agregarEquipo(equipo);
 			System.out.println("Se insertó el quipo " + equipoIns);
 		}
 		catch (NegocioException nex) {
-			System.out.println("Falló la inserción de " + equipo
+			System.out.println("Excepción en la inserción de " + equipo
 					+ ":\n " + nex.getMessage());
 		}
 		
@@ -167,33 +177,45 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 		
 	}
 	public void testActualizaciones(){
-		Map<String,Object> datosEquipo = new HashMap<>();
-		datosEquipo.put("id", "Tlalpan");
-		datosEquipo.put("nombre", "Club Tlalpan F.C.");
-		datosEquipo.put("apodo", "Coyotes locos");
-		IEquipo equipo =  this.servicioTorneo.crearEquipo(datosEquipo);
-				
-		IEquipo equipoIns = this.servicioTorneo.agregarEquipo(equipo);
-		System.out.println(equipoIns);
-		if(equipoIns == null)
-			return;
-		
-		System.out.println("\n... Modificando");
-		equipoIns.setNombreEquipo("Tlalpan Football Club");
-		
-		Map<String,Object> datosJugador = new HashMap<>();
-		datosJugador.put("id", "202000001");
-		datosJugador.put("nombre", "Jorge Zavala Ceballos");
-		datosJugador.put("posicion", "Delantero");
-		datosJugador.put("numero", 18);
-		datosJugador.put("fecNac", FechaUtil.getFecha(1999, 1, 19));
-		IJugador jugador = this.servicioTorneo.crearJugador(datosJugador);
-		
-		int nAgregados = this.servicioTorneo.agregarJugador(equipoIns,jugador);
-		
-		this.servicioTorneo.actualizarEquipo(equipoIns);
-		IEquipo equipoAct = this.servicioTorneo.getEquipo("Tlalpan");
-		System.out.println(equipoAct);
+		System.out.println("\n===== test Actualizaciones =====");
+		try {
+			Map<String,Object> datosEquipo = new HashMap<>();
+			datosEquipo.put("id", "Tlalpan");
+			datosEquipo.put("nombre", "Club Tlalpan F.C.");
+			datosEquipo.put("apodo", "Coyotes locos");
+			IEquipo equipo =  this.servicioTorneo.crearEquipo(datosEquipo);
+			IEquipo equipoIns = null;
+			if(this.servicioTorneo.yaExisteEquipo(equipo) == false) {
+				equipoIns = this.servicioTorneo.agregarEquipo(equipo);
+				System.out.println(equipoIns);
+			}
+			else
+				equipoIns = equipo;
+			
+			System.out.println("\n... Modificando");
+			equipoIns.setNombreEquipo("Tlalpan Football Club");
+			
+			Map<String,Object> datosJugador = new HashMap<>();
+			datosJugador.put("id", "202000001");
+			datosJugador.put("nombre", "Jorge Zavala Ceballos");
+			datosJugador.put("posicion", "Delantero");
+			datosJugador.put("numero", 18);
+			datosJugador.put("fecNac", FechaUtil.getFecha(1999, 1, 19));
+			IJugador jugador = this.servicioTorneo.crearJugador(datosJugador);
+			
+			equipoIns.agregarJugador(jugador);
+			
+			this.servicioTorneo.actualizarEquipo(equipoIns);
+			IEquipo equipoAct = this.servicioTorneo.getEquipo("Tlalpan");
+			System.out.println(equipoAct);
+		}
+		catch(Exception ex) {
+			System.out.println("Exception:" + ex.getClass().getName());
+			System.out.println("Mensaje:" + ex.getMessage());
+			if(ex.getCause()!=null) {
+				System.out.println("Causa:" + ex.getClass().getName());
+			}
+		}
 	}
 	
 

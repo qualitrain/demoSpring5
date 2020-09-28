@@ -27,6 +27,7 @@ public class QtxTransactionManager extends DataSourceTransactionManager {
 	@Override
 	protected void doRollback(DefaultTransactionStatus status) {
 		super.doRollback(status);
-		System.out.println("***** QtxTransactionManager.doRollback() *****");
+		System.out.println("***** QtxTransactionManager.doRollback(" 
+				+ ") *****");
 	}
 }

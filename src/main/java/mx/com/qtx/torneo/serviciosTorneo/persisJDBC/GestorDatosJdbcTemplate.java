@@ -70,6 +70,7 @@ public class GestorDatosJdbcTemplate implements IGestorDatos {
 
 	@Override
 	public IEquipo insertarEquipo(IEquipo iequipo) {
+		System.out.println("***** insertarEquipo(" + iequipo + ") *****");
 		try {
 			if(iequipo instanceof Equipo) {
 				Equipo equipo  = (Equipo) iequipo;
@@ -104,11 +105,42 @@ public class GestorDatosJdbcTemplate implements IGestorDatos {
 		else
 		    return null;
 	}
-
 	@Override
-	public IEquipo actualizarEquipo(IEquipo equipo) {
-		// TODO Auto-generated method stub
-		return null;
+	public IEquipo actualizarEquipo(IEquipo iequipo) {
+		System.out.println("***** actualizarEquipo(" + iequipo + ") *****");
+		try {
+			if(iequipo instanceof Equipo) {
+				Equipo equipo  = (Equipo) iequipo;
+				return actualizarEquipo(equipo);	
+			}
+			String sql = "update equipo set eq_nombre=? "
+					+ "where eq_id = ?";
+			int nRows = this.jdbcTemplate.update(sql, iequipo.getNombreEquipo(), iequipo.getID());
+			if(nRows > 0)
+				return iequipo;
+			else
+			    return null;
+		}
+		catch (Throwable ex) {
+			throw new PersistenciaException("falla en insertarEquipo(" + iequipo
+					+ ") por infraestructura subyacente",ex);
+		}
+		
+	}
+
+	public IEquipo actualizarEquipo(Equipo equipo) {
+		String sql = "update equipo set eq_nombre=?, eq_apodo=?, eq_patrocinador=?, "
+				+ "eq_jj=?, eq_jg=?, eq_je=?, eq_jp=?, eq_puntos=?, eq_entrenador=? "
+				+ "where eq_id=?";
+		int nRows = this.jdbcTemplate.update(sql, 
+				            equipo.getNombre(), equipo.getApodo(), 
+				            equipo.getPatrocinador(), equipo.getJueJugados(), equipo.getJueGanados(),
+				            equipo.getJueEmpatados(), equipo.getJuePerdidos(), equipo.getPuntos(),
+				            equipo.getEntrenador(), equipo.getId() );
+		if(nRows > 0)
+			return equipo;
+		else
+		    return null;
 	}
 
 
@@ -165,9 +197,24 @@ public class GestorDatosJdbcTemplate implements IGestorDatos {
 	}
 	
 	@Override
-	public IArbitro actualizarArbitro(IArbitro arbitro) {
-		// TODO Auto-generated method stub
-		return null;
+	public IArbitro actualizarArbitro(IArbitro iarbitro) {
+		try {
+			Arbitro arbitro  = (Arbitro) iarbitro;
+			String sql = "update set ar_nombre=? , ar_fecnac=? "
+					          + "where ar_id = ?";
+			
+			int nRows  = this.jdbcTemplate.update(sql, arbitro.getNombre(), arbitro.getFecNac(), arbitro.getId());
+			
+			if(nRows > 0) {
+				return arbitro;
+			}
+			else
+			    return null;			
+		}
+		catch (Throwable ex) {
+			throw new PersistenciaException("falla en actualizarArbitro(" + iarbitro
+					+ ") por infraestructura subyacente",ex);
+		}
 	}
 
 	@Override
@@ -216,12 +263,8 @@ public class GestorDatosJdbcTemplate implements IGestorDatos {
 	}
 
 	@Override
-	public IJugador actualizarJugador(IJugador jugador) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
 	public IJugador insertarJugador(IJugador ijugador) {
+		System.out.println("***** insertarJugador(" + ijugador + ") *****");
 		try {
 			String sql = "insert into jugador (jug_id, jug_nombre, jug_numero, "
 					+ "jug_posicion, jug_fecnac, jug_lesionado, "
@@ -240,6 +283,31 @@ public class GestorDatosJdbcTemplate implements IGestorDatos {
 		}
 		catch (Throwable ex) {
 			throw new PersistenciaException("falla en insertarJugador(" + ijugador
+					+ ") por infraestructura subyacente",ex);
+		}
+	}
+	
+	@Override
+	public IJugador actualizarJugador(IJugador ijugador) {
+		System.out.println("***** actualizarJugador(" + ijugador + ") *****");
+		try {
+			String sql = "update jugador set jug_nombre=?, jug_numero=?, "
+					+ "jug_posicion=?, jug_fecnac=?, jug_lesionado=?, "
+					+ "jug_suspendido=?, jug_titular=?, jug_id_eq=? "
+					+ "where jug_id =?";
+			String idEquipo = ijugador.getEquipo() == null ? null : ijugador.getEquipo().getID();
+
+			int nRows = this.jdbcTemplate.update(sql, ijugador.getNombre(), ijugador.getNumero(),
+					ijugador.getPosicion(), ijugador.getFecNac(), ijugador.isLesionado(),
+					ijugador.isSuspendido(), ijugador.isTitular(), idEquipo, ijugador.getId());
+			if(nRows > 0)
+				return ijugador;
+			else
+			    return null;
+			
+		}
+		catch (Throwable ex) {
+			throw new PersistenciaException("falla en actualizarJugador(" + ijugador
 					+ ") por infraestructura subyacente",ex);
 		}
 	}

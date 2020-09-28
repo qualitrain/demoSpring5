@@ -88,10 +88,10 @@ public class DemoApplication implements CommandLineRunner{
 		
 //		testPartidas();
 
-		torneo.testInserciones();
+//		torneo.testInserciones();
 		torneo.mostrarJugadores();
 		
-//		torneo.testActualizaciones();
+		torneo.testActualizaciones();
 	}
 
 	private void testPartidas() {
