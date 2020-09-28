@@ -13,6 +13,8 @@ public interface IServicioTorneo {
 		IEquipo agregarEquipo(IEquipo equipo);
 		IEquipo getEquipo(String id);
 		IEquipo actualizarEquipo(IEquipo equipoIns);
+		boolean yaExisteEquipo(IEquipo equipo);
+		IEquipo eliminarEquipo(IEquipo eq);
 		
 		int generarPartidos();
 		List<Partido> getPartidos();
@@ -28,7 +30,5 @@ public interface IServicioTorneo {
 		IJugador crearJugador(Map<String, Object> datosJugador);
 		int agregarJugador(IEquipo equipoIns, IJugador jugador);
 		Map<String, IJugador> getJugadores();
-
-		boolean yaExisteEquipo(IEquipo equipo);
 
 }

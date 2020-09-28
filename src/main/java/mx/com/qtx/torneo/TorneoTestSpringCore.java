@@ -197,4 +197,9 @@ public class TorneoTestSpringCore implements ApplicationEventPublisherAware, ITo
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void testEliminaciones() {
+		// TODO Auto-generated method stub
+		
+	}
 }

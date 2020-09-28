@@ -125,6 +125,18 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 		}
 		return equipoEnBD;
 	}
+	@Transactional
+	@Override
+	public IEquipo eliminarEquipo(IEquipo eq) {
+		IEquipo eqBorrado = this.gestorDatos.leerEquipoXIDConJugadores(eq.getID());
+		if(eqBorrado == null)
+			return null;
+		for(IJugador jugI : eqBorrado.getListaJugadores()) {
+			this.gestorDatos.borrarJugador(jugI);
+		}
+		this.gestorDatos.borrarEquipo(eqBorrado);
+		return eqBorrado;
+	}
 
 //----------------------------------------------------------------------------------
 	@Override

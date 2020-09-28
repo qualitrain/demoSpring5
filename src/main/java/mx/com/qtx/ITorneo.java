@@ -16,4 +16,5 @@ public interface ITorneo {
 	
 	void testActualizaciones();
 	void testInserciones();
+	void testEliminaciones();
 }

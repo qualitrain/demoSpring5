@@ -176,6 +176,7 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 		System.out.println("Se ha insertado al arbitro " + arbitroBD);
 		
 	}
+	@Override
 	public void testActualizaciones(){
 		System.out.println("\n===== test Actualizaciones =====");
 		try {
@@ -218,5 +219,25 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 		}
 	}
 	
+	@Override
+	public void testEliminaciones(){
+		System.out.println("\n===== test Eliminaciones =====");
+		try {
+			Map<String,Object> datosEquipo = new HashMap<>();
+			datosEquipo.put("id", "Tlalpan");
+			IEquipo equipo =  this.servicioTorneo.crearEquipo(datosEquipo);
+			if(this.servicioTorneo.yaExisteEquipo(equipo)) {
+				IEquipo equipoBorrado = this.servicioTorneo.eliminarEquipo(equipo);
+				System.out.println(equipoBorrado);
+			}
+		}
+		catch(Exception ex) {
+			System.out.println("Exception:" + ex.getClass().getName());
+			System.out.println("Mensaje:" + ex.getMessage());
+			if(ex.getCause()!=null) {
+				System.out.println("Causa:" + ex.getClass().getName());
+			}
+		}
+	}
 
 }

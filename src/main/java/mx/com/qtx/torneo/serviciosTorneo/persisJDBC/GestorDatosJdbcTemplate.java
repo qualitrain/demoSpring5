@@ -1,7 +1,9 @@
 package mx.com.qtx.torneo.serviciosTorneo.persisJDBC;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -64,6 +66,28 @@ public class GestorDatosJdbcTemplate implements IGestorDatos {
 		}
 		catch (Throwable ex) {
 			throw new PersistenciaException("falla en leerEquipoXID("
+					+ id + ") por infraestructura subyacente",ex);
+		}
+	}
+	
+	@Override
+	public IEquipo leerEquipoXIDConJugadores(String id) {
+		try {
+			IEquipo ieqBD = this.leerEquipoXID(id);
+			if(ieqBD == null)
+			   return null;
+			if(ieqBD instanceof Equipo) {
+				Equipo eqBD = (Equipo) ieqBD;
+				Set<Jugador> setJugadores = new HashSet<>();
+				this.leerJugadoresXEquipo(id).forEach(j->setJugadores.add((Jugador) j));
+				eqBD.setJugadores(setJugadores);
+				return eqBD;
+			}
+			else
+			  return ieqBD; //No soportado para otras implementaciones de IEquipo
+		}
+		catch (Throwable ex) {
+			throw new PersistenciaException("falla en leerEquipoXIDConJugadores("
 					+ id + ") por infraestructura subyacente",ex);
 		}
 	}
@@ -142,6 +166,15 @@ public class GestorDatosJdbcTemplate implements IGestorDatos {
 		else
 		    return null;
 	}
+	@Override
+	public IEquipo borrarEquipo(IEquipo eq) {
+		IEquipo eqBD = this.leerEquipoXID(eq.getID());
+		if(eqBD == null)
+			return eqBD;
+		String sql = "delete from equipo where eq_id=?";
+		this.jdbcTemplate.update(sql, eq.getID());
+		return eqBD;
+	}
 
 
 	@Override
@@ -215,6 +248,16 @@ public class GestorDatosJdbcTemplate implements IGestorDatos {
 			throw new PersistenciaException("falla en actualizarArbitro(" + iarbitro
 					+ ") por infraestructura subyacente",ex);
 		}
+	}
+	
+	@Override
+	public IArbitro borrarArbitro(IArbitro arb) {
+		IArbitro arbitroBD = this.leerArbitroXID(arb.getId());
+		if(arbitroBD == null)
+			return arbitroBD;
+		String sql = "delete from arbitro where ar_id=?";
+		this.jdbcTemplate.update(sql, arb.getId());
+		return arbitroBD;
 	}
 
 	@Override
@@ -311,6 +354,14 @@ public class GestorDatosJdbcTemplate implements IGestorDatos {
 					+ ") por infraestructura subyacente",ex);
 		}
 	}
-
-
+	
+	@Override
+	public IJugador borrarJugador(IJugador jug) {
+		IJugador jugBD = this.leerJugadorXID(jug.getId());
+		if(jugBD == null)
+			return jugBD;
+		String sql = "delete from jugador where jug_id=?";
+		this.jdbcTemplate.update(sql, jug.getId());
+		return jugBD;
+	}
 }

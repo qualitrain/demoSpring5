@@ -203,4 +203,28 @@ public class GestorDatosMemoria implements IGestorDatos {
 		return ijugador;
 	}
 
+	@Override
+	public IEquipo borrarEquipo(IEquipo eq) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IEquipo leerEquipoXIDConJugadores(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IArbitro borrarArbitro(IArbitro arb) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IJugador borrarJugador(IJugador jug) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

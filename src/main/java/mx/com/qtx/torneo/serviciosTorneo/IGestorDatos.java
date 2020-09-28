@@ -11,16 +11,20 @@ public interface IGestorDatos {
 	IEquipo leerEquipoXID(String id);
 	IEquipo actualizarEquipo(IEquipo equipo);
 	IEquipo insertarEquipo(IEquipo equipo);
+	IEquipo borrarEquipo(IEquipo eq);
+	IEquipo leerEquipoXIDConJugadores(String id);
 	
 	List<IArbitro> cargarArbitros();
 	IArbitro leerArbitroXID(int id);
 	IArbitro insertarArbitro(IArbitro iarbitro);
 	IArbitro actualizarArbitro(IArbitro arbitro);
+	IArbitro borrarArbitro(IArbitro arb);
 
 	List<IJugador> cargarJugadores();
 	IJugador leerJugadorXID(String id);
 	IJugador actualizarJugador(IJugador jugador);
 	List<IJugador> leerJugadoresXEquipo(String idEquipo);
 	IJugador insertarJugador(IJugador ijugador);
+	IJugador borrarJugador(IJugador jug);
 
 }

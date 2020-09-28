@@ -92,6 +92,7 @@ public class DemoApplication implements CommandLineRunner{
 		torneo.mostrarJugadores();
 		
 		torneo.testActualizaciones();
+		torneo.testEliminaciones();
 	}
 
 	private void testPartidas() {
