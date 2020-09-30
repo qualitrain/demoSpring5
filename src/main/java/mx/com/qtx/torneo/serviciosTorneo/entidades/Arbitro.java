@@ -2,11 +2,18 @@ package mx.com.qtx.torneo.serviciosTorneo.entidades;
 
 import java.util.Date;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+
 import mx.com.qtx.torneo.IArbitro;
 
 public class Arbitro implements IArbitro{
+	@Id
+	@Column("ar_id")
 	private int id;
+	@Column("ar_nombre")
 	private String nombre;
+	@Column("ar_fecNac")
 	private Date fecNac;
 
 	public Arbitro() {
@@ -18,6 +25,10 @@ public class Arbitro implements IArbitro{
 		this.id = id;
 		this.nombre = nombre;
 		this.fecNac = fecNac;
+	}
+	
+	public Arbitro withId(int id) { //Se requiere porque id es una llave auto-generada por el DBMS
+		return new Arbitro(id,this.nombre, this.fecNac);
 	}
 
 	@Override

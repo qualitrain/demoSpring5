@@ -24,7 +24,7 @@ import mx.com.qtx.torneo.serviciosTorneo.entidades.Arbitro;
 import mx.com.qtx.torneo.serviciosTorneo.entidades.Equipo;
 import mx.com.qtx.torneo.serviciosTorneo.entidades.Jugador;
 
-@Primary
+//@Primary
 @Repository
 public class GestorDatosJdbcTemplate implements IGestorDatos {
 	private DataSource dataSource;
@@ -363,5 +363,15 @@ public class GestorDatosJdbcTemplate implements IGestorDatos {
 		String sql = "delete from jugador where jug_id=?";
 		this.jdbcTemplate.update(sql, jug.getId());
 		return jugBD;
+	}
+
+	@Override
+	public IEquipo insertarEquipoAgregado(IEquipo iequipo) {
+		throw new RuntimeException("Método no soportado");
+	}
+
+	@Override
+	public IEquipo actualizarEquipoAgregado(IEquipo equipo) {
+		throw new RuntimeException("Método no soportado");
 	}
 }

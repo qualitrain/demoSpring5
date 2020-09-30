@@ -13,6 +13,8 @@ public interface IGestorDatos {
 	IEquipo insertarEquipo(IEquipo equipo);
 	IEquipo borrarEquipo(IEquipo eq);
 	IEquipo leerEquipoXIDConJugadores(String id);
+	IEquipo insertarEquipoAgregado(IEquipo iequipo);
+	IEquipo actualizarEquipoAgregado(IEquipo equipo);
 	
 	List<IArbitro> cargarArbitros();
 	IArbitro leerArbitroXID(int id);

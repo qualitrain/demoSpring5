@@ -17,7 +17,8 @@ public class QtxTransactionManager extends DataSourceTransactionManager {
 	@Override
 	protected void doBegin(Object transaction, TransactionDefinition definition) {
 		super.doBegin(transaction, definition);
-		System.out.println("***** QtxTransactionManager.doBegin() *****");
+		System.out.println("***** QtxTransactionManager.doBegin() name:" + definition.getName() + ", :" + definition.toString()
+				+ " *****");
 	}
 	@Override
 	protected void doCommit(DefaultTransactionStatus status) {

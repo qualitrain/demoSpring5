@@ -9,11 +9,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 
 import mx.com.qtx.test.EquipoFutbol;
 
 @SpringBootApplication
 @EnableAspectJAutoProxy
+@EnableJdbcRepositories
 public class DemoApplication implements CommandLineRunner{
 	@Autowired
 	private ApplicationContext context;
@@ -89,9 +91,9 @@ public class DemoApplication implements CommandLineRunner{
 //		testPartidas();
 
 //		torneo.testInserciones();
-		torneo.mostrarJugadores();
+//		torneo.mostrarJugadores();
 		
-		torneo.testActualizaciones();
+//		torneo.testActualizaciones();
 		torneo.testEliminaciones();
 	}
 

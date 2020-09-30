@@ -6,10 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 @Configuration
-public class ConfigBD {
+public class ConfigBD extends AbstractJdbcConfiguration{
 	private static final String NOMBRE_BD = "testspring5";
 	private static final String URL_BD = "jdbc:mysql://localhost:3306/"
 			+ NOMBRE_BD
@@ -21,7 +24,7 @@ public class ConfigBD {
 		System.out.println("********* ConfigBD() *********");
 	}
 	
-	@Bean
+	@Bean("dataSource")
 	public DataSource getDataSource() {
 		 return DataSourceBuilder
 				 	.create()
@@ -31,9 +34,13 @@ public class ConfigBD {
 		 			.build();
 	}
 	@Bean("transactionManager")
-	@Autowired
 	public DataSourceTransactionManager getGestorTransacciones(DataSource dataSource) {
 		return new QtxTransactionManager(dataSource);
 	}
+	
+	@Bean
+    NamedParameterJdbcOperations namedParameterJdbcOperations(DataSource dataSource) { 
+        return new NamedParameterJdbcTemplate(dataSource);
+    }	
 
 }

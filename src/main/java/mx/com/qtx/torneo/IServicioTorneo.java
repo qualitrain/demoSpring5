@@ -13,8 +13,10 @@ public interface IServicioTorneo {
 		IEquipo agregarEquipo(IEquipo equipo);
 		IEquipo getEquipo(String id);
 		IEquipo actualizarEquipo(IEquipo equipoIns);
+		IEquipo actualizarEquipoAgregado(IEquipo equipo);
 		boolean yaExisteEquipo(IEquipo equipo);
 		IEquipo eliminarEquipo(IEquipo eq);
+		IEquipo eliminarEquipoAgregado(IEquipo eq);
 		
 		int generarPartidos();
 		List<Partido> getPartidos();
@@ -26,9 +28,9 @@ public interface IServicioTorneo {
 		Map<String,IArbitro> getArbitros();
 		IArbitro getArbitro(int id);
 		IArbitro agregarArbitro(IArbitro iarbitro);
+		IArbitro eliminarArbitro(IArbitro iarbitro);
 
 		IJugador crearJugador(Map<String, Object> datosJugador);
 		int agregarJugador(IEquipo equipoIns, IJugador jugador);
 		Map<String, IJugador> getJugadores();
-
 }

@@ -8,22 +8,43 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.domain.Persistable;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.MappedCollection;
+
 import mx.com.qtx.torneo.IEquipo;
 import mx.com.qtx.torneo.IJugador;
 
-public class Equipo implements IEquipo{
+public class Equipo implements IEquipo, Persistable<String>{
+	@Id
+	@Column("eq_id")
 	private String id;
+	@Column("eq_nombre")
 	private String nombre;
+	@Column("eq_apodo")
 	private String apodo;
+	@Column("eq_patrocinador")
 	private String patrocinador;
+	@Column("eq_jj")
 	private int jueJugados;
+	@Column("eq_jg")
 	private int jueGanados;
+	@Column("eq_je")
 	private int jueEmpatados;
+	@Column("eq_jp")
 	private int juePerdidos;
+	@Column("eq_puntos")
 	private int puntos;
+	@Column("eq_entrenador")
 	private String entrenador;
 
+	@MappedCollection(idColumn = "jug_id_eq")
 	private Set<Jugador> jugadores;
+	
+	@Transient
+	private int nInserts = 0;
 	
 	public Equipo() {
 		super();
@@ -209,5 +230,15 @@ public class Equipo implements IEquipo{
 		}
 		return 1;
 	}
+
+	@Override
+	public boolean isNew() {
+		if (this.nInserts == 0) {
+			this.nInserts++;
+			return true;
+		}
+		return false;
+	}
+
 
 }

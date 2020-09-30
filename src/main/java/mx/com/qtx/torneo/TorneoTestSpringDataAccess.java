@@ -123,37 +123,37 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 	public void testInserciones() {
 		System.out.println("\n===== test Inserciones =====");
 		Map<String,Object> datosEquipo = new HashMap<>();
-		datosEquipo.put("id", "Morelos");
-		datosEquipo.put("nombre", "Club José María Morelos y Pavón");
-		datosEquipo.put("apodo", "juglares");
+		datosEquipo.put("id", "Oax000");
+		datosEquipo.put("nombre", "Oaxaca 2000 F.C.");
+		datosEquipo.put("apodo", "chapulines");
 		IEquipo equipo =  this.servicioTorneo.crearEquipo(datosEquipo);
 				
 		Map<String,Object> datosJugador = new HashMap<>();
-		datosJugador.put("id", "202000001");
-		datosJugador.put("nombre", "Jorge Zavala Ceballos");
-		datosJugador.put("posicion", "Delantero");
-		datosJugador.put("numero", 18);
-		datosJugador.put("fecNac", FechaUtil.getFecha(1999, 1, 19));
+		datosJugador.put("id", "992000001");
+		datosJugador.put("nombre", "Raul Mora Centeno");
+		datosJugador.put("posicion", "Defensa");
+		datosJugador.put("numero", 5);
+		datosJugador.put("fecNac", FechaUtil.getFecha(1998, 3, 3));
 		IJugador jugador = this.servicioTorneo.crearJugador(datosJugador);
 		equipo.agregarJugador(jugador);
 		jugador.setEquipo(equipo);
 		
 		datosJugador = new HashMap<>();
-		datosJugador.put("id", "202000003");
-		datosJugador.put("nombre", "Martín Zavala Ceballos");
-		datosJugador.put("posicion", "Medio");
-		datosJugador.put("numero", 5);
-		datosJugador.put("fecNac", FechaUtil.getFecha(2000, 1, 6));
+		datosJugador.put("id", "242000003");
+		datosJugador.put("nombre", "Jorge Mora Centeno");
+		datosJugador.put("posicion", "Volante");
+		datosJugador.put("numero", 16);
+		datosJugador.put("fecNac", FechaUtil.getFecha(2000, 4, 1));
 		jugador = this.servicioTorneo.crearJugador(datosJugador);
 		equipo.agregarJugador(jugador);
 		jugador.setEquipo(equipo);
 		
 		datosJugador = new HashMap<>();
-		datosJugador.put("id", "202000005");
-		datosJugador.put("nombre", "Leopoldo García Cantú");
-		datosJugador.put("posicion", "Defensa");
-		datosJugador.put("numero", 3);
-		datosJugador.put("fecNac", FechaUtil.getFecha(2001, 11, 16));
+		datosJugador.put("id", "992000005");
+		datosJugador.put("nombre", "Miguel Garza Cantú");
+		datosJugador.put("posicion", "Extremo izquierdo");
+		datosJugador.put("numero", 4);
+		datosJugador.put("fecNac", FechaUtil.getFecha(2001, 11, 21));
 		jugador = this.servicioTorneo.crearJugador(datosJugador);
 		equipo.agregarJugador(jugador);
 		jugador.setEquipo(equipo);
@@ -185,30 +185,39 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 			datosEquipo.put("nombre", "Club Tlalpan F.C.");
 			datosEquipo.put("apodo", "Coyotes locos");
 			IEquipo equipo =  this.servicioTorneo.crearEquipo(datosEquipo);
-			IEquipo equipoIns = null;
+			IEquipo equipoUpt = null;
 			if(this.servicioTorneo.yaExisteEquipo(equipo) == false) {
-				equipoIns = this.servicioTorneo.agregarEquipo(equipo);
-				System.out.println(equipoIns);
+				equipoUpt = this.servicioTorneo.agregarEquipo(equipo);
+				System.out.println(equipoUpt);
 			}
 			else
-				equipoIns = equipo;
+				equipoUpt = equipo;
 			
 			System.out.println("\n... Modificando");
-			equipoIns.setNombreEquipo("Tlalpan Football Club");
+			equipoUpt.setNombreEquipo("Tlalpan Soccer FC");
 			
 			Map<String,Object> datosJugador = new HashMap<>();
-			datosJugador.put("id", "202000001");
-			datosJugador.put("nombre", "Jorge Zavala Ceballos");
-			datosJugador.put("posicion", "Delantero");
-			datosJugador.put("numero", 18);
-			datosJugador.put("fecNac", FechaUtil.getFecha(1999, 1, 19));
+			datosJugador.put("id", "252000007");
+			datosJugador.put("nombre", "Juan Valle Rizo");
+			datosJugador.put("posicion", "Medio");
+			datosJugador.put("numero", 6);
+			datosJugador.put("fecNac", FechaUtil.getFecha(1999, 2, 8));
 			IJugador jugador = this.servicioTorneo.crearJugador(datosJugador);
 			
-			equipoIns.agregarJugador(jugador);
+			equipoUpt.agregarJugador(jugador);
+			datosJugador = new HashMap<>();
+			datosJugador.put("id", "252000008");
+			datosJugador.put("nombre", "Armando Aranda Zuno");
+			datosJugador.put("posicion", "Defensa");
+			datosJugador.put("numero", 2);
+			datosJugador.put("fecNac", FechaUtil.getFecha(1999, 2, 19));
+			jugador = this.servicioTorneo.crearJugador(datosJugador);
 			
-			this.servicioTorneo.actualizarEquipo(equipoIns);
-			IEquipo equipoAct = this.servicioTorneo.getEquipo("Tlalpan");
-			System.out.println(equipoAct);
+			equipoUpt.agregarJugador(jugador);
+			
+			IEquipo equipoAct = this.servicioTorneo.actualizarEquipoAgregado(equipoUpt);
+//			IEquipo equipoAct = this.servicioTorneo.actualizarEquipo(equipoUpt);
+			System.out.println("Equipo actualizado:" + equipoAct);
 		}
 		catch(Exception ex) {
 			System.out.println("Exception:" + ex.getClass().getName());
@@ -227,9 +236,13 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 			datosEquipo.put("id", "Tlalpan");
 			IEquipo equipo =  this.servicioTorneo.crearEquipo(datosEquipo);
 			if(this.servicioTorneo.yaExisteEquipo(equipo)) {
-				IEquipo equipoBorrado = this.servicioTorneo.eliminarEquipo(equipo);
-				System.out.println(equipoBorrado);
+//				IEquipo equipoBorrado = this.servicioTorneo.eliminarEquipo(equipo);
+				IEquipo equipoBorrado = this.servicioTorneo.eliminarEquipoAgregado(equipo);
+				System.out.println("equipo eliminado: " + equipoBorrado);
 			}
+			Map<String,Object> datosArb = new HashMap<>();
+			datosArb.put("id", 20);
+			this.servicioTorneo.eliminarArbitro(this.servicioTorneo.crearArbitro(datosArb));
 		}
 		catch(Exception ex) {
 			System.out.println("Exception:" + ex.getClass().getName());

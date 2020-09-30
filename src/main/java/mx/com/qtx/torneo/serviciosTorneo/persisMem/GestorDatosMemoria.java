@@ -205,26 +205,32 @@ public class GestorDatosMemoria implements IGestorDatos {
 
 	@Override
 	public IEquipo borrarEquipo(IEquipo eq) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new RuntimeException("Método no soportado");
 	}
 
 	@Override
 	public IEquipo leerEquipoXIDConJugadores(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new RuntimeException("Método no soportado");
 	}
 
 	@Override
 	public IArbitro borrarArbitro(IArbitro arb) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new RuntimeException("Método no soportado");
 	}
 
 	@Override
 	public IJugador borrarJugador(IJugador jug) {
-		// TODO Auto-generated method stub
-		return null;
+		throw new RuntimeException("Método no soportado");
+	}
+
+	@Override
+	public IEquipo insertarEquipoAgregado(IEquipo iequipo) {
+		throw new RuntimeException("Método no soportado");
+	}
+
+	@Override
+	public IEquipo actualizarEquipoAgregado(IEquipo equipo) {
+		throw new RuntimeException("Método no soportado");
 	}
 
 }

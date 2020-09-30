@@ -70,7 +70,7 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 		}
 		
 		List<IJugador> jugadoresDuplicados = new ArrayList<IJugador>();
-		for(IJugador jugI : equipo.getListaJugadores()) {
+		for(IJugador jugI : equipoEnBD.getListaJugadores()) {
 			
 			IJugador jugBD = this.gestorDatos.leerJugadorXID(jugI.getId());
 			if(jugBD != null)
@@ -109,13 +109,14 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 		return equipo;
 	}
 
+	@Override
 	@Transactional
 	public IEquipo actualizarEquipo(IEquipo equipo) {
 		IEquipo equipoEnBD = this.gestorDatos.leerEquipoXID(equipo.getID());
 		if(equipoEnBD == null)
 			throw new EquipoNoExisteException("Actualización rechazada: "
 												+ "Equipo no existe (id=" + equipo.getID() + ")");
-		this.gestorDatos.actualizarEquipo(equipo);
+		equipo = this.gestorDatos.actualizarEquipo(equipo);
 		for(IJugador ijug:equipo.getListaJugadores()) {
 			IJugador jugBD = this.gestorDatos.leerJugadorXID(ijug.getId());
 			if(jugBD == null)
@@ -123,7 +124,17 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 			else
 				this.gestorDatos.actualizarJugador(ijug);
 		}
-		return equipoEnBD;
+		return equipo;
+	}
+	@Override
+	@Transactional
+	public IEquipo actualizarEquipoAgregado(IEquipo equipo) {
+		IEquipo equipoEnBD = this.gestorDatos.leerEquipoXID(equipo.getID());
+		if(equipoEnBD == null)
+			throw new EquipoNoExisteException("Actualización rechazada: "
+												+ "Equipo no existe (id=" + equipo.getID() + ")");
+		equipo = this.gestorDatos.actualizarEquipoAgregado(equipo);
+		return equipo;
 	}
 	@Transactional
 	@Override
@@ -134,6 +145,15 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 		for(IJugador jugI : eqBorrado.getListaJugadores()) {
 			this.gestorDatos.borrarJugador(jugI);
 		}
+		this.gestorDatos.borrarEquipo(eqBorrado);
+		return eqBorrado;
+	}
+	@Transactional
+	@Override
+	public IEquipo eliminarEquipoAgregado(IEquipo eq) {
+		IEquipo eqBorrado = this.gestorDatos.leerEquipoXIDConJugadores(eq.getID());
+		if(eqBorrado == null)
+			return null;
 		this.gestorDatos.borrarEquipo(eqBorrado);
 		return eqBorrado;
 	}
@@ -172,7 +192,8 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 	@Override
 	public Map<String, IArbitro> getArbitros() {
 		HashMap<String,IArbitro> mapArbitros = new HashMap<>();
-		this.gestorDatos.cargarArbitros().forEach(a->mapArbitros.put("" + a.getId(), a));
+		this.gestorDatos.cargarArbitros()
+		                .forEach(a->mapArbitros.put("" + a.getId(), a));
 		return mapArbitros;
 	}
 
@@ -193,13 +214,18 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 		IArbitro iarbitroBD = this.gestorDatos.insertarArbitro(iarbitro);
 		return iarbitroBD;
 	}
+	@Override
+	public IArbitro eliminarArbitro(IArbitro iarbitro) {
+		return this.gestorDatos.borrarArbitro(iarbitro);
+	}
 
 //----------------------------------------------------------------------------------
 
 	@Override
 	public Map<String, IJugador> getJugadores() {
 		HashMap<String,IJugador> mapJugadores = new HashMap<>();
-		this.gestorDatos.cargarJugadores().forEach(j->mapJugadores.put("" + j.getId(), j));
+		this.gestorDatos.cargarJugadores()
+		    .forEach(j->mapJugadores.put("" + j.getId(), j));
 		return mapJugadores;
 	}
 	
