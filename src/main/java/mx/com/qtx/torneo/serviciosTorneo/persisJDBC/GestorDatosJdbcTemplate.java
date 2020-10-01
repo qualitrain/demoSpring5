@@ -3,6 +3,7 @@ package mx.com.qtx.torneo.serviciosTorneo.persisJDBC;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.sql.DataSource;
@@ -374,4 +375,49 @@ public class GestorDatosJdbcTemplate implements IGestorDatos {
 	public IEquipo actualizarEquipoAgregado(IEquipo equipo) {
 		throw new RuntimeException("Método no soportado");
 	}
+
+	@Override
+	public Map<String, List<IJugador>> getJugadoresXposYequipo(String pos) {
+		throw new RuntimeException("Método no soportado");
+	}
+	@Override
+	public List<IJugador> getJugadoresEnUnaUotraPosicion(String pos1, String pos2) {
+		throw new RuntimeException("Método no soportado");
+	}
+
+	@Override
+	public List<IJugador> getJugadoresMasJovenes() {
+		throw new RuntimeException("Método no soportado");
+	}
+
+	@Override
+	public List<IJugador> getJugadoresOrdenados() {
+		throw new RuntimeException("Método no soportado");
+	}
+
+	@Override
+	public List<IJugador> getJugadoresXtitularidad(boolean esTitular) {
+		throw new RuntimeException("Método no soportado");
+	}
+
+	@Override
+	public List<IJugador> getJugadoresPorPagina(int nPag) {
+		throw new RuntimeException("Método no soportado");
+	}
+
+	@Override
+	public List<IJugador> getJugadoresTitularesPorPagina(int nPag) {
+		throw new RuntimeException("Método no soportado");
+	}
+
+	@Override
+	public int getRegsXpagina() {
+		throw new RuntimeException("Método no soportado");
+	}
+
+	@Override
+	public void setRegsXpagina(int regsXpagina) {
+		throw new RuntimeException("Método no soportado");
+	}
+
 }

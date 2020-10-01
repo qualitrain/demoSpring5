@@ -33,4 +33,16 @@ public interface IServicioTorneo {
 		IJugador crearJugador(Map<String, Object> datosJugador);
 		int agregarJugador(IEquipo equipoIns, IJugador jugador);
 		Map<String, IJugador> getJugadores();
+
+		Map<String, List<String>> getJugadoresXeqEnPosicion(String posicion);
+		List<IJugador> getJugadoresEnPosiciones(String pos1, String pos2);
+		List<IJugador> getJugadoresMasJovenes();
+		List<IJugador> getJugadoresOrdenados();
+		List<IJugador> getJugadoresTitulares();
+		List<IJugador> getPaginaJugadores(int nPag);
+		List<IJugador> getPaginaJugadoresTitulares(int nPag);
+
+		List<IJugador> getPaginaJugadores(int tamanioPag, int nPag);
+
+		List<IJugador> getPaginaJugadoresTitulares(int tamanioPag, int nPag);
 }

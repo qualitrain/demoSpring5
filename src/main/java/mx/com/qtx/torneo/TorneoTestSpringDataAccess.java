@@ -123,37 +123,37 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 	public void testInserciones() {
 		System.out.println("\n===== test Inserciones =====");
 		Map<String,Object> datosEquipo = new HashMap<>();
-		datosEquipo.put("id", "Oax000");
-		datosEquipo.put("nombre", "Oaxaca 2000 F.C.");
-		datosEquipo.put("apodo", "chapulines");
+		datosEquipo.put("id", "Oax2000");
+		datosEquipo.put("nombre", "Real Oaxaca 2000 F.C.");
+		datosEquipo.put("apodo", "ornitorrincos");
 		IEquipo equipo =  this.servicioTorneo.crearEquipo(datosEquipo);
 				
 		Map<String,Object> datosJugador = new HashMap<>();
-		datosJugador.put("id", "992000001");
-		datosJugador.put("nombre", "Raul Mora Centeno");
-		datosJugador.put("posicion", "Defensa");
-		datosJugador.put("numero", 5);
-		datosJugador.put("fecNac", FechaUtil.getFecha(1998, 3, 3));
+		datosJugador.put("id", "662000001");
+		datosJugador.put("nombre", "Mario Velarde Mora");
+		datosJugador.put("posicion", "Medio");
+		datosJugador.put("numero", 6);
+		datosJugador.put("fecNac", FechaUtil.getFecha(1999, 3, 13));
 		IJugador jugador = this.servicioTorneo.crearJugador(datosJugador);
 		equipo.agregarJugador(jugador);
 		jugador.setEquipo(equipo);
 		
 		datosJugador = new HashMap<>();
-		datosJugador.put("id", "242000003");
-		datosJugador.put("nombre", "Jorge Mora Centeno");
+		datosJugador.put("id", "662000077");
+		datosJugador.put("nombre", "Jorge Valdano Pérez");
 		datosJugador.put("posicion", "Volante");
-		datosJugador.put("numero", 16);
+		datosJugador.put("numero", 7);
 		datosJugador.put("fecNac", FechaUtil.getFecha(2000, 4, 1));
 		jugador = this.servicioTorneo.crearJugador(datosJugador);
 		equipo.agregarJugador(jugador);
 		jugador.setEquipo(equipo);
 		
 		datosJugador = new HashMap<>();
-		datosJugador.put("id", "992000005");
-		datosJugador.put("nombre", "Miguel Garza Cantú");
-		datosJugador.put("posicion", "Extremo izquierdo");
-		datosJugador.put("numero", 4);
-		datosJugador.put("fecNac", FechaUtil.getFecha(2001, 11, 21));
+		datosJugador.put("id", "662000005");
+		datosJugador.put("nombre", "Ramón Ramírez Galarza");
+		datosJugador.put("posicion", "Lateral izquierdo");
+		datosJugador.put("numero", 5);
+		datosJugador.put("fecNac", FechaUtil.getFecha(2000, 10, 10));
 		jugador = this.servicioTorneo.crearJugador(datosJugador);
 		equipo.agregarJugador(jugador);
 		jugador.setEquipo(equipo);
@@ -169,8 +169,8 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 		
 		Map<String,Object> datosArbitro = new HashMap<>();
 		datosArbitro = new HashMap<>();
-		datosArbitro.put("nombre", "Jeremías Jara Jiménez");
-		datosArbitro.put("fecNac", FechaUtil.getFecha(1990, 4, 29));
+		datosArbitro.put("nombre", "Mauricio Jara Limón");
+		datosArbitro.put("fecNac", FechaUtil.getFecha(1992, 5, 5));
 		IArbitro arbitro = this.servicioTorneo.crearArbitro(datosArbitro);
 		IArbitro arbitroBD = this.servicioTorneo.agregarArbitro(arbitro);
 		System.out.println("Se ha insertado al arbitro " + arbitroBD);
@@ -251,6 +251,72 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 				System.out.println("Causa:" + ex.getClass().getName());
 			}
 		}
+	}
+	@Override
+	public void testConsultas() {
+		System.out.println("\n===== test Consultas =====");
+		String posicion = "Defensa";
+		
+		System.out.println("Jugadores por equipo que ocupan la posición de " + posicion);
+		this.servicioTorneo.getJugadoresXeqEnPosicion(posicion)
+		                   .forEach((k,v)->System.out.println("Eq:" + k + ", jugadores:" + v));
+		
+		String posicion2 = "Delantero";
+		System.out.println("\nJugadores que juegan en posiciones de " + posicion + " o de " + posicion2);
+		this.servicioTorneo.getJugadoresEnPosiciones(posicion, posicion2)
+		                   .forEach(j -> System.out.println(j.getNombre() + "(" + j.getPosicion() + ")"));
+		
+		System.out.println("\nJugadores más jóvenes" );
+		this.servicioTorneo.getJugadoresMasJovenes()
+		                   .forEach(j -> System.out.println(j.getNombre() + "(" + j.getFecNac() + ")"));
+		
+		System.out.println("\nJugadores ordenados por fecha de nacimiento y nombre" );
+		this.servicioTorneo.getJugadoresOrdenados()
+		                   .forEach(j -> System.out.printf("%-35s %10s\n",j.getNombre(), j.getFecNac()));
+		
+		System.out.println("\nJugadores titulares ordenados por posición y nombre" );
+		this.servicioTorneo.getJugadoresTitulares()
+		                   .forEach(j -> System.out.printf("%-16s %-35s\n",j.getPosicion(), j.getNombre() ));
+		
+		int nPag=0;
+		for(; ;nPag++) {
+			List<IJugador> pagI = this.servicioTorneo.getPaginaJugadores(nPag);
+			if (pagI.isEmpty())
+				break;
+			System.out.println("\nJugadores página " + nPag + " (c/pag es de 3 renglones)" );
+			pagI.forEach(j -> System.out.printf("%10s %-16s %-35s\n", j.getId(), j.getPosicion(), j.getNombre() ));
+		}
+		
+		nPag=0;
+		for(; ;nPag++) {
+			List<IJugador> pagI = this.servicioTorneo.getPaginaJugadoresTitulares(nPag);
+			if (pagI.isEmpty())
+				break;
+			System.out.println("\nJugadores titular página " + nPag + " (c/slice es de 3 renglones)" );
+			pagI.forEach(j -> System.out.printf("%10s %-16s %-35s\n", j.getId(), j.getPosicion(), j.getNombre() ));
+		}
+		nPag=0;
+		int tamPag = 6;
+		for(; ;nPag++) {
+			List<IJugador> pagI = this.servicioTorneo.getPaginaJugadores(tamPag, nPag);
+			if (pagI.isEmpty())
+				break;
+			System.out.println("\nJugadores página " + nPag + " (c/pag es de "
+					+ tamPag + " renglones)" );
+			pagI.forEach(j -> System.out.printf("%10s %-16s %-35s\n", j.getId(), j.getPosicion(), j.getNombre() ));
+		}
+		
+		nPag=0;
+		tamPag = 4;
+		for(; ;nPag++) {
+			List<IJugador> pagI = this.servicioTorneo.getPaginaJugadoresTitulares(tamPag, nPag);
+			if (pagI.isEmpty())
+				break;
+			System.out.println("\nJugadores titulares página " + nPag + " (c/página es de "
+					+ tamPag + " renglones)" );
+			pagI.forEach(j -> System.out.printf("%10s %-16s %-35s\n", j.getId(), j.getPosicion(), j.getNombre() ));
+		}
+
 	}
 
 }

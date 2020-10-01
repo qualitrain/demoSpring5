@@ -1,12 +1,17 @@
 package mx.com.qtx.torneo.serviciosTorneo.persisJdbcRep;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import mx.com.qtx.torneo.IArbitro;
@@ -20,6 +25,7 @@ import mx.com.qtx.torneo.serviciosTorneo.entidades.Jugador;
 @Primary
 @Repository
 public class GestorDatosJdbcRepository implements IGestorDatos {
+	private static int regsXpagina = 3;
 	
 	@Autowired
 	private ICrudRepositoryEquipo repEquipo;
@@ -29,6 +35,19 @@ public class GestorDatosJdbcRepository implements IGestorDatos {
 
 	@Autowired
 	private ICrudRepositoryArbitro repArbitro;
+	
+	@Autowired
+	private IPageAndSortRepositoryJugador repPsJugador;
+
+	@Override
+	public int getRegsXpagina() {
+		return GestorDatosJdbcRepository.regsXpagina;
+	}
+
+	@Override
+	public void setRegsXpagina(int regsXpagina) {
+		GestorDatosJdbcRepository.regsXpagina = regsXpagina;
+	}
 
 	@Override
 	public List<IEquipo> cargarEquipos() {
@@ -204,6 +223,73 @@ public class GestorDatosJdbcRepository implements IGestorDatos {
 		Jugador jug = (Jugador) ijug;
 		this.repJugador.delete(jug);
 		return jug;
+	}
+	
+	@Override
+	public Map<String,List<IJugador>> getJugadoresXposYequipo(String pos){
+		Map<String,List<IJugador>> mapEquipoJugadoresEnPos = new HashMap<>();
+		List<String> idsEquipos = this.repPsJugador.findDistinctIdEquipoBy();
+
+		for(String idEquipoI : idsEquipos) {
+			List<IJugador> listJugadores = new ArrayList<>();
+			this.repPsJugador.findByPosicionAndIdEquipo(pos, idEquipoI)
+			                 .forEach(j->listJugadores.add(j));
+			mapEquipoJugadoresEnPos.put(idEquipoI, listJugadores);
+		}
+		return mapEquipoJugadoresEnPos;
+	}
+
+	@Override
+	public List<IJugador> getJugadoresEnUnaUotraPosicion(String pos1, String pos2){
+		List<IJugador> lstJugadores = new ArrayList<>();
+		this.repPsJugador.findByPosicionOrPosicionOrderByPosicion(pos1, pos2)
+		                 .forEach(j->lstJugadores.add(j));
+		return lstJugadores;
+	}
+	@Override
+	public List<IJugador> getJugadoresMasJovenes(){
+		List<IJugador> lstJugadores = new ArrayList<>();
+		this.repPsJugador.findFirst5ByOrderByFecNacDesc()
+		                 .forEach(j->lstJugadores.add(j));
+		return lstJugadores;
+	}
+	
+	@Override
+	public List<IJugador> getJugadoresOrdenados(){
+		List<IJugador> lstJugadores = new ArrayList<>();
+		Sort ordenamiento = Sort.by("fecNac").descending()
+				                .and(Sort.by("nombre").ascending());
+		this.repPsJugador.findAll(ordenamiento)
+		                 .forEach(j->lstJugadores.add(j));
+		return lstJugadores;		
+	}
+	@Override
+	public List<IJugador> getJugadoresXtitularidad(boolean esTitular){
+		List<IJugador> lstJugadores = new ArrayList<>();
+		Sort ordenamiento = Sort.by("posicion","nombre");
+		this.repPsJugador.findByTitular(true, ordenamiento)
+		                 .forEach(j->lstJugadores.add(j));
+		return lstJugadores;		
+	}
+	@Override
+	public List<IJugador> getJugadoresPorPagina(int nPag){
+		List<IJugador> lstJugadores = new ArrayList<>();
+		Sort ordenamiento = Sort.by("nombre");
+		Pageable paginable = PageRequest.of(nPag, GestorDatosJdbcRepository.regsXpagina, ordenamiento);
+		this.repPsJugador.findAll(paginable)
+		                 .toList().forEach(j->lstJugadores.add(j));
+		return lstJugadores;		
+	}
+	@Override
+	public List<IJugador> getJugadoresTitularesPorPagina(int nPag){ 
+//		System.out.println("***** GestorDatosJdbcRepository.getJugadoresTitularesPorSlice("	+ nPag + ") *****");
+		List<IJugador> lstJugadores = new ArrayList<>();
+		Sort ordenamiento = Sort.by("nombre");
+		Pageable paginable = PageRequest.of(nPag, GestorDatosJdbcRepository.regsXpagina, ordenamiento);
+		List<Jugador> slice = this.repPsJugador.findByTitular( true, paginable );
+		slice.forEach(j->lstJugadores.add(j));
+		                 
+		return lstJugadores;		
 	}
 
 }

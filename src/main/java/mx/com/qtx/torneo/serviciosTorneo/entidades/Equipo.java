@@ -10,10 +10,13 @@ import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.domain.AfterDomainEventPublication;
+import org.springframework.data.domain.DomainEvents;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 
+import mx.com.qtx.torneo.EvtUpdateIEquipo;
 import mx.com.qtx.torneo.IEquipo;
 import mx.com.qtx.torneo.IJugador;
 
@@ -238,6 +241,14 @@ public class Equipo implements IEquipo, Persistable<String>{
 			return true;
 		}
 		return false;
+	}
+	@DomainEvents
+	public EvtUpdateIEquipo avisarSave() {
+		return new EvtUpdateIEquipo(this);
+	}
+	@AfterDomainEventPublication
+	public void postProcesoEvtUpdateEquipo() {
+		System.out.println("***** Equipo.postProcesoEvtUpdateEquipo() *****");
 	}
 
 

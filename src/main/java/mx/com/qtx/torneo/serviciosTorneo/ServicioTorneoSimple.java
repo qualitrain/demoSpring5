@@ -255,6 +255,51 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 		return 1;
 	}
 
+	@Override
+	public Map<String,List<String>> getJugadoresXeqEnPosicion(String posicion){
+		Map<String,List<String>> mapEquipNomJugadores = new HashMap<>();
+		Map<String, List<IJugador>> mapEquipJugadores = this.gestorDatos.getJugadoresXposYequipo(posicion);
+		for(String idEqI : mapEquipJugadores.keySet()) {
+			List<String> lstNomJugadores = new ArrayList<>();
+			mapEquipJugadores.get(idEqI).forEach(j->lstNomJugadores.add(j.getNombre()));
+			mapEquipNomJugadores.put(idEqI, lstNomJugadores);
+		}
+		return mapEquipNomJugadores;
+	}
 
+	@Override
+	public List<IJugador> getJugadoresEnPosiciones(String pos1, String pos2){
+		return this.gestorDatos.getJugadoresEnUnaUotraPosicion(pos1, pos2);
+	}
+	@Override
+	public List<IJugador> getJugadoresMasJovenes(){
+		return this.gestorDatos.getJugadoresMasJovenes();
+	}
+	@Override
+	public List<IJugador> getJugadoresOrdenados(){
+		return this.gestorDatos.getJugadoresOrdenados();
+	}
+	@Override
+	public List<IJugador> getJugadoresTitulares(){
+		return this.gestorDatos.getJugadoresXtitularidad(true);				
+	}
+	@Override
+	public List<IJugador> getPaginaJugadores(int nPag){
+		return this.gestorDatos.getJugadoresPorPagina(nPag);	
+	}
+	@Override
+	public List<IJugador> getPaginaJugadoresTitulares(int nPag){
+		return this.gestorDatos.getJugadoresTitularesPorPagina(nPag);	
+	}
+	@Override
+	public List<IJugador> getPaginaJugadores(int tamanioPag, int nPag){
+		this.gestorDatos.setRegsXpagina(tamanioPag);
+		return this.gestorDatos.getJugadoresPorPagina(nPag);	
+	}
+	@Override
+	public List<IJugador> getPaginaJugadoresTitulares(int tamanioPag, int nPag){
+		this.gestorDatos.setRegsXpagina(tamanioPag);
+		return this.gestorDatos.getJugadoresTitularesPorPagina(nPag);	
+	}
 
 }
