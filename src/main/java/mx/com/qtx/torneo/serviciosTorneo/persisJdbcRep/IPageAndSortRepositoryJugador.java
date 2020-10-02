@@ -14,6 +14,7 @@ public interface IPageAndSortRepositoryJugador extends PagingAndSortingRepositor
 	List<Jugador> findByPosicionOrPosicionOrderByPosicion(String pos1, String pos2);
 	List<Jugador> findFirst5ByOrderByFecNacDesc();
 	
+	List<Jugador> findByTitularTrue(); 
 	List<Jugador> findByTitular(boolean titular, Sort sort); //Recibe un clasificador dinámico
 	List<Jugador> findByTitular(boolean titular, Pageable paginable); //Devuelve una página 
 	

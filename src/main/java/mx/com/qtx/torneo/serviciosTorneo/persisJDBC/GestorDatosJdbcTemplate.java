@@ -420,4 +420,9 @@ public class GestorDatosJdbcTemplate implements IGestorDatos {
 		throw new RuntimeException("Método no soportado");
 	}
 
+	@Override
+	public List<IJugador> getJugadoresTitulares() {
+		throw new RuntimeException("Método no soportado");
+	}
+
 }

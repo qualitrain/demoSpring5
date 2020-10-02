@@ -272,6 +272,13 @@ public class GestorDatosJdbcRepository implements IGestorDatos {
 		return lstJugadores;		
 	}
 	@Override
+	public List<IJugador> getJugadoresTitulares(){
+		List<IJugador> lstJugadores = new ArrayList<>();
+		this.repPsJugador.findByTitularTrue()
+		                 .forEach(j->lstJugadores.add(j));
+		return lstJugadores;		
+	}
+	@Override
 	public List<IJugador> getJugadoresPorPagina(int nPag){
 		List<IJugador> lstJugadores = new ArrayList<>();
 		Sort ordenamiento = Sort.by("nombre");

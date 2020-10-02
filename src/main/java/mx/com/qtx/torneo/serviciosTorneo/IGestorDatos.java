@@ -40,4 +40,5 @@ public interface IGestorDatos {
 	
 	int getRegsXpagina();
 	void setRegsXpagina(int regsXpagina);
+	List<IJugador> getJugadoresTitulares();
 }

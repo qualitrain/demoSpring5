@@ -276,4 +276,9 @@ public class GestorDatosMemoria implements IGestorDatos {
 	public void setRegsXpagina(int regsXpagina) {
 		throw new RuntimeException("Método no soportado");
 	}
+
+	@Override
+	public List<IJugador> getJugadoresTitulares() {
+		throw new RuntimeException("Método no soportado");
+	}
 }

@@ -282,6 +282,7 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 	@Override
 	public List<IJugador> getJugadoresTitulares(){
 		return this.gestorDatos.getJugadoresXtitularidad(true);				
+//		return this.gestorDatos.getJugadoresTitulares();				
 	}
 	@Override
 	public List<IJugador> getPaginaJugadores(int nPag){
