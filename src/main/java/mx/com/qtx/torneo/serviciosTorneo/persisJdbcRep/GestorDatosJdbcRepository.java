@@ -293,8 +293,8 @@ public class GestorDatosJdbcRepository implements IGestorDatos {
 		List<IJugador> lstJugadores = new ArrayList<>();
 		Sort ordenamiento = Sort.by("nombre");
 		Pageable paginable = PageRequest.of(nPag, GestorDatosJdbcRepository.regsXpagina, ordenamiento);
-		List<Jugador> slice = this.repPsJugador.findByTitular( true, paginable );
-		slice.forEach(j->lstJugadores.add(j));
+		List<Jugador> lstJugadoresPag = this.repPsJugador.findByTitular( true, paginable );
+		lstJugadoresPag.forEach(j->lstJugadores.add(j));
 		                 
 		return lstJugadores;		
 	}

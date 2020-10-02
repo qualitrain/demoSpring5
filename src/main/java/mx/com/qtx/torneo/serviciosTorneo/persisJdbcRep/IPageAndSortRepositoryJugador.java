@@ -16,7 +16,7 @@ public interface IPageAndSortRepositoryJugador extends PagingAndSortingRepositor
 	
 	List<Jugador> findByTitularTrue(); 
 	List<Jugador> findByTitular(boolean titular, Sort sort); //Recibe un clasificador dinámico
-	List<Jugador> findByTitular(boolean titular, Pageable paginable); //Devuelve una página 
+	List<Jugador> findByTitular(boolean titular, Pageable paginable); //Pagina 
 	
 	@Query("SELECT distinct jug_id_eq FROM jugador")
 	List<String> findDistinctIdEquipoBy();
