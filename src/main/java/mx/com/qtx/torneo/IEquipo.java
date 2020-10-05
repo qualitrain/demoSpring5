@@ -3,7 +3,7 @@ package mx.com.qtx.torneo;
 import java.util.List;
 import java.util.Map;
 
-import mx.com.qtx.torneo.serviciosTorneo.entidades.Jugador;
+import mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades.Jugador;
 
 public interface IEquipo {
 	

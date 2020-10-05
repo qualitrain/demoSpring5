@@ -2,14 +2,12 @@ package mx.com.qtx.torneo;
 
 import org.springframework.context.ApplicationEvent;
 
-import mx.com.qtx.torneo.serviciosTorneo.entidades.Equipo;
-
 public class EvtUpdateIEquipo extends ApplicationEvent {
 	private static final long serialVersionUID = 1L;
 	
 	private IEquipo eqUpdated;
 
-	public EvtUpdateIEquipo(Equipo eq) {
+	public EvtUpdateIEquipo(IEquipo eq) {
 		super(eq);
 		this.eqUpdated = eq;
 	}
@@ -18,7 +16,7 @@ public class EvtUpdateIEquipo extends ApplicationEvent {
 		return eqUpdated;
 	}
 
-	public void setEqUpdated(Equipo eqUpdated) {
+	public void setEqUpdated(IEquipo eqUpdated) {
 		this.eqUpdated = eqUpdated;
 	}
 

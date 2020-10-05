@@ -7,7 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-import mx.com.qtx.torneo.serviciosTorneo.entidades.Jugador;
+import mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades.Jugador;
 
 public interface IPageAndSortRepositoryJugador extends PagingAndSortingRepository<Jugador, String> {
 	List<Jugador> findByPosicionAndIdEquipo(String posicion, String idEquipo);

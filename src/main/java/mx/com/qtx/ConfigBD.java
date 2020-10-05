@@ -1,15 +1,18 @@
 package mx.com.qtx;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.orm.jpa.JpaTransactionManager;
 
 @Configuration
 public class ConfigBD extends AbstractJdbcConfiguration{
@@ -26,16 +29,46 @@ public class ConfigBD extends AbstractJdbcConfiguration{
 	
 	@Bean("dataSource")
 	public DataSource getDataSource() {
-		 return DataSourceBuilder
+		DataSource dataSource =  DataSourceBuilder
 				 	.create()
 				 	.url(URL_BD)
 		 			.username(USER_BD)
 		 			.password(PASSWD_BD)
 		 			.build();
+		System.out.println("***** ConfigBD.getDataSource() clase utilizada:" + dataSource.getClass().getName()
+				+ " *****");
+		return dataSource;
+	}
+	
+	@Primary
+	@Bean("dataSourceProp")
+	@ConfigurationProperties("qtx.datasource")
+	public DataSource getDataSourceProp() {
+		DataSource dataSource =  DataSourceBuilder
+				 	.create()
+		 			.build();
+		System.out.println("***** ConfigBD.getDataSourceProp() clase utilizada:" + dataSource.getClass().getName()
+				+ " *****");
+		return dataSource;
+	}
+	
+	@Bean("transactionManagerMon")
+	public DataSourceTransactionManager getGestorTransaccionesDSmon(DataSource dataSource) {
+		return new QtxTransactionManager(dataSource);
 	}
 	@Bean("transactionManager")
-	public DataSourceTransactionManager getGestorTransacciones(DataSource dataSource) {
-		return new QtxTransactionManager(dataSource);
+	public DataSourceTransactionManager getGestorTransaccionesDS(DataSource dataSource) {
+		return new DataSourceTransactionManager(dataSource);
+	}
+	
+	@Bean("gestorTransaccionesJPAmon")
+	public QtxJpaTxManager getGestorTransaccionesJPAmon(EntityManagerFactory emf) {
+		return new QtxJpaTxManager(emf);
+	}
+	@Bean("gestorTransaccionesJPA")
+	@Primary
+	public JpaTransactionManager getGestorTransaccionesJPA(EntityManagerFactory emf) {
+		return new JpaTransactionManager(emf);
 	}
 	
 	@Bean

@@ -41,4 +41,8 @@ public interface IGestorDatos {
 	int getRegsXpagina();
 	void setRegsXpagina(int regsXpagina);
 	List<IJugador> getJugadoresTitulares();
+	
+	IArbitro crearArbitro(Map<String, Object> datosArbitro);
+	IEquipo crearEquipo(Map<String, Object> mapDatos);
+	IJugador crearJugador(Map<String, Object> datosJugador);
 }

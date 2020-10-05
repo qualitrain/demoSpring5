@@ -1,4 +1,4 @@
-package mx.com.qtx.torneo.serviciosTorneo.entidades;
+package mx.com.qtx.torneo.serviciosTorneo.jpa.entidades;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,46 +8,46 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.data.domain.DomainEvents;
-import org.springframework.data.domain.Persistable;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.MappedCollection;
 
 import mx.com.qtx.torneo.EvtUpdateIEquipo;
 import mx.com.qtx.torneo.IEquipo;
 import mx.com.qtx.torneo.IJugador;
 
-public class Equipo implements IEquipo, Persistable<String>{
+@Entity
+public class Equipo implements IEquipo{
 	@Id
-	@Column("eq_id")
+	@Column(name="eq_id")
 	private String id;
-	@Column("eq_nombre")
+	@Column(name="eq_nombre")
 	private String nombre;
-	@Column("eq_apodo")
+	@Column(name="eq_apodo")
 	private String apodo;
-	@Column("eq_patrocinador")
+	@Column(name="eq_patrocinador")
 	private String patrocinador;
-	@Column("eq_jj")
+	@Column(name="eq_jj")
 	private int jueJugados;
-	@Column("eq_jg")
+	@Column(name="eq_jg")
 	private int jueGanados;
-	@Column("eq_je")
+	@Column(name="eq_je")
 	private int jueEmpatados;
-	@Column("eq_jp")
+	@Column(name="eq_jp")
 	private int juePerdidos;
-	@Column("eq_puntos")
+	@Column(name="eq_puntos")
 	private int puntos;
-	@Column("eq_entrenador")
+	@Column(name="eq_entrenador")
 	private String entrenador;
 
-	@MappedCollection(idColumn = "jug_id_eq")
+	@OneToMany(mappedBy="equipo", fetch = FetchType.EAGER)
 	private Set<Jugador> jugadores;
 	
-	@Transient
-	private int nInserts = 0;
 	
 	public Equipo() {
 		super();
@@ -63,6 +63,20 @@ public class Equipo implements IEquipo, Persistable<String>{
 		this.jugadores = new HashSet<>();
 		this.patrocinador = "vacante";
 		this.entrenador = "vacante";
+	}
+
+	public static IEquipo crearEquipo(Map<String, Object> mapDatos) {
+		Equipo equipo = new Equipo();
+		String id = (String) mapDatos.get("id");
+		if(id == null)
+			return null;
+		equipo.setId(id);
+		equipo.setApodo((String) mapDatos.getOrDefault("apodo",""));
+		equipo.setNombre((String) mapDatos.getOrDefault("nombre","no especificado"));
+		equipo.setEntrenador((String) mapDatos.getOrDefault("entrenador", "no especificado"));
+		equipo.setPatrocinador((String) mapDatos.getOrDefault("patrocinador", "no especificado"));
+		equipo.setJugadores((Set<Jugador>) mapDatos.getOrDefault("jugadores", new HashSet<Jugador>()));
+		return equipo;
 	}
 
 	public String getId() {
@@ -234,14 +248,6 @@ public class Equipo implements IEquipo, Persistable<String>{
 		return 1;
 	}
 
-	@Override
-	public boolean isNew() {
-		if (this.nInserts == 0) {
-			this.nInserts++;
-			return true;
-		}
-		return false;
-	}
 	@DomainEvents
 	public EvtUpdateIEquipo avisarSave() {
 		return new EvtUpdateIEquipo(this);

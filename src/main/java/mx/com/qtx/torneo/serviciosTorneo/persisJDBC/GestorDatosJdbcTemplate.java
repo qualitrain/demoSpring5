@@ -21,9 +21,9 @@ import mx.com.qtx.torneo.IEquipo;
 import mx.com.qtx.torneo.IJugador;
 import mx.com.qtx.torneo.serviciosTorneo.IGestorDatos;
 import mx.com.qtx.torneo.serviciosTorneo.PersistenciaException;
-import mx.com.qtx.torneo.serviciosTorneo.entidades.Arbitro;
-import mx.com.qtx.torneo.serviciosTorneo.entidades.Equipo;
-import mx.com.qtx.torneo.serviciosTorneo.entidades.Jugador;
+import mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades.Arbitro;
+import mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades.Equipo;
+import mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades.Jugador;
 
 //@Primary
 @Repository
@@ -38,6 +38,10 @@ public class GestorDatosJdbcTemplate implements IGestorDatos {
 		this.jdbcTemplate = new JdbcTemplate(this.dataSource);
 	}
 
+	@Override
+	public IEquipo crearEquipo(Map<String, Object> mapDatos) {
+		return Equipo.crearEquipo(mapDatos);
+	}
 	@Override
 	public List<IEquipo> cargarEquipos() {
 		try {
@@ -179,6 +183,10 @@ public class GestorDatosJdbcTemplate implements IGestorDatos {
 
 
 	@Override
+	public IArbitro crearArbitro(Map<String, Object> datosArbitro) {
+		return Arbitro.crearArbitro(datosArbitro);
+	}
+	@Override
 	public List<IArbitro> cargarArbitros() {
 		try {
 			String sql = "select ar_id, ar_nombre, ar_fecnac from arbitro";
@@ -261,6 +269,10 @@ public class GestorDatosJdbcTemplate implements IGestorDatos {
 		return arbitroBD;
 	}
 
+	@Override
+	public IJugador crearJugador(Map<String, Object> datosJugador) {
+		return Jugador.crearJugador(datosJugador);
+	}
 	@Override
 	public List<IJugador> cargarJugadores() {
 		try {

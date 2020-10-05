@@ -5,8 +5,8 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import mx.com.qtx.torneo.serviciosTorneo.entidades.Equipo;
-import mx.com.qtx.torneo.serviciosTorneo.entidades.Jugador;
+import mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades.Equipo;
+import mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades.Jugador;
 
 public class RowMapperJugador implements RowMapper<Jugador> {
 

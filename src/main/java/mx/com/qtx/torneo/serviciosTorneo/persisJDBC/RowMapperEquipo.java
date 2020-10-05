@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import mx.com.qtx.torneo.serviciosTorneo.entidades.Equipo;
+import mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades.Equipo;
 
 public class RowMapperEquipo implements RowMapper<Equipo> {
 

@@ -3,10 +3,8 @@ package mx.com.qtx.torneo.serviciosTorneo;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,9 +15,7 @@ import mx.com.qtx.torneo.IEquipo;
 import mx.com.qtx.torneo.IJugador;
 import mx.com.qtx.torneo.IServicioTorneo;
 import mx.com.qtx.torneo.entidades.Partido;
-import mx.com.qtx.torneo.serviciosTorneo.entidades.Arbitro;
-import mx.com.qtx.torneo.serviciosTorneo.entidades.Equipo;
-import mx.com.qtx.torneo.serviciosTorneo.entidades.Jugador;
+//import mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades.Jugador;
 
 @Service
 public class ServicioTorneoSimple implements IServicioTorneo {
@@ -64,7 +60,7 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 			throw new EquipoYaExisteException("Insercion rechazada: Ya existe un equipo con el mismo id ("
 					+ equipo + ") en base de datos");
 		
-		equipoEnBD = this.gestorDatos.insertarEquipo(equipo);
+		equipoEnBD = this.gestorDatos.insertarEquipo( equipo );
 		if(equipo.getNumJugadores() == 0) {
 			return equipoEnBD;
 		}
@@ -96,17 +92,7 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 	
 	@Override
 	public IEquipo crearEquipo(Map<String, Object> mapDatos) {
-		Equipo equipo = new Equipo();
-		String id = (String) mapDatos.get("id");
-		if(id == null)
-			return null;
-		equipo.setId(id);
-		equipo.setApodo((String) mapDatos.getOrDefault("apodo",""));
-		equipo.setNombre((String) mapDatos.getOrDefault("nombre","no especificado"));
-		equipo.setEntrenador((String) mapDatos.getOrDefault("entrenador", "no especificado"));
-		equipo.setPatrocinador((String) mapDatos.getOrDefault("patrocinador", "no especificado"));
-		equipo.setJugadores((Set<Jugador>) mapDatos.getOrDefault("jugadores", new HashSet<Jugador>()));
-		return equipo;
+		return this.gestorDatos.crearEquipo(mapDatos);
 	}
 
 	@Override
@@ -203,10 +189,7 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 	}
 	@Override
 	public IArbitro crearArbitro(Map<String, Object> datosArbitro) {
-		Arbitro arbitro = new Arbitro();
-		arbitro.setNombre((String) datosArbitro.getOrDefault("nombre", "indefinido"));
-		arbitro.setFecNac((Date) datosArbitro.getOrDefault("fecNac", new Date()));
-		return arbitro;
+		return this.gestorDatos.crearArbitro(datosArbitro);
 	}
 	
 	@Override
@@ -231,19 +214,7 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 	
 	@Override
 	public IJugador crearJugador(Map<String, Object> datosJugador) {
-		Jugador jugador = new Jugador();
-		String id = (String) datosJugador.get("id");
-		if(id == null)
-			return null;
-		jugador.setId(id);
-		jugador.setNombre((String) datosJugador.getOrDefault("nombre", "indefinido"));
-		jugador.setFecNac((Date) datosJugador.getOrDefault("fecNac", new Date()));
-		jugador.setNumero((int) datosJugador.getOrDefault("numero", 1000));
-		jugador.setPosicion((String) datosJugador.getOrDefault("posicion", "indefinida"));
-		jugador.setTitular((boolean) datosJugador.getOrDefault("titular", false));
-		jugador.setSuspendido((boolean) datosJugador.getOrDefault("suspendido", false));
-		jugador.setLesionado((boolean) datosJugador.getOrDefault("lesionado", false));
-		return jugador;
+		return this.gestorDatos.crearJugador(datosJugador);
 	}
 
 	@Override

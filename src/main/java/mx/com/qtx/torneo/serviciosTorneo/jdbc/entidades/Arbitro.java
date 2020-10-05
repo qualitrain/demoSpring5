@@ -1,12 +1,15 @@
-package mx.com.qtx.torneo.serviciosTorneo.entidades;
+package mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades;
 
 import java.util.Date;
+import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 import mx.com.qtx.torneo.IArbitro;
 
+@Table
 public class Arbitro implements IArbitro{
 	@Id
 	@Column("ar_id")
@@ -31,6 +34,13 @@ public class Arbitro implements IArbitro{
 		return new Arbitro(id,this.nombre, this.fecNac);
 	}
 
+	public static IArbitro crearArbitro(Map<String, Object> datosArbitro) {
+		Arbitro arbitro = new Arbitro();
+		arbitro.setNombre((String) datosArbitro.getOrDefault("nombre", "indefinido"));
+		arbitro.setFecNac((Date) datosArbitro.getOrDefault("fecNac", new Date()));
+		return arbitro;
+	}
+	
 	@Override
 	public String getNombre() {
 		return this.nombre;
@@ -60,5 +70,6 @@ public class Arbitro implements IArbitro{
 	public String toString() {
 		return "Arbitro [id=" + id + ", nombre=" + nombre + ", fecNac=" + fecNac + "]";
 	}
+	
 
 }

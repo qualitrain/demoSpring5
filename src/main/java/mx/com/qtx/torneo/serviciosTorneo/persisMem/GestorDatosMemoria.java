@@ -1,6 +1,7 @@
 package mx.com.qtx.torneo.serviciosTorneo.persisMem;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,9 +12,9 @@ import mx.com.qtx.torneo.IArbitro;
 import mx.com.qtx.torneo.IEquipo;
 import mx.com.qtx.torneo.IJugador;
 import mx.com.qtx.torneo.serviciosTorneo.IGestorDatos;
-import mx.com.qtx.torneo.serviciosTorneo.entidades.Arbitro;
-import mx.com.qtx.torneo.serviciosTorneo.entidades.Equipo;
-import mx.com.qtx.torneo.serviciosTorneo.entidades.Jugador;
+import mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades.Arbitro;
+import mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades.Equipo;
+import mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades.Jugador;
 import mx.com.qtx.util.FechaUtil;
 
 @Repository
@@ -26,7 +27,19 @@ public class GestorDatosMemoria implements IGestorDatos {
 		this.bdArbitros = this.cargarDatosMemArbitros();
 		this.bdEquipos = this.cargarDatosMemEquipos();
 	}
-
+	
+	@Override
+	public IArbitro crearArbitro(Map<String, Object> datosArbitro) {
+		return Arbitro.crearArbitro(datosArbitro);
+	}
+	@Override
+	public IEquipo crearEquipo(Map<String, Object> mapDatos) {
+		return Equipo.crearEquipo(mapDatos);
+	}
+	@Override
+	public IJugador crearJugador(Map<String, Object> datosJugador) {
+		return Jugador.crearJugador(datosJugador);
+	}
 	private Map<String, IEquipo> cargarDatosMemEquipos() {
 		HashMap<String, IEquipo> mapEquipos = new HashMap<>();
 		HashMap<String, IJugador> mapJugadores = new HashMap<>();

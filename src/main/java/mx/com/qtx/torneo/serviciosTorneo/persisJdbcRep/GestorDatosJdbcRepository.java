@@ -18,11 +18,11 @@ import mx.com.qtx.torneo.IArbitro;
 import mx.com.qtx.torneo.IEquipo;
 import mx.com.qtx.torneo.IJugador;
 import mx.com.qtx.torneo.serviciosTorneo.IGestorDatos;
-import mx.com.qtx.torneo.serviciosTorneo.entidades.Arbitro;
-import mx.com.qtx.torneo.serviciosTorneo.entidades.Equipo;
-import mx.com.qtx.torneo.serviciosTorneo.entidades.Jugador;
+import mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades.Arbitro;
+import mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades.Equipo;
+import mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades.Jugador;
 
-@Primary
+//@Primary
 @Repository
 public class GestorDatosJdbcRepository implements IGestorDatos {
 	private static int regsXpagina = 3;
@@ -49,6 +49,10 @@ public class GestorDatosJdbcRepository implements IGestorDatos {
 		GestorDatosJdbcRepository.regsXpagina = regsXpagina;
 	}
 
+	@Override
+	public IEquipo crearEquipo(Map<String, Object> mapDatos) {
+		return Equipo.crearEquipo(mapDatos);
+	}
 	@Override
 	public List<IEquipo> cargarEquipos() {
 		List<IEquipo> iequipos = new ArrayList<>();
@@ -135,6 +139,10 @@ public class GestorDatosJdbcRepository implements IGestorDatos {
 	}
 
 	@Override
+	public IArbitro crearArbitro(Map<String, Object> datosArbitro) {
+		return Arbitro.crearArbitro(datosArbitro);
+	}
+	@Override
 	public List<IArbitro> cargarArbitros() {
 		List<IArbitro> listArbitros = new ArrayList<>();
 		this.repArbitro.findAll()
@@ -172,6 +180,10 @@ public class GestorDatosJdbcRepository implements IGestorDatos {
 		return arb;
 	}
 
+	@Override
+	public IJugador crearJugador(Map<String, Object> datosJugador) {
+		return Jugador.crearJugador(datosJugador);
+	}
 	@Override
 	public List<IJugador> cargarJugadores() {
 		List<IJugador> listaIJugadores = new ArrayList<>();
