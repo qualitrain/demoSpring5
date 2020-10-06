@@ -125,37 +125,37 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 	public void testInserciones() {
 		System.out.println("\n===== test Inserciones =====");
 		Map<String,Object> datosEquipo = new HashMap<>();
-		datosEquipo.put("id", "Morelia21");
-		datosEquipo.put("nombre", "Club Morelia siglo 21");
-		datosEquipo.put("apodo", "jabalíes");
+		datosEquipo.put("id", "Hidalgo");
+		datosEquipo.put("nombre", "Juveniles Hidalgo Soccer Club");
+		datosEquipo.put("apodo", "héroes");
 		IEquipo equipo =  this.servicioTorneo.crearEquipo(datosEquipo);
 				
 		Map<String,Object> datosJugador = new HashMap<>();
-		datosJugador.put("id", "552000001");
-		datosJugador.put("nombre", "Juan Carlos Olivo Rojo");
+		datosJugador.put("id", "332000012");
+		datosJugador.put("nombre", "Guillermo Olvera Razo");
 		datosJugador.put("posicion", "Portero");
-		datosJugador.put("numero", 1);
-		datosJugador.put("fecNac", FechaUtil.getFecha(1998, 7, 17));
+		datosJugador.put("numero", 12);
+		datosJugador.put("fecNac", FechaUtil.getFecha(1999, 7, 11));
 		IJugador jugador = this.servicioTorneo.crearJugador(datosJugador);
 		equipo.agregarJugador(jugador);
 		jugador.setEquipo(equipo);
 		
 		datosJugador = new HashMap<>();
-		datosJugador.put("id", "558871132");
-		datosJugador.put("nombre", "Jaim Valle Trigo");
-		datosJugador.put("posicion", "Delantero");
-		datosJugador.put("numero", 10);
-		datosJugador.put("fecNac", FechaUtil.getFecha(2001, 5, 7));
+		datosJugador.put("id", "338871134");
+		datosJugador.put("nombre", "Jesús Vallejo Trinidad");
+		datosJugador.put("posicion", "Medio");
+		datosJugador.put("numero", 21);
+		datosJugador.put("fecNac", FechaUtil.getFecha(2002, 1, 2));
 		jugador = this.servicioTorneo.crearJugador(datosJugador);
 		equipo.agregarJugador(jugador);
 		jugador.setEquipo(equipo);
 		
 		datosJugador = new HashMap<>();
-		datosJugador.put("id", "552011005");
-		datosJugador.put("nombre", "Luis Sosa Lugo");
+		datosJugador.put("id", "332011123");
+		datosJugador.put("nombre", "Gustavo Reza Juárez");
 		datosJugador.put("posicion", "Medio");
-		datosJugador.put("numero", 4);
-		datosJugador.put("fecNac", FechaUtil.getFecha(2000, 10, 5));
+		datosJugador.put("numero", 6);
+		datosJugador.put("fecNac", FechaUtil.getFecha(2001, 9, 9));
 		jugador = this.servicioTorneo.crearJugador(datosJugador);
 		equipo.agregarJugador(jugador);
 		jugador.setEquipo(equipo);
@@ -171,12 +171,11 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 //		
 		Map<String,Object> datosArbitro = new HashMap<>();
 		datosArbitro = new HashMap<>();
-		datosArbitro.put("nombre", "Romeo Quintana Aparicio");
-		datosArbitro.put("fecNac", FechaUtil.getFecha(1985, 9, 19));
+		datosArbitro.put("nombre", "Federico Arredondo Melquiades");
+		datosArbitro.put("fecNac", FechaUtil.getFecha(1983, 7, 12));
 		IArbitro arbitro = this.servicioTorneo.crearArbitro(datosArbitro);
 		IArbitro arbitroBD = this.servicioTorneo.agregarArbitro(arbitro);
-		System.out.println("Se ha insertado al arbitro " + arbitroBD);
-		
+		System.out.println("Se ha insertado al arbitro " + arbitroBD);		
 	}
 	@Override
 	public void testActualizaciones(){
@@ -246,8 +245,9 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 			}
 			Map<String,Object> datosArb = new HashMap<>();
 			IArbitro iarb = this.servicioTorneo.crearArbitro(datosArb);
-			iarb.setId(39);
-			this.servicioTorneo.eliminarArbitro(iarb);
+			iarb.setId(44);
+			iarb = this.servicioTorneo.eliminarArbitro(iarb);
+			System.out.println("Arbitro eliminado:" + iarb);
 		}
 		catch(Exception ex) {
 			System.out.println("Exception:" + ex.getClass().getName());
@@ -297,7 +297,7 @@ public class TorneoTestSpringDataAccess implements ITorneo {
 			List<IJugador> pagI = this.servicioTorneo.getPaginaJugadoresTitulares(nPag);
 			if (pagI.isEmpty())
 				break;
-			System.out.println("\nJugadores titular página " + nPag + " (c/slice es de 3 renglones)" );
+			System.out.println("\nJugadores titulares página " + nPag + " (c/slice es de 3 renglones)" );
 			pagI.forEach(j -> System.out.printf("%10s %-16s %-35s\n", j.getId(), j.getPosicion(), j.getNombre() ));
 		}
 		nPag=0;

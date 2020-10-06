@@ -17,7 +17,7 @@ import mx.com.qtx.test.EquipoFutbol;
 @SpringBootApplication
 @EnableAspectJAutoProxy
 @EnableJdbcRepositories
-//@EnableJpaRepositories
+@EnableJpaRepositories
 public class DemoApplication implements CommandLineRunner{
 	@Autowired
 	private ApplicationContext context;
@@ -86,7 +86,7 @@ public class DemoApplication implements CommandLineRunner{
 		System.out.println("***** Esta aplicación se llama demoSpring5 *****");
 	}
 	private void TestTorneo(){
-		torneo.mostrarBienvenida();
+//		torneo.mostrarBienvenida();
 //		torneo.mostrarDatosGenerales();
 //		torneo.mostrarArbitros();
 		
@@ -96,8 +96,8 @@ public class DemoApplication implements CommandLineRunner{
 //		torneo.mostrarJugadores();
 		
 //		torneo.testActualizaciones();
-		torneo.testEliminaciones();
-//		torneo.testConsultas();
+//		torneo.testEliminaciones();
+		torneo.testConsultas();
 	}
 
 	private void testPartidas() {

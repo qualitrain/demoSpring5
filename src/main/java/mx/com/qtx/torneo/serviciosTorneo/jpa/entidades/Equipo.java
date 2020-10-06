@@ -193,6 +193,7 @@ public class Equipo implements IEquipo{
 
 	@Override
 	public int getNumJugadores() {
+//		System.out.println("    ***** "+this.getClass().getName()+".getNumJugadores():" + this + " *****");
 		return this.jugadores.size();
 	}
 

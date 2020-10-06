@@ -55,13 +55,15 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 	@Transactional(noRollbackForClassName = "JugadoresDuplicadosException")
 //	@Transactional
 	public IEquipo agregarEquipo(IEquipo equipo) {
+//		System.out.println("  ***** " + this.getClass().getName()
+//				+ ".agregarEquipo(" + equipo + ") *****");
 		IEquipo equipoEnBD = this.gestorDatos.leerEquipoXID(equipo.getID());
 		if( equipoEnBD != null) 
 			throw new EquipoYaExisteException("Insercion rechazada: Ya existe un equipo con el mismo id ("
 					+ equipo + ") en base de datos");
 		
 		equipoEnBD = this.gestorDatos.insertarEquipo( equipo );
-		if(equipo.getNumJugadores() == 0) {
+		if(equipoEnBD.getNumJugadores() == 0) {
 			return equipoEnBD;
 		}
 		
@@ -193,11 +195,13 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 	}
 	
 	@Override
+	@Transactional
 	public IArbitro agregarArbitro(IArbitro iarbitro) {
 		IArbitro iarbitroBD = this.gestorDatos.insertarArbitro(iarbitro);
 		return iarbitroBD;
 	}
 	@Override
+	@Transactional
 	public IArbitro eliminarArbitro(IArbitro iarbitro) {
 		return this.gestorDatos.borrarArbitro(iarbitro);
 	}

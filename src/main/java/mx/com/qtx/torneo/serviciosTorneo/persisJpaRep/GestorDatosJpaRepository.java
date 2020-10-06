@@ -1,4 +1,4 @@
-package mx.com.qtx.torneo.serviciosTorneo.persisJdbcRep;
+package mx.com.qtx.torneo.serviciosTorneo.persisJpaRep;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,41 +18,28 @@ import mx.com.qtx.torneo.IArbitro;
 import mx.com.qtx.torneo.IEquipo;
 import mx.com.qtx.torneo.IJugador;
 import mx.com.qtx.torneo.serviciosTorneo.IGestorDatos;
-import mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades.Arbitro;
-import mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades.Equipo;
-import mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades.Jugador;
+import mx.com.qtx.torneo.serviciosTorneo.jpa.entidades.Arbitro;
+import mx.com.qtx.torneo.serviciosTorneo.jpa.entidades.Equipo;
+import mx.com.qtx.torneo.serviciosTorneo.jpa.entidades.Jugador;
+import mx.com.qtx.torneo.serviciosTorneo.persisJdbcRep.GestorDatosJdbcRepository;
 
-//@Primary
+@Primary
 @Repository
-public class GestorDatosJdbcRepository implements IGestorDatos {
+public class GestorDatosJpaRepository implements IGestorDatos {
 	private static int regsXpagina = 3;
+
+	@Autowired
+	private ICrudRepositoryEquipoJpa repEquipo;
 	
 	@Autowired
-	private ICrudRepositoryEquipo repEquipo;
+	private ICrudRepositoryJugadorJpa repJugador;
+
+	@Autowired
+	private ICrudRepositoryArbitroJpa repArbitro;
 	
 	@Autowired
-	private ICrudRepositoryJugador repJugador;
-
-	@Autowired
-	private ICrudRepositoryArbitro repArbitro;
+	private IPageAndSortRepositoryJugadorJpa repPsJugador;
 	
-	@Autowired
-	private IPageAndSortRepositoryJugador repPsJugador;
-
-	@Override
-	public int getRegsXpagina() {
-		return GestorDatosJdbcRepository.regsXpagina;
-	}
-
-	@Override
-	public void setRegsXpagina(int regsXpagina) {
-		GestorDatosJdbcRepository.regsXpagina = regsXpagina;
-	}
-
-	@Override
-	public IEquipo crearEquipo(Map<String, Object> mapDatos) {
-		return Equipo.crearEquipo(mapDatos);
-	}
 	@Override
 	public List<IEquipo> cargarEquipos() {
 		List<IEquipo> iequipos = new ArrayList<>();
@@ -65,50 +52,28 @@ public class GestorDatosJdbcRepository implements IGestorDatos {
 	public IEquipo leerEquipoXID(String id) {
 		Optional<Equipo> equipo = this.repEquipo.findById(id);
 		if(equipo.isPresent()) {
-			equipo.get().isNew(); // Marcar como no-insertable solo modificable
 			return equipo.get();
 		}
 		return null;
 	}
 
 	@Override
-	public IEquipo leerEquipoXIDConJugadores(String id) {
-		return this.leerEquipoXID(id);
+	public IEquipo actualizarEquipo(IEquipo iequipo) { // distinto de versión jdbc
+		if(!(iequipo instanceof Equipo)) 
+			return null;
+		Equipo equipoUpt = (Equipo) iequipo;
+		
+		Set<Jugador> setJugs = equipoUpt.getJugadores();
+		equipoUpt.setJugadores(null);
+		
+		equipoUpt = this.repEquipo.save(equipoUpt); 
+		
+		equipoUpt.setJugadores(setJugs);
+		return equipoUpt;		
 	}
 
 	@Override
-	public IEquipo actualizarEquipo(IEquipo iequipo) { //Actualización lineal
-		Equipo equipoUpt = null;
-		if(!(iequipo instanceof Equipo)) 
-			return null;
-		equipoUpt = (Equipo) iequipo;
-		equipoUpt.isNew(); // asegura que se haga un update en vez de un insert accidental
-		
-		Equipo equipoAct = (Equipo) this.leerEquipoXIDConJugadores(equipoUpt.getId());
-		Set<Jugador> jugadoresAct = equipoAct.getJugadores(); 
-		Set<Jugador> jugadoresUpt = equipoUpt.getJugadores();
-		equipoUpt.setJugadores(jugadoresAct); // Agregamos jugadores originales para que no los borre !
-		
-		Equipo nvoEquipo = this.repEquipo.save(equipoUpt); // Borrará e insertará los jugadores originales
-		
-		nvoEquipo.setJugadores(jugadoresUpt); // Regresa los jugadores que venían en el objeto original
-		return nvoEquipo;
-	}
-	
-	@Override
-	public IEquipo actualizarEquipoAgregado(IEquipo iequipo) {
-		Equipo equipoUpt = null;
-		if(!(iequipo instanceof Equipo)) 
-			return null;
-		equipoUpt = (Equipo) iequipo;
-		equipoUpt.isNew(); // asegura que se haga un update en vez de un insert accidental
-		
-		Equipo nvoEquipo = this.repEquipo.save(equipoUpt); // Borrará e insertará los jugadores originales
-		return nvoEquipo;
-	}
-
-	@Override
-	public IEquipo insertarEquipo(IEquipo iequipo) { // Inserción lineal
+	public IEquipo insertarEquipo(IEquipo iequipo) {
 		Equipo equipoIns = null;
 		if(!(iequipo instanceof Equipo)) 
 			return null;
@@ -119,19 +84,10 @@ public class GestorDatosJdbcRepository implements IGestorDatos {
 		nvoEquipo.setJugadores(jugadores);
 		return nvoEquipo;
 	}
-	@Override
-	public IEquipo insertarEquipoAgregado(IEquipo iequipo) { // Inserta equipo y jugadores !!
-		Equipo equipoIns = null;
-		if(iequipo instanceof Equipo) {
-			equipoIns = (Equipo) iequipo;
-			Equipo nvoEquipo = this.repEquipo.save(equipoIns);
-			return nvoEquipo;
-		}
-		return null;
-	}
 
 	@Override
-	public IEquipo borrarEquipo(IEquipo ieq) {
+	public IEquipo borrarEquipo(IEquipo ieq) { // Funciona distinto que para jdbc: Aquí no borra agregados!!
+		System.out.println("   ***** " + this.getClass().getName() + ".borrarEquipo(" + ieq + ") *****");
 		if(!(ieq instanceof Equipo))
 			return null;
 		Equipo eq = (Equipo) ieq;
@@ -140,9 +96,31 @@ public class GestorDatosJdbcRepository implements IGestorDatos {
 	}
 
 	@Override
-	public IArbitro crearArbitro(Map<String, Object> datosArbitro) {
-		return Arbitro.crearArbitro(datosArbitro);
+	public IEquipo leerEquipoXIDConJugadores(String id) {
+		return this.leerEquipoXID(id);
 	}
+
+	@Override
+	public IEquipo insertarEquipoAgregado(IEquipo iequipo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IEquipo actualizarEquipoAgregado(IEquipo iequipo) { // Es distinta de la versión jdbc!!
+		Equipo equipoUpt = null;
+		if(!(iequipo instanceof Equipo)) 
+			return null;
+		equipoUpt = (Equipo) iequipo;
+		
+		for(Jugador jugI :equipoUpt.getJugadores()) {
+			this.repJugador.save(jugI);
+		}
+				
+		Equipo nvoEquipo = this.repEquipo.save(equipoUpt); 
+		return nvoEquipo;
+	}
+
 	@Override
 	public List<IArbitro> cargarArbitros() {
 		List<IArbitro> listArbitros = new ArrayList<>();
@@ -168,8 +146,9 @@ public class GestorDatosJdbcRepository implements IGestorDatos {
 	}
 
 	@Override
-	public IArbitro actualizarArbitro(IArbitro iarbitro) {
-		return this.insertarArbitro(iarbitro); //Al tener llaves auto generadas si el objeto tiene id nula será insert y caso contrario será update
+	public IArbitro actualizarArbitro(IArbitro arbitro) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -181,10 +160,6 @@ public class GestorDatosJdbcRepository implements IGestorDatos {
 		return arb;
 	}
 
-	@Override
-	public IJugador crearJugador(Map<String, Object> datosJugador) {
-		return Jugador.crearJugador(datosJugador);
-	}
 	@Override
 	public List<IJugador> cargarJugadores() {
 		List<IJugador> listaIJugadores = new ArrayList<>();
@@ -207,7 +182,6 @@ public class GestorDatosJdbcRepository implements IGestorDatos {
 		if(!(ijugador instanceof Jugador)) 
 			return null;
 		jugUpt = (Jugador) ijugador;
-		jugUpt.isNew(); //Asegura update en vez de insert
 		Jugador nvoJugador = this.repJugador.save(jugUpt);
 		return nvoJugador;
 	}
@@ -231,15 +205,16 @@ public class GestorDatosJdbcRepository implements IGestorDatos {
 
 	@Override
 	public IJugador borrarJugador(IJugador ijug) {
+		System.out.println("   ***** " + this.getClass().getName() + ".borrarJugador(" + ijug + ") *****");
 		if(!(ijug instanceof IJugador))
 			return null;
 		Jugador jug = (Jugador) ijug;
 		this.repJugador.delete(jug);
 		return jug;
 	}
-	
+
 	@Override
-	public Map<String,List<IJugador>> getJugadoresXposYequipo(String pos){
+	public Map<String, List<IJugador>> getJugadoresXposYequipo(String pos) {
 		Map<String,List<IJugador>> mapEquipoJugadoresEnPos = new HashMap<>();
 		List<String> idsEquipos = this.repPsJugador.findDistinctIdEquipoBy();
 
@@ -253,22 +228,23 @@ public class GestorDatosJdbcRepository implements IGestorDatos {
 	}
 
 	@Override
-	public List<IJugador> getJugadoresEnUnaUotraPosicion(String pos1, String pos2){
+	public List<IJugador> getJugadoresEnUnaUotraPosicion(String pos1, String pos2) {
 		List<IJugador> lstJugadores = new ArrayList<>();
 		this.repPsJugador.findByPosicionOrPosicionOrderByPosicion(pos1, pos2)
 		                 .forEach(j->lstJugadores.add(j));
 		return lstJugadores;
 	}
+
 	@Override
-	public List<IJugador> getJugadoresMasJovenes(){
+	public List<IJugador> getJugadoresMasJovenes() {
 		List<IJugador> lstJugadores = new ArrayList<>();
 		this.repPsJugador.findFirst5ByOrderByFecNacDesc()
 		                 .forEach(j->lstJugadores.add(j));
 		return lstJugadores;
 	}
-	
+
 	@Override
-	public List<IJugador> getJugadoresOrdenados(){
+	public List<IJugador> getJugadoresOrdenados() {
 		List<IJugador> lstJugadores = new ArrayList<>();
 		Sort ordenamiento = Sort.by("fecNac").descending()
 				                .and(Sort.by("nombre").ascending());
@@ -276,40 +252,69 @@ public class GestorDatosJdbcRepository implements IGestorDatos {
 		                 .forEach(j->lstJugadores.add(j));
 		return lstJugadores;		
 	}
+
 	@Override
-	public List<IJugador> getJugadoresXtitularidad(boolean esTitular){
+	public List<IJugador> getJugadoresXtitularidad(boolean esTitular) {
 		List<IJugador> lstJugadores = new ArrayList<>();
 		Sort ordenamiento = Sort.by("posicion","nombre");
 		this.repPsJugador.findByTitular(true, ordenamiento)
 		                 .forEach(j->lstJugadores.add(j));
 		return lstJugadores;		
 	}
+
 	@Override
-	public List<IJugador> getJugadoresTitulares(){
+	public List<IJugador> getJugadoresPorPagina(int nPag) {
+		List<IJugador> lstJugadores = new ArrayList<>();
+		Sort ordenamiento = Sort.by("nombre");
+		Pageable paginable = PageRequest.of(nPag, GestorDatosJpaRepository.regsXpagina, ordenamiento);
+		this.repPsJugador.findAll(paginable)
+		                 .toList().forEach(j->lstJugadores.add(j));
+		return lstJugadores;		
+	}
+
+	@Override
+	public List<IJugador> getJugadoresTitularesPorPagina(int nPag) {
+		List<IJugador> lstJugadores = new ArrayList<>();
+		Sort ordenamiento = Sort.by("nombre");
+		Pageable paginable = PageRequest.of(nPag, GestorDatosJpaRepository.regsXpagina, ordenamiento);
+		List<Jugador> lstJugadoresPag = this.repPsJugador.findByTitular( true, paginable );
+		lstJugadoresPag.forEach(j->lstJugadores.add(j));
+		                 
+		return lstJugadores;		
+	}
+
+	@Override
+	public int getRegsXpagina() {
+		return GestorDatosJpaRepository.regsXpagina;
+	}
+
+	@Override
+	public void setRegsXpagina(int regsXpagina) {
+		GestorDatosJpaRepository.regsXpagina = regsXpagina;
+
+	}
+
+	@Override
+	public List<IJugador> getJugadoresTitulares() {
 		List<IJugador> lstJugadores = new ArrayList<>();
 		this.repPsJugador.findByTitularTrue()
 		                 .forEach(j->lstJugadores.add(j));
 		return lstJugadores;		
 	}
+
 	@Override
-	public List<IJugador> getJugadoresPorPagina(int nPag){
-		List<IJugador> lstJugadores = new ArrayList<>();
-		Sort ordenamiento = Sort.by("nombre");
-		Pageable paginable = PageRequest.of(nPag, GestorDatosJdbcRepository.regsXpagina, ordenamiento);
-		this.repPsJugador.findAll(paginable)
-		                 .toList().forEach(j->lstJugadores.add(j));
-		return lstJugadores;		
+	public IArbitro crearArbitro(Map<String, Object> datosArbitro) {
+		return Arbitro.crearArbitro(datosArbitro);
 	}
+
 	@Override
-	public List<IJugador> getJugadoresTitularesPorPagina(int nPag){ 
-//		System.out.println("***** GestorDatosJdbcRepository.getJugadoresTitularesPorSlice("	+ nPag + ") *****");
-		List<IJugador> lstJugadores = new ArrayList<>();
-		Sort ordenamiento = Sort.by("nombre");
-		Pageable paginable = PageRequest.of(nPag, GestorDatosJdbcRepository.regsXpagina, ordenamiento);
-		List<Jugador> lstJugadoresPag = this.repPsJugador.findByTitular( true, paginable );
-		lstJugadoresPag.forEach(j->lstJugadores.add(j));
-		                 
-		return lstJugadores;		
+	public IEquipo crearEquipo(Map<String, Object> mapDatos) {
+		return Equipo.crearEquipo(mapDatos);
+	}
+
+	@Override
+	public IJugador crearJugador(Map<String, Object> datosJugador) {
+		return Jugador.crearJugador(datosJugador);
 	}
 
 }

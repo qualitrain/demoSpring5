@@ -20,7 +20,7 @@ import mx.com.qtx.torneo.serviciosTorneo.jpa.entidades.Arbitro;
 import mx.com.qtx.torneo.serviciosTorneo.jpa.entidades.Equipo;
 import mx.com.qtx.torneo.serviciosTorneo.jpa.entidades.Jugador;
 
-@Primary
+//@Primary
 @Repository
 public class GestorDatosJPA implements IGestorDatos {
 	@PersistenceContext

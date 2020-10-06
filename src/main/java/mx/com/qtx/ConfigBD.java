@@ -62,11 +62,11 @@ public class ConfigBD extends AbstractJdbcConfiguration{
 	}
 	
 	@Bean("gestorTransaccionesJPAmon")
+	@Primary
 	public QtxJpaTxManager getGestorTransaccionesJPAmon(EntityManagerFactory emf) {
 		return new QtxJpaTxManager(emf);
 	}
 	@Bean("gestorTransaccionesJPA")
-	@Primary
 	public JpaTransactionManager getGestorTransaccionesJPA(EntityManagerFactory emf) {
 		return new JpaTransactionManager(emf);
 	}
