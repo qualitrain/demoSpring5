@@ -33,7 +33,7 @@ public class DemoApplication implements CommandLineRunner{
 	public void run(String... args) throws Exception {
 //		explorarContexto();
 //		System.out.println("- - - - - - - - - - - - - - - - - - - - - - - - - - - ");
-		TestTorneo();
+//		TestTorneo();
 	}
 	private void explorarContexto(){
 		String nomClaseCtx = context.getClass().getName();

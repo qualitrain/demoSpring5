@@ -21,7 +21,6 @@ import mx.com.qtx.torneo.serviciosTorneo.IGestorDatos;
 import mx.com.qtx.torneo.serviciosTorneo.jpa.entidades.Arbitro;
 import mx.com.qtx.torneo.serviciosTorneo.jpa.entidades.Equipo;
 import mx.com.qtx.torneo.serviciosTorneo.jpa.entidades.Jugador;
-import mx.com.qtx.torneo.serviciosTorneo.persisJdbcRep.GestorDatosJdbcRepository;
 
 @Primary
 @Repository
