@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Consulta Equipo</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/popper.js/umd/popper.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+ <div class="container">
+ 	 <div class="row mb-2 mt-2">
+	 	 <img class="col-4 col-sm-3 col-md-2 " src="./img/logoQtxSinFondoMedio.png">
+ 	 </div>
+ 	 <div class="row my-2 justify-content-start">
+ 		<div class="btn-group ml-1"> 
+		  <button class="btn btn-secondary dropdown-toggle" type="button" id="idBtnEquipos" 
+		          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    Equipos
+		  </button>
+		  <div class="dropdown-menu" >
+		    <a class="dropdown-item" href="./busquedaEquipo">Consulta por Id</a>
+		    <a class="dropdown-item" href="#">Nuevo</a>
+		    <a class="dropdown-item" href="#">Todos</a>
+		  </div>
+		</div>
+		  
+		<div class="btn-group ml-1"> 
+		  <button class="btn btn-primary dropdown-toggle" type="button" id="idBtnJugadores" 
+		          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    Jugadores
+		  </button>
+		  <div class="dropdown-menu" >
+		    <a class="dropdown-item" href="#">Consulta por Id</a>
+		    <a class="dropdown-item" href="#">Nuevo</a>
+		    <a class="dropdown-item" href="#">Todos</a>
+		  </div>		  
+		</div>
+		<div class="btn-group ml-1"> 
+		  <button class="btn btn-info dropdown-toggle" type="button" id="idBtnArbitros" 
+		          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		    &Aacute;rbitros
+		  </button>
+		  <div class="dropdown-menu" >
+		    <a class="dropdown-item" href="#">Consulta por Id</a>
+		    <a class="dropdown-item" href="#">Nuevo</a>
+		    <a class="dropdown-item" href="#">Todos</a>
+		  </div>
+ 		</div>
+ 	 </div>
+ </div>
+
+</body>
+</html>

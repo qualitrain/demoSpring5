@@ -267,5 +267,14 @@ public class Equipo implements IEquipo, Persistable<String>{
 		System.out.println("***** Equipo.postProcesoEvtUpdateEquipo() *****");
 	}
 
+	@Override
+	public Object getCampo(String nombre) {
+		switch (nombre) {
+		case "apodo": return this.getApodo();
+		case "entrenador":return this.getEntrenador();
+		case "patrocinador": return this.getPatrocinador();
+		default: return null;
+		}
+	}
 
 }

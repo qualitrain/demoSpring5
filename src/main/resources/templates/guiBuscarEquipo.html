@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Consulta Equipo</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+ <div class="container">
+ 	 <div class="row mb-2">
+	 	 <img class="col-6 col-sm-4 col-md-3 col-lg-2" src="./img/logoQtxSinFondoMedio.png">
+ 	 </div>
+ 	 
+ 	 <div class="row py-3 bg-light justify-content-center">
+	 	 <div class="col-10 col-md-8 col-lg-7">
+			<form action="./consuEquipo">
+			  <div class="form-row">
+				  <div class="form-group col-7">
+				    <label for="idEquipo">Id Equipo</label>
+				    <input type="text" class="form-control" id="idEquipo" aria-describedby="idEquipoHelp" name="id">
+				    <small id="idEquipoHelp" class="form-text text-muted">Clave del equipo</small>
+			 	 </div>
+			 	 <div class="row offset-1 col-4 align-items-center">
+				    <button type="submit" class="btn btn-primary col-12 mt-n2 ">Consultar</button>
+			 	 </div>
+			  </div>
+			  <div class="text-danger" th:text="${error}"></div>
+			</form>
+	 	 </div>
+ 	  </div>
+ </div>
+
+</body>
+</html>

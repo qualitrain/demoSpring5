@@ -91,4 +91,10 @@ public class EquipoFutbol implements IEquipo {
 		return 0;
 	}
 
+	@Override
+	public Object getCampo(String nombre) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
