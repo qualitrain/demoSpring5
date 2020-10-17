@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import mx.com.qtx.torneo.IEquipo;
@@ -35,7 +34,8 @@ public class TorneoController {
 	@GetMapping("/consuEquipo")
 	public String enrutarAConsultaEquipoXid( @RequestParam(defaultValue = "INVALIDO") String id, Model mapModelo) {
 		if(id.equals("INVALIDO") || id.trim().isEmpty()) {
-			mapModelo.addAttribute("error","El Id no debe estar vacío");
+//			mapModelo.addAttribute("error","El Id no debe estar vacío");
+			mapModelo.addAttribute("error","idEquipo.vacio");
 			return "guiBuscarEquipo";
 		}
 		IEquipo equipo = this.servicioToreno.getEquipo(id);

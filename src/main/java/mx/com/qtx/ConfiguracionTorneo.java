@@ -16,6 +16,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
 import mx.com.qtx.test.ArbitroBDMemoria;
 import mx.com.qtx.test.ArbitroDummy;
@@ -97,7 +99,11 @@ public class ConfiguracionTorneo {
 	}
 	@Bean(name="locale")
 	public Locale publicarLocalidad() {
-//		return Locale.getDefault();
-		return Locale.US;
+		return Locale.getDefault();
+//		return Locale.US;
+	}
+	@Bean
+	public LocaleResolver localeResolver(Locale localidad){
+		return new FixedLocaleResolver(localidad) ;
 	}
 }
