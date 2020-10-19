@@ -277,5 +277,9 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 		this.gestorDatos.setRegsXpagina(tamanioPag);
 		return this.gestorDatos.getJugadoresTitularesPorPagina(nPag);	
 	}
+	@Override
+	public IJugador getJugador(String id) {
+		return this.gestorDatos.leerJugadorXID(id);
+	}
 
 }

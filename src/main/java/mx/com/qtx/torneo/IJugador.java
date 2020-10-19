@@ -1,7 +1,6 @@
 package mx.com.qtx.torneo;
 
 import java.util.Date;
-import java.util.List;
 
 public interface IJugador {
 	public String getId(); 

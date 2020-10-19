@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Consulta Jugador</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+ <div class="container">
+ 	 <div class="row mb-2">
+	 	 <img class="col-6 col-sm-4 col-md-3 col-lg-2" src="./img/logoQtxSinFondoMedio.png">
+ 	 </div>
+ 	 
+ 	 <div class="row mb-2 bg-light justify-content-center">
+	 	 <div class="col-10 col-md-8 col-lg-7 mt-4" th:object="${jugador}">
+			 <div class="form-row mb-3">
+			    <span class="text-primary h6 col-6 col-sm-3">Id Jugador:</span>
+			    <div class="col-6 col-sm-4" th:text="*{id}"></div>
+		 	    <div class="row col-6 offset-sm-1 col-sm-4 align-items-center">
+		 	       <a class="btn btn-primary btn-sm mt-n2" href="./busquedaJugador" role="button">Consultar Otro</a>
+		 	    </div>
+		     </div>
+			 <div class="form-row mb-3" >
+			    <span class="text-primary h6 col-6 col-sm-3">Nombre:</span>
+			    <div class="col-6 col-sm-4"  th:text="*{nombre}"></div>
+		     </div>
+			 <div class="form-row mb-3">
+			    <span class="text-primary h6 col-6 col-sm-3">N&uacute;mero:</span>
+			    <div class="col-6 col-sm-4"  th:text="*{numero}"></div>
+		     </div>
+			 <div class="form-row mb-3">
+			    <span class="text-primary h6 col-6 col-sm-3">Posici&oacute;n:</span>
+			    <div class="col-6 col-sm-4"  th:text="*{posicion}"></div>
+		     </div>
+			 <div class="form-row mb-3">
+			    <span class="text-primary h6 col-6 col-sm-3">Fecha de Nacimiento:</span>
+			    <div class="col-6 col-sm-4"  th:text="*{#dates.format(fecNac, 'dd MMMM yyyy')}"></div>
+		     </div>
+			 <div class="form-row mb-3" th:if="*{isLesionado()}">
+			    <span class="text-primary h6 col-6 col-sm-3">Estado de salud:</span>
+			    <div class="col-6 col-sm-4 text-danger font-weight-bold"  >Lesionado</div>
+		     </div>
+			 <div class="form-row mb-3" th:if="*{isSuspendido()}">
+			    <span class="text-primary h6 col-6 col-sm-3">Disponibilidad:</span>
+			    <div class="col-6 col-sm-4 text-danger font-weight-bold"  >Suspendido</div>
+		     </div>
+			 <div class="form-row mb-3" >
+			    <span class="text-primary h6 col-6 col-sm-3">Relevancia:</span>
+			    <div class="col-6 col-sm-4 text-font-weight-bold" th:text="*{isTitular()? 'Es titular':'Es suplente'}" 
+			           th:class="*{isTitular()? 'col-6 col-sm-4 font-weight-bold text-success':'col-6 col-sm-4 '}"></div>
+		     </div>
+			 <div class="form-row mb-3" th:if="*{equipo}">
+			    <span class="text-primary h6 col-6 col-sm-3">Equipo:</span>
+			    <div class="col-6 col-sm-4"> 
+			       <a class="btn btn-link" th:text="*{equipo.nombre}" th:href="@{/consuEquipo(id=*{equipo.id})}"></a>
+			    </div>
+		     </div>
+<!-- 			 <div class="form-row mb-3"> -->
+<!-- 			    <span class="text-warning h6 col-6 col-sm-3">Variables de contexto:</span> -->
+<!-- 			    <div class="col-6 col-sm-4"  th:text="${#vars}"></div> -->
+<!-- 		     </div> -->
+<!-- 			 <div class="form-row mb-3"> -->
+<!-- 			    <span class="text-warning h6 col-6 col-sm-3">Context object:</span> -->
+<!-- 			    <div class="col-6 col-sm-4"  th:text="${#ctx}"></div> -->
+<!-- 		     </div> -->
+<!-- 			 <div class="form-row mb-3"> -->
+<!-- 			    <span class="text-warning h6 col-6 col-sm-3">HttpServletRequest:</span> -->
+<!-- 			    <div class="col-6 col-sm-4"  th:text="${#httpServletRequest}"></div> -->
+<!-- 		     </div> -->
+			 <div class="form-row justify-content-center my-5">
+			 	  <a class="btn btn-success" href="./menu" role="button">Men&uacute; Principal</a>
+			 </div>
+	 	 </div>
+ 	 </div>
+ </div>
+
+</body>
+</html>
