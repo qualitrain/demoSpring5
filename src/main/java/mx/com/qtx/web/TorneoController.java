@@ -44,6 +44,10 @@ public class TorneoController {
 			return "guiBuscarEquipo";
 		}
 		IEquipo equipo = this.servicioTorneo.getEquipo(id);
+		if(equipo == null) {
+			mapModelo.addAttribute("error","equipo.noExiste");
+			return "guiBuscarEquipo";			
+		}
 		mapModelo.addAttribute("equipo", equipo);
 		mapModelo.addAttribute("hoy", new Date());
 		return "guiConsuEquipo";
@@ -61,6 +65,10 @@ public class TorneoController {
 			return "guiBuscarJugador";
 		}
 		IJugador jugador = this.servicioTorneo.getJugador(id);
+		if(jugador == null) {
+			mapModelo.addAttribute("error","jugador.noExiste");
+			return "guiBuscarJugador";			
+		}
 		mapModelo.addAttribute("jugador", jugador);
 		return "guiConsuJugador";
 	}

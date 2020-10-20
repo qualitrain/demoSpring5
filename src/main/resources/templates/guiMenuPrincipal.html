@@ -11,10 +11,10 @@
 </head>
 <body>
  <div class="container">
- 	 <div class="row mb-2 mt-2">
-	 	 <img class="col-4 col-sm-3 col-md-2 " src="./img/logoQtxSinFondoMedio.png">
+ 	 <div class="row mb-2 mt-2" th:fragment="logoQtx">
+	 	 <img class="col-6 col-sm-4 col-md-3 col-lg-2" th:src="@{/img/logoQtxSinFondoMedio.png}">
  	 </div>
- 	 <div class="row my-2 justify-content-start">
+ 	 <div class="row my-2 justify-content-start" th:fragment="menu">
  		<div class="btn-group ml-1"> 
 		  <button class="btn btn-secondary dropdown-toggle" type="button" id="idBtnEquipos" 
 		          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
