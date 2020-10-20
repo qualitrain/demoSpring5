@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Consulta Equipo</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+ <div class="container" >
+ 	 <div class="row mb-2">
+	 	 <img class="col-6 col-sm-4 col-md-3 col-lg-2" src="./img/logoQtxSinFondoMedio.png">
+ 	 </div>
+ 	 <div class="text-center h4">Equipos Registrados</div>
+ 	 
+ 	 <div class="row mb-0 justify-content-center" >
+ 	 	<div class="col-12 col-sm-3 border border-white bg-dark text-warning font-weight-bold p-2" >Clave</div>
+ 	 	<div class="col-12 col-sm-7 border border-white bg-dark text-warning font-weight-bold p-2" >Nombre</div>
+ 	 	<div class="col-12 col-sm-2 text-center border border-white bg-dark text-warning font-weight-bold p-2" >N.Jug.</div>
+ 	 </div>
+ 	 
+ 	 <div class="row mb-0 justify-content-center" th:each="itemMapEq, idx : ${mapEquipos}" >
+ 	 	<div class="col-12 col-sm-3 border border-white "  	 	     
+ 	 	     th:classappend="${idx.odd} ? 'bg-secondary text-white' : 'bg-warning'">
+ 	 	     <span  th:text="${itemMapEq.key}" ></span>
+ 	 	</div>
+ 	 	<div class="col-12 col-sm-7 border border-white"  	 	      
+ 	 	     th:classappend="${idx.odd} ? 'bg-secondary text-white' : 'bg-warning'">
+ 	 	     <span th:text="${itemMapEq.value.nombre}" ></span>
+ 	 	</div>
+ 	 	<div class="col-12 col-sm-2 text-center border border-white" 	 	     
+ 	 	     th:classappend="${idx.odd} ? 'bg-secondary text-white' : 'bg-warning' " >
+ 	 	     <a th:text="${itemMapEq.value.numJugadores}" class="stretched-link" 
+ 	 	        th:classappend="${idx.odd} ? 'text-white' : 'text-dark' " 
+ 	 	        th:href="@{/consu/{idEquipo}/jugadores(idEquipo=${itemMapEq.key})}"></a>
+ 	 	</div>
+ 	 </div>
+ 	 
+ 	 <div class="row">
+  	 	<div class="col-12 offset-sm-10 col-sm-2 text-center font-weight-bolder" 
+ 	 	     th:text="${totJug}" ></div>
+ 	 </div>
+ 	 
+	  <div class="row justify-content-center my-5">
+	 	  <a class="btn btn-success" href="./menu" role="button">Men&uacute; Principal</a>
+	  </div>
+ </div>
+
+</body>
+</html>

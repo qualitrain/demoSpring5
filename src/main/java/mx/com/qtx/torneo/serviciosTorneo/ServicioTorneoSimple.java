@@ -33,7 +33,7 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 	public Map<String, IEquipo> getEquipos() {
 		Map<String,IEquipo> mapEquipos = new HashMap<String,IEquipo>();
 		this.gestorDatos.cargarEquipos()
-		                .forEach(e->mapEquipos.put(e.getNombreEquipo(),e));
+		                .forEach(e->mapEquipos.put(e.getID(),e));
 		for(IEquipo equipoI : mapEquipos.values()) {
 			if(equipoI.getListaJugadores() == null || equipoI.getListaJugadores().size() == 0) {
 				this.gestorDatos.leerJugadoresXEquipo(equipoI.getID())

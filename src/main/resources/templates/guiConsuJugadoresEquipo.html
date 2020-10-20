@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Consulta Equipo</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+ <div class="container" >
+ 	 <div class="row mb-2">
+	 	 <img class="col-6 col-sm-4 col-md-3 col-lg-2" th:src="@{/img/logoQtxSinFondoMedio.png}">
+ 	 </div>
+ 	 <div class="text-center h4" th:text="|Jugadores del ${nombreEq}|">Jugadores por Equipo</div>
+ 	 
+ 	 <div class="row mb-0 justify-content-center" >
+ 	 	<div class="col-12 col-sm-3 border border-white bg-dark text-warning font-weight-bold p-2" >Id</div>
+ 	 	<div class="col-12 col-sm-6 border border-white bg-dark text-warning font-weight-bold p-2" >Nombre</div>
+ 	 	<div class="col-12 col-sm-3 text-center border border-white bg-dark text-warning font-weight-bold p-2" >Posici&oacute;n</div>
+ 	 </div>
+ 	 
+ 	 <div class="row mb-0 justify-content-center" th:each="jugadorI, idx : ${jugadoresEq}" >
+ 	 	<div class="col-12 col-sm-3 border border-white" 
+ 	 	     th:text="${jugadorI.id}" 
+ 	 	     th:classappend="${idx.odd} ? 'bg-secondary text-white' : 'bg-warning' "></div>
+ 	 	<div class="col-12 col-sm-6 border border-white" 
+ 	 	     th:text="${jugadorI.nombre}" 
+ 	 	     th:classappend="${idx.odd} ? 'bg-secondary text-white' : 'bg-warning' "></div>
+ 	 	<div class="col-12 col-sm-3 text-center border border-white" 	 	     
+ 	 	     th:classappend="${idx.odd} ? 'bg-secondary text-white' : 'bg-warning' " th:text="${jugadorI.posicion}" >
+ 	 	</div>
+ 	 </div>
+ 	 
+ 	 <div class="row">
+  	 	<div class="col-12 offset-sm-10 col-sm-2 text-center font-weight-bolder" 
+ 	 	     th:text="${totJug}" ></div>
+ 	 </div>
+ 	  	 
+	  <div class="row justify-content-center my-5">
+	 	  <a class="btn btn-success" th:href="@{/menu}" role="button">Men&uacute; Principal</a>
+	  </div>
+ </div>
+
+</body>
+</html>
