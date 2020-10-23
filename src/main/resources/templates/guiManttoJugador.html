@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Mantto Jugadores</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/popper.js/umd/popper.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+ <div class="container">
+    <div th:include="guiMenuPrincipal :: logoQtx"></div>
+     <div th:include="guiMenuPrincipal :: menu"></div>
+ 	 <div class="text-center mt-3 h5">Alta de Jugadores</div>
+ 	 <div class="row mb-2 bg-light justify-content-center">
+	 	 <div class="col-10 col-md-8 col-lg-7 mt-4">
+	 	   <form th:action="@{/jugador/nuevo}" method="post">
+	 	   
+			  <div class="form-group">
+			    <label for="idJugador">Id Jugador</label>
+			    <input type="text" class="form-control col-6 col-sm-4 col-md-3" id="idJugador" name="id" th:value="${jugador.id}" 
+			           th:classappend="${errores !=null and #lists.size(errores.getFieldErrors('id')) gt 0} ? 'border border-danger' : ''">
+			    <div class="mt-2" th:if="${errores !=null and #lists.size(errores.getFieldErrors('id')) gt 0}">
+			    	<div class="alert alert-warning" role="alert" th:each="errorI : ${errores.getFieldErrors('id')}" 
+			    	     th:text="#{${errorI.defaultMessage}}"></div>
+			    </div>
+			  </div>
+			  
+			  <div class="form-group">
+			    <label for="idNombre">Nombre</label>
+			    <input type="text" class="form-control" id="idNombre" name="nombre" th:value="${jugador.nombre}"
+			           th:classappend="${errores !=null and #lists.size(errores.getFieldErrors('nombre')) gt 0} ? 'border border-danger' : ''">
+			    <div class="mt-2" th:if="${errores !=null and #lists.size(errores.getFieldErrors('nombre')) gt 0}">
+			    	<div class="alert alert-warning" role="alert" th:each="errorI : ${errores.getFieldErrors('nombre')}" 
+			    	     th:text="#{${errorI.defaultMessage}}"></div>
+			    </div>
+			  </div>
+			  
+			  <div class="form-group">
+			    <label for="idPosicion">Posici&oacute;n</label>
+			    <input type="text" class="form-control col-8 col-sm-6 col-md-5" id="idPosicion" name="posicion" th:value="${jugador.posicion}"
+			           th:classappend="${errores !=null and #lists.size(errores.getFieldErrors('posicion')) gt 0} ? 'border border-danger' : ''">
+			    <div class="mt-2" th:if="${errores !=null and #lists.size(errores.getFieldErrors('posicion')) gt 0}">
+			    	<div class="alert alert-warning" role="alert" th:each="errorI : ${errores.getFieldErrors('posicion')}" 
+			    	     th:text="#{${errorI.defaultMessage}}"></div>
+			    </div>
+			  </div>
+			  
+			  <div class="form-group">
+			    <label for="idNumero">N&uacute;mero</label>
+			    <input type="number" class="form-control col-6 col-sm-4 col-md-3" id="idNumero" name="numero" min="1" max="150" th:value="${jugador.numero}"
+         		       th:classappend="${errores !=null and #lists.size(errores.getFieldErrors('numero')) gt 0} ? 'border border-danger' : ''">
+			    <div class="mt-2" th:if="${errores !=null and #lists.size(errores.getFieldErrors('numero')) gt 0}">
+			     	<div class="alert alert-warning" role="alert" th:each="errorI : ${errores.getFieldErrors('numero')}" 
+			    	     th:text="#{${errorI.defaultMessage}}"></div>
+			    </div>
+			  </div>
+			  
+			  <div class="form-group">
+			    <label for="idFecNac">Fecha de nacimiento</label>
+			    <input type="date" class="form-control col-8 col-sm-5 col-md-5 col-lg-4" id="idFecNac" name="fecNac" 
+			          th:value="${#dates.format(jugador.fecNac, 'yyyy-MM-dd')}" value="1990-11-11"
+         		      th:classappend="${errores !=null and #lists.size(errores.getFieldErrors('fecNac')) gt 0} ? 'border border-danger' : ''">
+			    <div class="mt-2" th:if="${errores !=null and #lists.size(errores.getFieldErrors('fecNac')) gt 0}">
+			     	<div class="alert alert-warning" role="alert" th:each="errorI : ${errores.getFieldErrors('fecNac')}" 
+			    	     th:text="#{${errorI.defaultMessage}}"></div>
+			    </div>
+			  </div>
+			  
+			  <div class="form-group form-check">
+    			<input type="checkbox" class="form-check-input" id="idTitular" name="titular" th:checked="${jugador.titular}">
+ 			    <label class="form-check-label" for="idTitular">Es titular</label>
+              </div>
+			  <div class="form-group form-check">
+    			<input type="checkbox" class="form-check-input" id="idLesionado" name="lesionado" th:checked="${jugador.lesionado}">
+ 			    <label class="form-check-label" for="idLesionado">Est&aacute; lesionado</label>
+              </div>
+			  <div class="form-group form-check">
+    			<input type="checkbox" class="form-check-input" id="idSuspendido" name="suspendido" th:checked="${jugador.suspendido}">
+ 			    <label class="form-check-label" for="idSuspendido">Est&aacute; suspendido</label>
+              </div>
+              
+			  <div class="form-group">
+			    <label for="idEquipo">Equipo</label>
+			    <select class="form-control" id="idEquipo" name="idEquipo">
+			      <option th:each="itemEquipo : ${mapEquipos}" th:value="${itemEquipo.value}" th:text="${itemEquipo.key}"></option>
+			    </select>
+			  </div>
+			  
+  			  <button type="submit" class="btn btn-primary">Registrar</button>
+  			  <hr>
+  			  <div class="alert alert-danger" role="alert"  th:if="${error}" 
+  			       th:text="| #{${error}} : ${jugadorBD!=null ? jugadorBD : '' } ${causa!=null ? causa.message : '' }|"></div>
+		   </form>			  
+	 	 </div>
+ 	 </div>
+ </div>
+
+</body>
+</html>

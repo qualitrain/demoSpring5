@@ -12,5 +12,6 @@ public class NegocioException extends RuntimeException {
 		super(message);
 	}
 
+
 	
 }

@@ -32,6 +32,7 @@ public interface IServicioTorneo {
 
 		IJugador crearJugador(Map<String, Object> datosJugador);
 		int agregarJugador(IEquipo equipoIns, IJugador jugador);
+		IJugador agregarJugador(IJugador ijugador);
 		Map<String, IJugador> getJugadores();
 		IJugador getJugador(String id);
 
@@ -46,5 +47,4 @@ public interface IServicioTorneo {
 		List<IJugador> getPaginaJugadores(int tamanioPag, int nPag);
 
 		List<IJugador> getPaginaJugadoresTitulares(int tamanioPag, int nPag);
-
 }

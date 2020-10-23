@@ -21,5 +21,4 @@ public interface IJugador {
 	public void setTitular(boolean titular);
 	public void setEquipo(IEquipo equipo);
 	public IEquipo getEquipo();
-
 }

@@ -14,6 +14,7 @@ import mx.com.qtx.torneo.IArbitro;
 import mx.com.qtx.torneo.IEquipo;
 import mx.com.qtx.torneo.IJugador;
 import mx.com.qtx.torneo.IServicioTorneo;
+import mx.com.qtx.torneo.NegocioException;
 import mx.com.qtx.torneo.entidades.Partido;
 //import mx.com.qtx.torneo.serviciosTorneo.jdbc.entidades.Jugador;
 
@@ -228,6 +229,20 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 		equipo.agregarJugador(jugador);
 		jugador.setEquipo(equipo);
 		return 1;
+	}
+	@Override
+	@Transactional
+	public IJugador agregarJugador(IJugador ijugador) {
+		IJugador jugBD = this.gestorDatos.leerJugadorXID(ijugador.getId());
+		if(jugBD != null)
+			throw new JugadorYaExisteException("jugador.insInvalidYaExiste", jugBD);
+		try {
+		   IJugador ijugadorBD = this.gestorDatos.insertarJugador(ijugador);
+		   return ijugadorBD;
+		}
+		catch(Exception ex) {
+			throw new NegocioException("infraestructura.error", ex);
+		}
 	}
 
 	@Override

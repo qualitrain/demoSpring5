@@ -198,6 +198,10 @@ public class GestorDatosJpaRepository implements IGestorDatos {
 		if(!(ijugador instanceof Jugador)) 
 			return null;
 		jugIns = (Jugador) ijugador;
+		if(jugIns.getEquipo() == null) {
+			Optional<Equipo> eq = this.repEquipo.findById(jugIns.getIdEquipo());
+			jugIns.setEquipo(eq.get());
+		}
 		Jugador nvoJugador = this.repJugador.save(jugIns);
 		return nvoJugador;
 	}
