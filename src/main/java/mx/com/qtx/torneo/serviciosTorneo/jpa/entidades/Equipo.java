@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.data.domain.DomainEvents;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import mx.com.qtx.torneo.EvtUpdateIEquipo;
 import mx.com.qtx.torneo.IEquipo;
 import mx.com.qtx.torneo.IJugador;
@@ -172,6 +174,7 @@ public class Equipo implements IEquipo{
 	}
 
 	@Override
+	@JsonIgnore
 	public String getID() {
 		return this.getId();
 	}

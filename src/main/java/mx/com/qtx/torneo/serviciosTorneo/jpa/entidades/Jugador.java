@@ -15,6 +15,9 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import mx.com.qtx.torneo.IEquipo;
 import mx.com.qtx.torneo.IJugador;
 import mx.com.qtx.util.EdadMax;
@@ -55,6 +58,7 @@ public class Jugador implements IJugador{
 	@DateTimeFormat(pattern = "yyyy-MM-dd")  // Para empatar el Binding vs el formato usado por navegador
 	@EdadMax(edadMax = 40, message = "jugador.muyMayor")
 	@EdadMin(edadMin = 15, message = "jugador.muyMenor")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern= "yyyy-MM-dd")	// Jackson Bind
 	private Date fecNac;
 	
 	@Column(name="jug_lesionado")
@@ -70,6 +74,7 @@ public class Jugador implements IJugador{
 	
 	@ManyToOne
 	@JoinColumn(name="jug_id_eq", referencedColumnName= "eq_id")
+	@JsonIgnore // Jackson Binding: generación JSon
 	private Equipo equipo;
 	
 	public Jugador() {

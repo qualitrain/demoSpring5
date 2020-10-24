@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import mx.com.qtx.torneo.IArbitro;
 
 @Entity
@@ -20,6 +22,7 @@ public class Arbitro implements IArbitro{
 	@Column(name = "ar_nombre")
 	private String nombre;
 	@Column(name = "ar_fecNac")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern= "yyyy-MM-dd")	// Jackson Bind
 	private Date fecNac;
 
 	public Arbitro() {

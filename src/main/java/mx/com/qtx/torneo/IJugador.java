@@ -3,22 +3,30 @@ package mx.com.qtx.torneo;
 import java.util.Date;
 
 public interface IJugador {
-	public String getId(); 
-	public void setId(String id);
-	public String getNombre();
-	public void setNombre(String nombre);
-	public int getNumero();
-	public void setNumero(int numero);
-	public String getPosicion(); 
-	public void setPosicion(String posicion);
-	public Date getFecNac();
-	public void setFecNac(Date fecNac);
-	public boolean isLesionado();
-	public void setLesionado(boolean lesionado);
-	public boolean isSuspendido();
-	public void setSuspendido(boolean suspendido);
-	public boolean isTitular();
-	public void setTitular(boolean titular);
-	public void setEquipo(IEquipo equipo);
-	public IEquipo getEquipo();
+	String getId(); 
+	void setId(String id);
+	
+	String getNombre();
+	void setNombre(String nombre);
+	
+	int getNumero();
+	void setNumero(int numero);
+	
+	String getPosicion(); 
+	void setPosicion(String posicion);
+	
+	Date getFecNac();
+	void setFecNac(Date fecNac);
+	
+	boolean isLesionado();
+	void setLesionado(boolean lesionado);
+	
+	boolean isSuspendido();
+	void setSuspendido(boolean suspendido);
+	
+	boolean isTitular();
+	void setTitular(boolean titular);
+	
+	void setEquipo(IEquipo equipo);
+	IEquipo getEquipo();
 }
