@@ -42,7 +42,7 @@ public class TorneoRestController {
 	private MessageSource messageSource;
 	
 	@Autowired
-	LocaleResolver localeResolver;
+	private LocaleResolver localeResolver;
 	
 	@GetMapping(path = "/jugadores/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public Jugador getJugadorXid(@PathVariable String id) {
@@ -122,7 +122,7 @@ public class TorneoRestController {
 	@PostMapping(path = "/jugadores/valid",
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public IJugador insertarJugadorCValid(@Valid @RequestBody Jugador jugador, BindingResult resulBinding, Model modelo) {
+	public IJugador insertarJugadorCValid(@Valid @RequestBody Jugador jugador, BindingResult resulBinding) {
 		System.out.println("***** TorneoRestController.insertarJugadorCValid("   + jugador + ") *****");
 		if(resulBinding.hasErrors()) {
 			System.out.println("***** TorneoController.insertarJugadorCValid()->Datos inválidos:"

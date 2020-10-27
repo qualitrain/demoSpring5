@@ -28,8 +28,7 @@ import mx.com.qtx.torneo.serviciosTorneo.IEstrategiaEnfrentamientos;
 
 @Configuration
 @PropertySource("classpath:/torneo.properties")
-public class ConfiguracionTorneo {
-	
+public class ConfiguracionTorneo {	
 	@Bean
 	@Profile("default")
 	@Primary
@@ -99,8 +98,8 @@ public class ConfiguracionTorneo {
 	}
 	@Bean(name="locale")
 	public Locale publicarLocalidad() {
-//		return Locale.getDefault();
-		return Locale.US;
+		return Locale.getDefault();
+//		return Locale.US;
 	}
 	@Bean
 	public LocaleResolver localeResolver(Locale localidad){
