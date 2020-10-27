@@ -23,5 +23,10 @@ public class JugadoresDuplicadosException extends NegocioException {
 		this.jugDuplicados = jugDuplicados;
 	}
 
+	@Override
+	public String getClave() {
+		return "NEG102";
+	}
+
 
 }

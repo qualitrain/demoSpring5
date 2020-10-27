@@ -134,9 +134,9 @@ public class TorneoController {
 	}
 	@PostMapping("/jugador/nuevo")
 	public String insertarJugador(@Valid Jugador jugador, BindingResult resulBinding, Model modelo) {
-		System.out.println("***** TorneoController.procesarInsercionJugador("   + jugador + ") *****");
+		System.out.println("***** TorneoController.insertarJugador("   + jugador + ") *****");
 		if(resulBinding.hasErrors()) {
-			System.out.println("***** TorneoController.procesarInsercionJugador()->Datos inválidos:"
+			System.out.println("***** TorneoController.insertarJugador()->Datos inválidos:"
 					+ resulBinding.getErrorCount() + " *****");
 			modelo.addAttribute("error", "jugador.datosInvalidos");
 			modelo.addAttribute("errores", resulBinding);

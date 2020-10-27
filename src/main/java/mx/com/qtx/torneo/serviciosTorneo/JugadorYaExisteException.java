@@ -19,5 +19,10 @@ public class JugadorYaExisteException extends NegocioException {
 	public void setJugador(IJugador jugador) {
 		this.jugador = jugador;
 	}
+	
+	@Override
+	public String getClave() {
+		return "NEG101";
+	}
 
 }

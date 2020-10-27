@@ -23,13 +23,14 @@ public class FechaUtil {
 	}
 	
 	public static int calcularEdad(Date fecNac) {
+		System.out.println("FechaUtil.calcularEdad(fecNac:" + fecNac + ")");
 		LocalDate ldFecNac = dateToLocalDate(fecNac);
 		LocalDate ldFecAct = dateToLocalDate(new Date());
 		return calcularEdad(ldFecNac,ldFecAct);
 	}
 	
 	private static LocalDate dateToLocalDate(Date fecha) {
-		System.out.println(fecha);
+		System.out.println("FechaUtil.dateToLocalDate(fecha:" + fecha + ")");
 		GregorianCalendar gc = new GregorianCalendar();
 		gc.setTime(fecha);
 		LocalDate ldFecha = LocalDate.of(gc.get(GregorianCalendar.YEAR),

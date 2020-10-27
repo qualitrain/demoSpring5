@@ -99,8 +99,8 @@ public class ConfiguracionTorneo {
 	}
 	@Bean(name="locale")
 	public Locale publicarLocalidad() {
-		return Locale.getDefault();
-//		return Locale.US;
+//		return Locale.getDefault();
+		return Locale.US;
 	}
 	@Bean
 	public LocaleResolver localeResolver(Locale localidad){

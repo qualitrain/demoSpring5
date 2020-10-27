@@ -241,7 +241,7 @@ public class ServicioTorneoSimple implements IServicioTorneo {
 		   return ijugadorBD;
 		}
 		catch(Exception ex) {
-			throw new NegocioException("infraestructura.error", ex);
+			throw new InfraestructuraSubException("infraestructura.error", ex);
 		}
 	}
 

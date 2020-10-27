@@ -14,6 +14,8 @@ public class ValidadorEdadMax implements ConstraintValidator<EdadMax, Date> {
 	}
 	@Override
 	public boolean isValid(Date fecha, ConstraintValidatorContext context) {
+		if(fecha == null)
+			return false;
 		if (FechaUtil.calcularEdad(fecha) <= this.edadMax)
 			return true;
 		return false;

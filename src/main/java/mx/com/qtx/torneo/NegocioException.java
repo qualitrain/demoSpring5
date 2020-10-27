@@ -1,6 +1,6 @@
 package mx.com.qtx.torneo;
 
-public class NegocioException extends RuntimeException {
+public abstract class NegocioException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
@@ -12,6 +12,7 @@ public class NegocioException extends RuntimeException {
 		super(message);
 	}
 
+	abstract public String getClave();
 
 	
 }

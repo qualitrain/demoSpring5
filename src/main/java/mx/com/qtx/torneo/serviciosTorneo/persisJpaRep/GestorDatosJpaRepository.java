@@ -18,6 +18,7 @@ import mx.com.qtx.torneo.IArbitro;
 import mx.com.qtx.torneo.IEquipo;
 import mx.com.qtx.torneo.IJugador;
 import mx.com.qtx.torneo.serviciosTorneo.IGestorDatos;
+import mx.com.qtx.torneo.serviciosTorneo.PersistenciaException;
 import mx.com.qtx.torneo.serviciosTorneo.jpa.entidades.Arbitro;
 import mx.com.qtx.torneo.serviciosTorneo.jpa.entidades.Equipo;
 import mx.com.qtx.torneo.serviciosTorneo.jpa.entidades.Jugador;
@@ -197,10 +198,14 @@ public class GestorDatosJpaRepository implements IGestorDatos {
 		Jugador jugIns = null;
 		if(!(ijugador instanceof Jugador)) 
 			return null;
+		
 		jugIns = (Jugador) ijugador;
 		if(jugIns.getEquipo() == null) {
 			Optional<Equipo> eq = this.repEquipo.findById(jugIns.getIdEquipo());
-			jugIns.setEquipo(eq.get());
+			if(eq.isPresent())
+				jugIns.setEquipo(eq.get());
+			else 
+				throw new PersistenciaException("jugador.eqNoExiste");
 		}
 		Jugador nvoJugador = this.repJugador.save(jugIns);
 		return nvoJugador;

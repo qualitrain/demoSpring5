@@ -14,4 +14,9 @@ public class EquipoYaExisteException extends NegocioException {
 		super(message);
 	}
 
+	@Override
+	public String getClave() {
+		return "NEG002";
+	}
+
 }
