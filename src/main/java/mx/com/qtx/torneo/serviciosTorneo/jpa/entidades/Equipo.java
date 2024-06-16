@@ -18,6 +18,7 @@ import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.data.domain.DomainEvents;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import mx.com.qtx.torneo.EvtUpdateIEquipo;
 import mx.com.qtx.torneo.IEquipo;
@@ -81,6 +82,7 @@ public class Equipo implements IEquipo{
 		return equipo;
 	}
 
+	@JsonProperty
 	public String getId() {
 		return id;
 	}

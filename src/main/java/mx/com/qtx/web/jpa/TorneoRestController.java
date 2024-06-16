@@ -3,6 +3,7 @@ package mx.com.qtx.web.jpa;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -14,13 +15,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.LocaleResolver;
 
@@ -29,7 +30,6 @@ import mx.com.qtx.torneo.IEquipo;
 import mx.com.qtx.torneo.IJugador;
 import mx.com.qtx.torneo.IServicioTorneo;
 import mx.com.qtx.torneo.NegocioException;
-import mx.com.qtx.torneo.serviciosTorneo.JugadorYaExisteException;
 import mx.com.qtx.torneo.serviciosTorneo.jpa.entidades.Jugador;
 
 @RestController
@@ -45,39 +45,42 @@ public class TorneoRestController {
 	private LocaleResolver localeResolver;
 	
 	@GetMapping(path = "/jugadores/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
-	public Jugador getJugadorXid(@PathVariable String id) {
-		System.out.println("***** TorneoRestController.getJugadorXid(" + id + ") *****");
+	public Jugador getJugadorXid(@PathVariable String id, @RequestHeader  Map<String,String> headers) {
+		System.out.println("\n***** TorneoRestController.getJugadorXid(" + id + ") *****");
+		mostrarHeaders(headers);
 		Jugador jugador = (Jugador) this.servicioTorneo.getJugador(id);
 		return jugador;
 	}
-	@GetMapping(path = "/jugadores/{id}",produces = MediaType.APPLICATION_XML_VALUE) // No hay convertidor registrado java->Xml
-	public Jugador getJugadorXidXml(@PathVariable String id) {
-		System.out.println("***** TorneoRestController.getJugadorXidXml(" + id + ") *****");
+	
+	@GetMapping(path = "/jugadores/{id}",produces = MediaType.APPLICATION_XML_VALUE) 
+	public Jugador getJugadorXidXml(@PathVariable String id, @RequestHeader  Map<String,String> headers) {
+		System.out.println("\n***** TorneoRestController.getJugadorXidXml(" + id + ") *****");
+		mostrarHeaders(headers);
 		Jugador jugador = (Jugador) this.servicioTorneo.getJugador(id);
 		return jugador;
 	}
 	
 	@GetMapping(path = "/ijugadores/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public IJugador getIJugadorXid(@PathVariable String id) {
-		System.out.println("***** TorneoRestController.igetJugadorXid(" + id + ") *****");
+		System.out.println("\n***** TorneoRestController.igetJugadorXid(" + id + ") *****");
 		return this.servicioTorneo.getJugador(id);
 	}
 	
 	@GetMapping(path = "/equipos/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public IEquipo getIEquipoXid(@PathVariable String id) {
-		System.out.println("***** TorneoRestController.getIEquipoXid(" + id + ") *****");
+		System.out.println("\n***** TorneoRestController.getIEquipoXid(" + id + ") *****");
 		return this.servicioTorneo.getEquipo(id);
 	}
 	
 	@GetMapping(path = "/iarbitros/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public IArbitro getIArbitroXid(@PathVariable int id) {
-		System.out.println("***** TorneoRestController.getIArbitroXid(" + id + ") *****");
+		System.out.println("\n***** TorneoRestController.getIArbitroXid(" + id + ") *****");
 		return this.servicioTorneo.getArbitro(id);
 	}
 	
 	@GetMapping(path = "/arbitros/{id}/test",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<IArbitro> getIArbitroXidRE(@PathVariable int id) {
-		System.out.println("***** TorneoRestController.getIArbitroXidRE(" + id + ") *****");
+		System.out.println("\n***** TorneoRestController.getIArbitroXidRE(" + id + ") *****");
 		IArbitro arbitro =  this.servicioTorneo.getArbitro(id);
 		ResponseEntity<IArbitro> response = ResponseEntity.ok(arbitro);
 		return  response;
@@ -96,7 +99,7 @@ public class TorneoRestController {
 			     consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, 
 			     produces = MediaType.APPLICATION_JSON_VALUE)
 	public IJugador insertarJugador(Jugador jugador) {
-		System.out.println("***** TorneoRestController.insertarJugador(" + jugador + ") *****");
+		System.out.println("\n***** TorneoRestController.insertarJugador(" + jugador + ") *****");
 		IJugador jugadorBD = this.servicioTorneo.agregarJugador(jugador);
 		return jugadorBD;
 	}
@@ -105,7 +108,7 @@ public class TorneoRestController {
 		     consumes = MediaType.APPLICATION_JSON_VALUE, 
 		     produces = MediaType.APPLICATION_JSON_VALUE)
     public IJugador insertarJugadorJson(@RequestBody Jugador jugador) {
-	   System.out.println("***** TorneoRestController.insertarJugadorJson(" + jugador + ") *****");
+	   System.out.println("\n***** TorneoRestController.insertarJugadorJson(" + jugador + ") *****");
 	   IJugador jugadorBD = this.servicioTorneo.agregarJugador(jugador);
 	   return jugadorBD;
     }
@@ -114,7 +117,7 @@ public class TorneoRestController {
 		     consumes = MediaType.APPLICATION_JSON_VALUE, 
 		     produces = MediaType.APPLICATION_JSON_VALUE)
    public IJugador insertarJugadorJson(HttpEntity<Jugador> heJugador) {
-	   System.out.println("***** TorneoRestController.insertarJugadorJson(" + heJugador.getBody() + ") *****");
+	   System.out.println("\n***** TorneoRestController.insertarJugadorJson(" + heJugador.getBody() + ") *****");
 	   IJugador jugadorBD = this.servicioTorneo.agregarJugador(heJugador.getBody());
 	   return jugadorBD;
    }
@@ -122,8 +125,25 @@ public class TorneoRestController {
 	@PostMapping(path = "/jugadores/valid",
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
-	public IJugador insertarJugadorCValid(@Valid @RequestBody Jugador jugador, BindingResult resulBinding) {
-		System.out.println("***** TorneoRestController.insertarJugadorCValid("   + jugador + ") *****");
+	public IJugador insertarJugadorCValid(@Valid @RequestBody Jugador jugador, BindingResult resulBinding, 
+			                              @RequestHeader  Map<String,String> headers) {
+		System.out.println("\n***** TorneoRestController.insertarJugadorCValid("   + jugador + ") *****");
+		mostrarHeaders(headers);
+		if(resulBinding.hasErrors()) {
+			System.out.println("***** TorneoController.insertarJugadorCValid()->Datos inválidos:"
+					+ resulBinding.getErrorCount() + " *****");
+			JugadorBindingException jbex =new  JugadorBindingException(resulBinding, jugador,"errores de conversión/validación");
+			throw jbex;
+		}
+		return this.servicioTorneo.agregarJugador(jugador);
+	}
+	@PostMapping(path = "/jugadores/valid",
+			consumes = MediaType.APPLICATION_XML_VALUE, 
+			produces = MediaType.APPLICATION_XML_VALUE)
+	public IJugador insertarJugadorCValidXml(@Valid @RequestBody Jugador jugador, BindingResult resulBinding, 
+			                              @RequestHeader  Map<String,String> headers) {
+		System.out.println("\n***** TorneoRestController.insertarJugadorCValidXml("   + jugador + ") *****");
+		mostrarHeaders(headers);
 		if(resulBinding.hasErrors()) {
 			System.out.println("***** TorneoController.insertarJugadorCValid()->Datos inválidos:"
 					+ resulBinding.getErrorCount() + " *****");
@@ -150,6 +170,10 @@ public class TorneoRestController {
 		Locale localidad = this.localeResolver.resolveLocale(req);
 		ErrorCte errorCte = ErrorCte.crearErrorDeNegocio(nex, this.messageSource, localidad);
 		return new ResponseEntity<ErrorCte>(errorCte, HttpStatus.PRECONDITION_REQUIRED);		
+	}
+	
+	private void mostrarHeaders(Map<String, String> headers) {
+		headers.forEach( (k,v) -> System.out.println("  ***** " + k + ":" + v + " *****") );
 	}
 		
 }
